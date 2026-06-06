@@ -1,0 +1,55 @@
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <h1>Welcome Back</h1>
+
+      <p>
+        Login to access your banking dashboard and manage your finances securely.
+      </p>
+
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/295/295128.png"
+        alt="Login"
+      />
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+
+      <h2>Login Account</h2>
+
+      <form (ngSubmit)="loginUser()">
+
+        <input
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="loginData.email"
+          name="email"
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="loginData.password"
+          name="password"
+        />
+
+        <button type="submit">
+          Login
+        </button>
+
+      </form>
+
+      <p class="bottom-text">
+        Don't have an account?
+        <a routerLink="/register">Register</a>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>

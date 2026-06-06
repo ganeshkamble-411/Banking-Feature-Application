@@ -1,0 +1,45 @@
+<app-sidebar></app-sidebar>
+
+<div class="table-container">
+
+    <h1>Transaction History</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction Type</th>
+                <th>Account ID</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- Loop through dynamic records array -->
+            <tr *ngFor="let tx of transactions">
+                <td>{{ tx.transactionType }}</td>
+
+                <td>
+                    <!-- Uses safe navigation operator to prevent crashes if account nested object structure is lazy-loaded -->
+                    {{ tx.account?.id || currentAccountId }}
+                </td>
+
+                <td>
+                    ₹{{ tx.amount }}
+                </td>
+
+                <td>
+                    {{ tx.transactionDate | date:'dd/MM/yyyy HH:mm' }}
+                </td>
+            </tr>
+
+            <!-- Safe conditional operator handling empty states cleanly -->
+            <tr *ngIf="!transactions || transactions.length === 0">
+                <td colspan="4" style="text-align: center; color: #666; font-style: italic; padding: 20px;">
+                    No Transactions Found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

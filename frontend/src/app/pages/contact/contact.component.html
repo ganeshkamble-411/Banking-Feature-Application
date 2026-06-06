@@ -1,0 +1,47 @@
+
+
+<div class="page-layout">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main Content -->
+    <div class="contact-container">
+
+        <!-- Contact Form Card -->
+        <div class="card contact-card">
+            <h2>Send Message</h2>
+
+            <form (ngSubmit)="sendMessage()">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="text" placeholder="Subject" required>
+
+                <textarea rows="5" placeholder="Your Message" required></textarea>
+
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <!-- Reach Us Card -->
+        <div class="card reach-card">
+            <h2>Reach Us</h2>
+
+            <p><strong>📍 Address:</strong> Pune, Maharashtra</p>
+            <p><strong>📞 Phone:</strong> +91 9877453210</p>
+            <p><strong>📧 Email:</strong> support@bankapp.com</p>
+
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps?q=Pune,Maharashtra&output=embed"
+                    width="100%" 
+                    height="250"
+                    style="border:0; border-radius:10px;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+
+</div>

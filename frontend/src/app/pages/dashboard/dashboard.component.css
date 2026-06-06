@@ -1,0 +1,201 @@
+/* Remove Full Page Scrollbar */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* Angular Root */
+app-root {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Layout */
+.dashboard-layout {
+    margin-left: 260px;
+    height: 100vh;
+    overflow-y: auto;
+    background: #f4f7fc;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main Container */
+main {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Top Branding Row */
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top h1 {
+    color: #1e293b;
+    margin: 0;
+}
+
+/* Grid Summary Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    color: #64748b;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card h1 {
+    color: #2563eb;
+    margin: 0;
+    font-size: 28px;
+}
+
+.card p {
+    margin: 8px 0;
+    color: #334155;
+}
+
+/* Action Button Grid Layout */
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.action-btn {
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
+}
+
+.action-btn:hover {
+    background: #1d4ed8;
+}
+
+/* Modals Overlay Backdrop */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Modal Content Panel */
+.modal {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1e293b;
+    font-size: 22px;
+}
+
+.modal input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.modal input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.modal button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.modal button:hover {
+    background: #1d4ed8;
+}
+
+.modal .close-btn {
+    background: #e2e8f0;
+    color: #475569;
+    margin-bottom: 0;
+}
+
+.modal .close-btn:hover {
+    background: #cbd5e1;
+}
+
+/* Charts Elements */
+.chart-container {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    height: 350px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Responsive Viewports */
+@media (max-width: 1024px) {
+    .cards, .action-buttons {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-layout {
+        margin-left: 0;
+    }
+}

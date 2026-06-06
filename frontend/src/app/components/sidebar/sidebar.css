@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: #111418;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+}
+
+/* Logo */
+.logo {
+    color: white;
+    font-size: 34px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* Menu Item */
+.menu-item {
+    text-decoration: none;
+    color: #b3b3b3;
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.menu-item:hover {
+    background: #4f46e5;
+    color: white;
+    transform: translateX(5px);
+}
+
+/* Active Look */
+.menu-item:active {
+    background: #4338ca;
+}
+
+.logout {
+    margin-top: auto;
+    background: #1d2228;
+}
+
+.logout:hover {
+    background: #dc2626;
+}
+
+.sidebar {
+    overflow: hidden;
+}
+

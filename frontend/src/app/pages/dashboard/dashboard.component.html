@@ -1,0 +1,104 @@
+<app-sidebar></app-sidebar>
+
+<div class="dashboard-layout">
+    <app-navbar></app-navbar>
+
+    <main>
+        <div class="top">
+            <h1>Banking Dashboard</h1>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Balance</h3>
+                <h1>₹{{ totalBalance }}</h1> 
+            </div>
+
+            <div class="card">
+                <h3>Total Credit</h3>
+                <h1>₹{{ totalCredit }}</h1>
+            </div>
+
+            <div class="card">
+                <h3>Total Debit</h3>
+                <h1>₹{{ totalDebit }}</h1>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn" (click)="showCreateAccountModal = true">
+                Create Account
+            </button>
+
+            <button class="action-btn" (click)="showDepositModal = true">
+                Deposit Money
+            </button>
+
+            <button class="action-btn" (click)="showWithdrawModal = true">
+                Withdraw Money
+            </button>
+
+            <button class="action-btn" (click)="showTransferModal = true">
+                Transfer Money
+            </button>
+        </div>
+
+        <div class="card" *ngIf="account" style="margin-bottom: 20px; height: auto;">
+            <h3>Account Details</h3>
+            <p><strong>Account ID:</strong> {{ currentAccountId }}</p>
+            <p><strong>Account Number:</strong> {{ account.accountNumber || account.account_number }}</p>
+            <p><strong>Available Balance:</strong> ₹{{ totalBalance }}</p>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+    </main>
+</div>
+
+<div class="modal-overlay" *ngIf="showCreateAccountModal">
+    <div class="modal">
+        <h2>Create Account</h2>
+        <input type="number" placeholder="User ID" [(ngModel)]="createAccountRequest.userId" readonly disabled>
+        <input type="number" placeholder="Initial Balance" [(ngModel)]="createAccountRequest.initialBalance">
+        <button (click)="createAccount()">Create Account</button>
+        <button class="close-btn" (click)="showCreateAccountModal = false">Close</button>
+    </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showDepositModal">
+    <div class="modal">
+        <h2>Deposit Money</h2>
+        <input type="number" placeholder="Account ID" [(ngModel)]="depositRequest.accountId" readonly disabled>
+        <input type="number" placeholder="Amount" [(ngModel)]="depositRequest.amount">
+        <button (click)="depositMoney()">Deposit</button>
+        <button class="close-btn" (click)="showDepositModal = false">Close</button>
+    </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showWithdrawModal">
+    <div class="modal">
+        <h2>Withdraw Money</h2>
+        <input type="number" placeholder="Account ID" [(ngModel)]="withdrawRequest.accountId" readonly disabled>
+        <input type="number" placeholder="Amount" [(ngModel)]="withdrawRequest.amount">
+        <button (click)="withdrawMoney()">Withdraw</button>
+        <button class="close-btn" (click)="showWithdrawModal = false">Close</button>
+    </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showTransferModal">
+    <div class="modal">
+        <h2>Transfer Money</h2>
+        <input type="number" placeholder="Sender Account ID" [(ngModel)]="transferRequest.senderAccountId" readonly disabled>
+        <input type="number" placeholder="Receiver Account ID" [(ngModel)]="transferRequest.receiverAccountId">
+        <input type="number" placeholder="Amount" [(ngModel)]="transferRequest.amount">
+        <button (click)="transferMoney()">Transfer</button>
+        <button class="close-btn" (click)="showTransferModal = false">Close</button>
+    </div>
+</div>
+
+
+
+
+

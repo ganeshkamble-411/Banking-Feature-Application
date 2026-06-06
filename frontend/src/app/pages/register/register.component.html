@@ -1,0 +1,64 @@
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <div class="left-panel">
+      <h1>Welcome</h1>
+      <p>Create your banking account and manage your finances securely.</p>
+
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        alt="Register"
+      />
+    </div>
+
+    <div class="right-panel">
+
+      <h2>Create Account</h2>
+
+      <form (ngSubmit)="registerUser()">
+
+        <input
+          type="text"
+          placeholder="Full Name"
+          [(ngModel)]="user.name"
+          name="name"
+        />
+
+        <input
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="user.email"
+          name="email"
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="user.password"
+          name="password"
+        />
+
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+        />
+
+        <button type="submit">
+          Register
+        </button>
+
+      </form>
+
+      <p class="bottom-text">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
