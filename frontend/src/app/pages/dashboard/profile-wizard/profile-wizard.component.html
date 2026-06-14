@@ -1,0 +1,66 @@
+<p>profile-wizard works!</p>
+<div class="modal-overlay" *ngIf="showProfileWizard">
+  <div class="modal profile-wizard-card">
+    
+    <div class="wizard-progress-header">
+      <h2>Complete Your Profile Setup</h2>
+      <div class="step-indicator">
+        <span [class.active-step]="currentStep === 1">1. Personal Info</span>
+        <span class="step-divider">→</span>
+        <span [class.active-step]="currentStep === 2">2. Security Limits</span>
+      </div>
+    </div>
+
+    <hr class="section-divider" />
+
+    <div *ngIf="currentStep === 1" class="wizard-step-content">
+      <p class="step-instruction">Verify your system identification and registration nodes below.</p>
+      
+      <div class="form-group">
+        <label>LOGGED IN USER ID</label>
+        <input type="number" [value]="currentUserId" readonly class="readonly-input">
+      </div>
+
+      <div class="form-group">
+        <label>ASSIGNED ACCOUNT CORE ID</label>
+        <input type="number" [value]="currentAccountId" readonly class="readonly-input">
+      </div>
+
+      <div class="form-group" *ngIf="account?.accountNumber || account?.account_number">
+        <label>CORE ACCOUNT NUMBER</label>
+        <input type="text" [value]="account.accountNumber || account.account_number" readonly class="readonly-input">
+      </div>
+      
+      <button type="button" class="wizard-btn-primary" (click)="nextStep()">Continue to Step 2</button>
+    </div>
+
+    <div *ngIf="currentStep === 2" class="wizard-step-content">
+      <p class="step-instruction">Configure your personalized transactional boundaries and safety guidelines.</p>
+
+      <div class="form-group">
+        <label>DAILY TRANSACTION LIMIT (₹)</label>
+        <input type="number" placeholder="Enter Maximum Daily Cap" [(ngModel)]="profileUpdateRequest.dailyLimit">
+      </div>
+
+      <div class="form-group checking-row">
+        <label class="checkbox-container">
+          <input type="checkbox" [(ngModel)]="profileUpdateRequest.twoFactorAuth">
+          <span class="custom-label-text">Enable Multi-factor Secure Authentication</span>
+        </label>
+      </div>
+
+      <div class="form-group checking-row">
+        <label class="checkbox-container">
+          <input type="checkbox" [(ngModel)]="profileUpdateRequest.notificationEnabled">
+          <span class="custom-label-text">Enable Email/SMS Transaction Ledger Status Alerts</span>
+        </label>
+      </div>
+
+      <div class="wizard-actions-row">
+        <button type="button" class="close-btn fallback-back" (click)="prevStep()">Back</button>
+        <button type="button" class="wizard-btn-primary split-btn" (click)="submitProfileDetails()">Save & Dashboard</button>
+      </div>
+    </div>
+
+  </div>
+</div>

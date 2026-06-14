@@ -105,3 +105,27 @@
   text-decoration: none;
   font-weight: bold;
 }
+
+/* Purane CSS ke niche ise jod dena */
+.input-group {
+  width: 100%;
+  margin-bottom: 15px; /* Input ke niche thodi space */
+}
+
+.right-panel input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 5px; /* isko 15px se 5px kar diya taaki error thik niche chipke */
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.error-msg {
+  color: #dc2626; /* Danger Red Color */
+  text-align: left;
+  font-size: 13px;
+  padding-left: 5px;
+  font-weight: 500;
+  display: block;
+}
+

@@ -4,63 +4,153 @@
     <app-navbar></app-navbar>
 
     <main>
-        <div class="top">
-            <h1>Banking Dashboard</h1>
+        <div class="top-branding-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 24px;">
+            <div class="headline">
+                <h1>Banking Dashboard</h1>
+                <p class="sub-text" *ngIf="account" style="margin: 4px 0 0 0;">
+                    Account No: <span class="badge">{{ account.accountNumber || account.account_number }}</span> 
+                    | ID: <span class="badge-secondary">#{{ currentAccountId }}</span>
+                </p>
+            </div>
+
+            <div class="user-profile-badge" (click)="toggleProfileMenu()" style="position: relative; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 8px 16px; border-radius: 99px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; user-select: none;">
+                <div class="avatar-circle" style="width: 36px; height: 36px; background: #2563eb; color: #ffffff; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                    {{ (profileSetupRequest.fullName ? profileSetupRequest.fullName.charAt(0) : 'U') | uppercase }}
+                </div>
+                <div class="profile-meta-text" style="display: flex; flex-direction: column;">
+                    <span class="user-name" style="font-size: 14px; font-weight: 600; color: #0f172a;">{{ profileSetupRequest.fullName || 'Bank User' }}</span>
+                    <span class="user-role" style="font-size: 11px; color: #64748b; font-weight: 500;">Customer Node</span>
+                </div>
+                <span class="chevron-icon" style="font-size: 10px; color: #64748b; margin-left: 4px;">▼</span>
+
+                <div class="profile-dropdown-menu" *ngIf="showProfileDropdown" style="position: absolute; top: 52px; right: 0; width: 240px; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); padding: 16px; z-index: 1000; cursor: default;" (click)="$event.stopPropagation()">
+                    <div class="dropdown-header">
+                        <p style="margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">{{ profileSetupRequest.fullName || 'Active User' }}</p>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">📞 {{ profileSetupRequest.phoneNumber || 'No Mobile Linked' }}</p>
+                    </div>
+                    <hr style="border: 0; height: 1px; background: #e2e8f0; margin: 12px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px;">
+                        <span style="color: #64748b; font-weight: 500;">Daily Limit:</span>
+                        <span style="color: #0f172a; font-weight: 600;">₹{{ profileSetupRequest.dailyLimit | number }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                        <span style="color: #64748b; font-weight: 500;">2FA Status:</span>
+                        <span [style.background]="profileSetupRequest.twoFactorAuth ? '#d1fae5' : '#fee2e2'" 
+                              [style.color]="profileSetupRequest.twoFactorAuth ? '#065f46' : '#991b1b'" 
+                              style="padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600;">
+                            {{ profileSetupRequest.twoFactorAuth ? 'Enabled' : 'Disabled' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="cards">
-            <div class="card">
+            <div class="card card-balance">
                 <h3>Total Balance</h3>
-                <h1>₹{{ totalBalance }}</h1> 
+                <h1>₹{{ totalBalance | number:'1.2-2' }}</h1> 
             </div>
 
-            <div class="card">
+            <div class="card card-credit">
                 <h3>Total Credit</h3>
-                <h1>₹{{ totalCredit }}</h1>
+                <h1>₹{{ totalCredit | number:'1.2-2' }}</h1>
             </div>
 
-            <div class="card">
+            <div class="card card-debit">
                 <h3>Total Debit</h3>
-                <h1>₹{{ totalDebit }}</h1>
+                <h1>₹{{ totalDebit | number:'1.2-2' }}</h1>
             </div>
         </div>
 
         <div class="action-buttons">
-            <button class="action-btn" (click)="showCreateAccountModal = true">
-                Create Account
-            </button>
-
-            <button class="action-btn" (click)="showDepositModal = true">
-                Deposit Money
-            </button>
-
-            <button class="action-btn" (click)="showWithdrawModal = true">
-                Withdraw Money
-            </button>
-
-            <button class="action-btn" (click)="showTransferModal = true">
-                Transfer Money
-            </button>
+            <button class="action-btn btn-primary" (click)="showCreateAccountModal = true">Create Account</button>
+            <button class="action-btn" (click)="showDepositModal = true">Deposit Money</button>
+            <button class="action-btn" (click)="showWithdrawModal = true">Withdraw Money</button>
+            <button class="action-btn" (click)="showTransferModal = true">Transfer Money</button>
         </div>
 
-        <div class="card" *ngIf="account" style="margin-bottom: 20px; height: auto;">
-            <h3>Account Details</h3>
-            <p><strong>Account ID:</strong> {{ currentAccountId }}</p>
-            <p><strong>Account Number:</strong> {{ account.accountNumber || account.account_number }}</p>
-            <p><strong>Available Balance:</strong> ₹{{ totalBalance }}</p>
+        <div class="charts-grid-wrapper">
+            <div class="chart-box main-trend">
+                <div class="chart-header"><h4>Balance Trend Flow</h4></div>
+                <div class="canvas-holder">
+                    <canvas id="balanceChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-box cash-breakdown">
+                <div class="chart-header"><h4>Expense Ratio (Credit/Debit)</h4></div>
+                <div class="canvas-holder">
+                    <canvas id="analysisChart"></canvas>
+                </div>
+            </div>
         </div>
-
-        <div class="chart-container">
-            <canvas id="myChart"></canvas>
-        </div>
-
     </main>
+</div>
+
+<div class="modal-overlay" *ngIf="showProfileWizard" style="backdrop-filter: blur(12px); background: rgba(15, 23, 42, 0.65);">
+    <div class="modal" style="max-width: 460px; border-top: 4px solid #2563eb;">
+        <div style="margin-bottom: 20px;">
+            <h2 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: #0f172a;">Complete Profile Setup</h2>
+            <div style="display: flex; gap: 8px; font-size: 13px; font-weight: 600; color: #94a3b8;">
+                <span [style.color]="currentProfileStep === 1 ? '#2563eb' : '#94a3b8'">1. Personal KYC</span>
+                <span>→</span>
+                <span [style.color]="currentProfileStep === 2 ? '#2563eb' : '#94a3b8'">2. Account Limits</span>
+            </div>
+        </div>
+
+        <hr style="border: 0; height: 1px; background: #e2e8f0; margin: 16px 0;">
+
+        <div *ngIf="currentProfileStep === 1">
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">Please enter your registration identification records to activate the secure gateway link.</p>
+            
+            <label style="font-size: 11px; color: #475569; font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">FULL NAME</label>
+            <input type="text" placeholder="Enter Full Legal Name" [(ngModel)]="profileSetupRequest.fullName">
+
+            <label style="font-size: 11px; color: #475569; font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">PHONE NUMBER</label>
+            <input type="text" placeholder="Enter Registered 10-Digit Mobile" [(ngModel)]="profileSetupRequest.phoneNumber">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px;">
+                <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 11px; color: #64748b; display: block; font-weight: 600;">USER CORE ID</span>
+                    <strong style="color: #0f172a; font-size: 14px;">#{{ currentUserId }}</strong>
+                </div>
+                <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 11px; color: #64748b; display: block; font-weight: 600;">ACCOUNT CODE</span>
+                    <strong style="color: #0f172a; font-size: 14px;">#{{ currentAccountId }}</strong>
+                </div>
+            </div>
+
+            <button type="button" style="margin-top: 24px;" (click)="goToNextProfileStep()">Continue to Limits</button>
+        </div>
+
+        <div *ngIf="currentProfileStep === 2">
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">Configure security constraints and automated ledger reporting filters for your layout terminal.</p>
+
+            <label style="font-size: 11px; color: #475569; font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">DAILY TRANSACTION CAP (₹)</label>
+            <input type="number" placeholder="Set Max Limit" [(ngModel)]="profileSetupRequest.dailyLimit">
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px; cursor: pointer;">
+                <input type="checkbox" id="tfaCheck" [(ngModel)]="profileSetupRequest.twoFactorAuth" style="width: 16px; height: 16px; margin: 0; accent-color: #2563eb;">
+                <label for="tfaCheck" style="font-size: 13.5px; color: #334155; font-weight: 500; cursor: pointer;">Enable Multi-Factor Secure Verification</label>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer;">
+                <input type="checkbox" id="alertCheck" [(ngModel)]="profileSetupRequest.alertsEnabled" style="width: 16px; height: 16px; margin: 0; accent-color: #2563eb;">
+                <label for="alertCheck" style="font-size: 13.5px; color: #334155; font-weight: 500; cursor: pointer;">Enable Email/SMS Ledger Status Alerts</label>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+                <button type="button" class="close-btn" style="width: 30%; margin: 0;" (click)="goToPrevProfileStep()">Back</button>
+                <button type="button" style="width: 70%; margin: 0;" (click)="submitUserProfileWizard()">Save & Initialize</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal-overlay" *ngIf="showCreateAccountModal">
     <div class="modal">
         <h2>Create Account</h2>
-        <input type="number" placeholder="User ID" [(ngModel)]="createAccountRequest.userId" readonly disabled>
+        <label style="font-size: 12px; color: #64748b; font-weight: 600; display: block; margin-bottom: 6px;">USER ID</label>
+        <input type="number" [value]="currentUserId" readonly style="background-color: #f1f5f9; color: #64748b; cursor: not-allowed;">
         <input type="number" placeholder="Initial Balance" [(ngModel)]="createAccountRequest.initialBalance">
         <button (click)="createAccount()">Create Account</button>
         <button class="close-btn" (click)="showCreateAccountModal = false">Close</button>
@@ -70,7 +160,8 @@
 <div class="modal-overlay" *ngIf="showDepositModal">
     <div class="modal">
         <h2>Deposit Money</h2>
-        <input type="number" placeholder="Account ID" [(ngModel)]="depositRequest.accountId" readonly disabled>
+        <label style="font-size: 12px; color: #64748b; font-weight: 600; display: block; margin-bottom: 6px;">ACCOUNT ID</label>
+        <input type="number" [value]="currentAccountId" readonly style="background-color: #f1f5f9; color: #64748b; cursor: not-allowed;">
         <input type="number" placeholder="Amount" [(ngModel)]="depositRequest.amount">
         <button (click)="depositMoney()">Deposit</button>
         <button class="close-btn" (click)="showDepositModal = false">Close</button>
@@ -80,7 +171,8 @@
 <div class="modal-overlay" *ngIf="showWithdrawModal">
     <div class="modal">
         <h2>Withdraw Money</h2>
-        <input type="number" placeholder="Account ID" [(ngModel)]="withdrawRequest.accountId" readonly disabled>
+        <label style="font-size: 12px; color: #64748b; font-weight: 600; display: block; margin-bottom: 6px;">ACCOUNT ID</label>
+        <input type="number" [value]="currentAccountId" readonly style="background-color: #f1f5f9; color: #64748b; cursor: not-allowed;">
         <input type="number" placeholder="Amount" [(ngModel)]="withdrawRequest.amount">
         <button (click)="withdrawMoney()">Withdraw</button>
         <button class="close-btn" (click)="showWithdrawModal = false">Close</button>
@@ -90,15 +182,11 @@
 <div class="modal-overlay" *ngIf="showTransferModal">
     <div class="modal">
         <h2>Transfer Money</h2>
-        <input type="number" placeholder="Sender Account ID" [(ngModel)]="transferRequest.senderAccountId" readonly disabled>
+        <label style="font-size: 12px; color: #64748b; font-weight: 600; display: block; margin-bottom: 6px;">SENDER ACCOUNT ID</label>
+        <input type="number" [value]="currentAccountId" readonly style="background-color: #f1f5f9; color: #64748b; cursor: not-allowed;">
         <input type="number" placeholder="Receiver Account ID" [(ngModel)]="transferRequest.receiverAccountId">
         <input type="number" placeholder="Amount" [(ngModel)]="transferRequest.amount">
         <button (click)="transferMoney()">Transfer</button>
         <button class="close-btn" (click)="showTransferModal = false">Close</button>
     </div>
 </div>
-
-
-
-
-

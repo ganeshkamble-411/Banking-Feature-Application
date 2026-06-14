@@ -1,0 +1,122 @@
+.profile-wizard-card {
+    max-width: 480px !important;
+    border-top: 4px solid #2563eb;
+}
+
+.wizard-progress-header h2 {
+    margin: 0 0 12px 0 !important;
+    font-size: 18px !important;
+    color: #0f172a;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.step-indicator .active-step {
+    color: #2563eb;
+}
+
+.step-divider {
+    color: #cbd5e1;
+}
+
+.section-divider {
+    border: 0;
+    height: 1px;
+    background: #e2e8f0;
+    margin: 18px 0;
+}
+
+.step-instruction {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 11px;
+    color: #475569;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.readonly-input {
+    background-color: #f8fafc !important;
+    color: #64748b !important;
+    border-color: #e2e8f0 !important;
+    cursor: not-allowed;
+}
+
+.checking-row {
+    flex-direction: row !important;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    width: auto !important;
+    margin: 0 !important;
+    height: 16px;
+    width: 16px !important;
+    accent-color: #2563eb;
+}
+
+.custom-label-text {
+    font-size: 14px !important;
+    color: #334155 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+.wizard-btn-primary {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.wizard-btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.wizard-actions-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.fallback-back {
+    width: 30% !important;
+    margin-bottom: 0 !important;
+}
+
+.split-btn {
+    width: 70% !important;
+}
