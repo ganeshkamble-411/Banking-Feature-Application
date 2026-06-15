@@ -1,12 +1,40 @@
+/* --- FIXED: Modal Overlay to Cover Dashboard properly --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6); /* Slate-900 back-backdrop blurring */
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Higher priority layer stack context */
+}
+
 .profile-wizard-card {
+    background: #ffffff;
+    width: 100%;
     max-width: 480px !important;
-    border-top: 4px solid #2563eb;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+    padding: 28px;
+    border-top: 4px solid #ee2c24; /* Kotak Core Ruby Red Brand Header */
+    animation: wizardFadeIn 0.3s ease-out;
+}
+
+@keyframes wizardFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .wizard-progress-header h2 {
     margin: 0 0 12px 0 !important;
-    font-size: 18px !important;
-    color: #0f172a;
+    font-size: 20px !important;
+    color: #003366; /* Kotak Corporate Royal Blue */
+    font-weight: 700;
+    letter-spacing: -0.01em;
 }
 
 .step-indicator {
@@ -19,7 +47,7 @@
 }
 
 .step-indicator .active-step {
-    color: #2563eb;
+    color: #ee2c24; /* Kotak Red for current step */
 }
 
 .step-divider {
@@ -35,7 +63,7 @@
 
 .step-instruction {
     font-size: 14px;
-    color: #64748b;
+    color: #475569;
     margin: 0 0 20px 0;
     line-height: 1.5;
 }
@@ -48,23 +76,45 @@
 
 .form-group label {
     font-size: 11px;
-    color: #475569;
+    color: #003366; /* Matching indicators with corporate blue */
     font-weight: 700;
     letter-spacing: 0.05em;
     margin-bottom: 6px;
 }
 
+/* Form Controls styling */
+.form-group input[type="number"] {
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #0f172a;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+}
+
+.form-group input[type="number"]:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #ee2c24;
+    box-shadow: 0 0 0 4px rgba(238, 44, 36, 0.12); /* Protective focus state */
+}
+
 .readonly-input {
-    background-color: #f8fafc !important;
-    color: #64748b !important;
-    border-color: #e2e8f0 !important;
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
     cursor: not-allowed;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-weight: 500;
 }
 
 .checking-row {
     flex-direction: row !important;
     align-items: center;
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .checkbox-container {
@@ -75,35 +125,37 @@
 }
 
 .checkbox-container input {
-    width: auto !important;
     margin: 0 !important;
     height: 16px;
     width: 16px !important;
-    accent-color: #2563eb;
+    accent-color: #ee2c24; /* Core Brand theme check */
 }
 
 .custom-label-text {
-    font-size: 14px !important;
+    font-size: 13.5px !important;
     color: #334155 !important;
     text-transform: none !important;
     letter-spacing: normal !important;
+    font-weight: 500;
 }
 
 .wizard-btn-primary {
     width: 100%;
     padding: 12px;
     border: none;
-    border-radius: 8px;
-    background: #2563eb;
+    border-radius: 6px;
+    background: #ee2c24; /* Kotak Red Identifier */
     color: #ffffff;
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
-    transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(238, 44, 36, 0.2);
+    transition: all 0.2s ease;
 }
 
 .wizard-btn-primary:hover {
-    background: #1d4ed8;
+    background: #d11a14;
+    box-shadow: 0 6px 16px rgba(238, 44, 36, 0.3);
 }
 
 .wizard-actions-row {
@@ -114,7 +166,17 @@
 
 .fallback-back {
     width: 30% !important;
-    margin-bottom: 0 !important;
+    background: #ffffff;
+    color: #003366;
+    border: 1px solid #003366;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.fallback-back:hover {
+    background: #f0f4f8;
 }
 
 .split-btn {

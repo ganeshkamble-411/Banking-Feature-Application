@@ -1,55 +1,41 @@
 <div class="auth-container">
-
   <div class="auth-card">
 
-    <!-- Left Panel -->
     <div class="left-panel">
       <h1>Welcome Back</h1>
-
-      <p>
-        Login to access your banking dashboard and manage your finances securely.
-      </p>
-
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/295/295128.png"
-        alt="Login"
-      />
+      <p>Log in to access your dashboard, track transactions, and perform safe, instantaneous transfers.</p>
+      <img src="https://cdn-icons-png.flaticon.com/512/2957/2957276.png" alt="Secure Login" />
     </div>
 
-    <!-- Right Panel -->
     <div class="right-panel">
+      <h2>Secure Portal Access</h2>
 
-      <h2>Login Account</h2>
+      <form [formGroup] = "loginForm" (ngSubmit) = "loginUser()">
 
-      <form (ngSubmit)="loginUser()">
+        <div class="input-group">
+          <input type="email" placeholder="Registered Email (e.g. user@gmail.com)" formControlName="email" />
+          <div *ngIf="submitted && f['email'].errors" class="error-msg">
+            <small *ngIf="f['email'].errors['required']">Email is required!</small>
+            <small *ngIf="f['email'].errors['email']">Please enter a valid email address!</small>
+          </div>
+        </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          [(ngModel)]="loginData.email"
-          name="email"
-        />
+        <div class="input-group">
+          <input type="password" placeholder="Password" formControlName="password" />
+          <div *ngIf="submitted && f['password'].errors" class="error-msg">
+            <small *ngIf="f['password'].errors['required']">Password is required!</small>
+            <small *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters long.</small>
+          </div>
+        </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          [(ngModel)]="loginData.password"
-          name="password"
-        />
-
-        <button type="submit">
-          Login
-        </button>
-
+        <button type="submit">Sign In Securely</button>
       </form>
 
       <p class="bottom-text">
-        Don't have an account?
-        <a routerLink="/register">Register</a>
+        New to the bank? 
+        <a routerLink="/register">Create an Account</a>
       </p>
-
     </div>
 
   </div>
-
 </div>

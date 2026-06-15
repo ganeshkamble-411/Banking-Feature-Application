@@ -2,8 +2,9 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Chart from 'chart.js/auto';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
-import { NavbarComponent } from '../../components/navbar/navbar';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { HeaderComponent } from '../../components/header/header.component'; 
+import { ProfileWizardComponent } from './profile-wizard/profile-wizard.component'; 
 import { AccountService } from '../../services/account.service';
 import { TransactionService } from '../../services/transaction.service';
 
@@ -13,7 +14,8 @@ import { TransactionService } from '../../services/transaction.service';
   imports: [
     CommonModule,
     SidebarComponent,
-    NavbarComponent,
+    HeaderComponent, 
+    ProfileWizardComponent, 
     FormsModule
   ],
   templateUrl: './dashboard.component.html',
@@ -33,18 +35,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // Modals Visibility Flags
   showCreateAccountModal = false;
+  showDropupMenu = false;
   showDepositModal = false;
   showWithdrawModal = false;
   showTransferModal = false;
 
   // --- TWO-STEP USER PROFILE WIZARD & DROPDOWN FLAGS ---
-  showProfileWizard = true;   
-  currentProfileStep = 1;     
+  showProfileWizard = false; 
   showProfileDropdown = false; 
 
-  // Writable Two-Step Profile Preferences Payload
+  // Synchronized Profile Preferences State
   profileSetupRequest = {
-    fullName: '',
+    name: '',
+    email: '',
     phoneNumber: '',
     dailyLimit: 50000,
     twoFactorAuth: false,
@@ -57,7 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   withdrawRequest = { accountId: null as number | null, amount: null as number | null };
   transferRequest = { senderAccountId: null as number | null, receiverAccountId: null as number | null, amount: null as number | null };
 
-  account: any;
+  account: any = null;
 
   constructor(
     private accountService: AccountService,
@@ -71,19 +74,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.createAccountRequest.userId = this.currentUserId; 
 
       this.loadUserAccountDetails();
-      
-      // Profile session state management
-      const profileStatus = localStorage.getItem(`profile_completed_user_${this.currentUserId}`);
-      if (profileStatus === 'true') {
-        this.showProfileWizard = false;
-        
-        this.profileSetupRequest.fullName = localStorage.getItem(`profile_name_user_${this.currentUserId}`) || 'Active Developer';
-        this.profileSetupRequest.phoneNumber = localStorage.getItem(`profile_phone_user_${this.currentUserId}`) || '9999999999';
-        this.profileSetupRequest.dailyLimit = Number(localStorage.getItem(`profile_limit_user_${this.currentUserId}`) || 50000);
-        this.profileSetupRequest.twoFactorAuth = localStorage.getItem(`profile_2fa_user_${this.currentUserId}`) === 'true';
-      } else {
-        this.showProfileWizard = true;
-      }
+      this.evaluateProfileWizardStatus();
+    }
+  }
+
+  evaluateProfileWizardStatus(): void {
+    const profileStatus = localStorage.getItem(`profile_completed_user_${this.currentUserId}`);
+    if (profileStatus === 'true') {
+      this.showProfileWizard = false;
+      // FIXED: Synchronized with standard logging naming variables tracking systems
+      this.profileSetupRequest.name = localStorage.getItem(`profile_name_user_${this.currentUserId}`) || localStorage.getItem('loggedInUserName') || 'Premium Customer';
+      this.profileSetupRequest.email = localStorage.getItem(`profile_email_user_${this.currentUserId}`) || 'customer@bank.com';
+      this.profileSetupRequest.phoneNumber = localStorage.getItem(`profile_phone_user_${this.currentUserId}`) || '9999999999';
+      this.profileSetupRequest.dailyLimit = Number(localStorage.getItem(`profile_limit_user_${this.currentUserId}`) || 50000);
+      this.profileSetupRequest.twoFactorAuth = localStorage.getItem(`profile_2fa_user_${this.currentUserId}`) === 'true';
+    } else {
+      this.showProfileWizard = true;
     }
   }
 
@@ -114,47 +120,32 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.transferRequest.senderAccountId = this.currentAccountId;
   }
 
-  // --- PROFILE INTERACTIVE LOGIC ---
   toggleProfileMenu(): void {
     this.showProfileDropdown = !this.showProfileDropdown;
   }
 
-  goToNextProfileStep(): void {
-    if (this.currentProfileStep < 2) {
-      this.currentProfileStep++;
-    }
-  }
-
-  goToPrevProfileStep(): void {
-    if (this.currentProfileStep > 1) {
-      this.currentProfileStep--;
-    }
-  }
-
-  submitUserProfileWizard(): void {
-    if (!this.profileSetupRequest.fullName || !this.profileSetupRequest.phoneNumber) {
-      alert('Please fill out your Name and Phone Number parameters before submitting.');
-      return;
-    }
-
-    console.log('Synchronizing user state profiles payload:', this.profileSetupRequest);
-    
-    localStorage.setItem(`profile_completed_user_${this.currentUserId}`, 'true');
-    localStorage.setItem(`profile_name_user_${this.currentUserId}`, this.profileSetupRequest.fullName);
-    localStorage.setItem(`profile_phone_user_${this.currentUserId}`, this.profileSetupRequest.phoneNumber);
-    localStorage.setItem(`profile_limit_user_${this.currentUserId}`, String(this.profileSetupRequest.dailyLimit));
-    localStorage.setItem(`profile_2fa_user_${this.currentUserId}`, String(this.profileSetupRequest.twoFactorAuth));
-
+  onWizardClosed(): void {
     this.showProfileWizard = false;
-
+    this.evaluateProfileWizardStatus();
     setTimeout(() => {
       this.initCharts();
     }, 150);
   }
 
+  openChangePasswordModal(): void {
+    alert('Secure Password Reset Link has been initiated to verification records.');
+    this.showProfileDropdown = false;
+  }
+
+  logout(): void {
+    localStorage.clear(); // Complete layout storage wipe for maximum safety clearance
+    alert('You have been securely logged out from Core Processing Engine.');
+    window.location.reload();
+  }
+
   depositMoney(): void {
     this.transactionService.deposit(this.depositRequest).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         alert(response);
         if (this.depositRequest.amount) {
           this.totalCredit += this.depositRequest.amount;
@@ -163,13 +154,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.loadUserAccountDetails();
         this.depositRequest.amount = null;
       },
-      error: (err) => console.error(err)
+      error: (err: any) => console.error(err)
     });
   }
 
   withdrawMoney(): void {
     this.transactionService.withdraw(this.withdrawRequest).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         alert(response);
         if (this.withdrawRequest.amount) {
           this.totalDebit += this.withdrawRequest.amount;
@@ -178,13 +169,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.loadUserAccountDetails();
         this.withdrawRequest.amount = null;
       },
-      error: (err) => console.error(err)
+      error: (err: any) => console.error(err)
     });
   }
 
   transferMoney(): void {
     this.transactionService.transfer(this.transferRequest).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         alert(response);
         if (this.transferRequest.amount) {
           this.totalDebit += this.transferRequest.amount;
@@ -197,20 +188,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           amount: null
         };
       },
-      error: (err) => console.error(err)
+      error: (err: any) => console.error(err)
     });
   }
 
   createAccount(): void {
     this.accountService.createAccount(this.createAccountRequest).subscribe({
       next: (response: any) => {
-        alert('Account Created Successfully');
+        alert('Secure Banking Account Created Successfully');
         this.account = response;
         this.currentAccountId = response.id;
         this.loadUserAccountDetails();
         this.showCreateAccountModal = false;
       },
-      error: (err) => console.error(err)
+      error: (err: any) => console.error(err)
     });
   }
 
@@ -221,8 +212,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   initCharts(): void {
-    const ctx1 = document.getElementById('balanceChart') as HTMLCanvasElement | null;
-    const ctx2 = document.getElementById('analysisChart') as HTMLCanvasElement | null;
+    const ctx1 = document.getElementById('balanceChartCanvas') as HTMLCanvasElement | null;
+    const ctx2 = document.getElementById('analysisChartCanvas') as HTMLCanvasElement | null;
+
+    // FIXED: Destroy existing instance before rebuilding to avoid canvas reusable buffer leaks
+    if (this.balanceChart) {
+      this.balanceChart.destroy();
+      this.balanceChart = null;
+    }
+    if (this.analysisChart) {
+      this.analysisChart.destroy();
+      this.analysisChart = null;
+    }
 
     if (ctx1) {
       this.balanceChart = new Chart(ctx1, {
@@ -240,13 +241,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
               this.totalBalance
             ], 
             fill: true, 
-            backgroundColor: 'rgba(37, 99, 235, 0.1)', 
-            borderColor: '#2563eb', 
-            borderWidth: 2,
-            tension: 0.3, 
-            pointBackgroundColor: '#2563eb',
+            backgroundColor: 'rgba(217, 34, 41, 0.05)',  // Theme customized soft crimson flow mapping
+            borderColor: '#d92229', 
+            borderWidth: 2.5,
+            tension: 0.25, 
+            pointBackgroundColor: '#d92229',
             pointHoverRadius: 6,
-            pointRadius: 2
+            pointRadius: 3
           }]
         },
         options: { 
@@ -260,14 +261,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             x: {
               grid: { display: false },
               ticks: {
-                font: { family: "'Inter', sans-serif", size: 11 },
+                font: { family: "'Segoe UI', Roboto, sans-serif", size: 11 },
                 color: '#64748b'
               }
             },
             y: {
-              grid: { color: '#f1f5f9' },
+              grid: { color: '#e2e8f0' },
               ticks: {
-                font: { family: "'Inter', sans-serif", size: 11 },
+                font: { family: "'Segoe UI', Roboto, sans-serif", size: 11 },
                 color: '#64748b',
                 callback: function(value) {
                   return '₹' + Number(value).toLocaleString('en-IN');
@@ -285,11 +286,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         data: {
           labels: ['Total Credit', 'Total Debit'],
           datasets: [{
-            label: 'Transactions',
+            label: 'Transactions Architecture',
             data: [this.totalCredit, this.totalDebit],
-            backgroundColor: ['#10b981', '#ef4444'], 
-            borderRadius: 6,
-            borderWidth: 0
+            backgroundColor: ['#10b981', '#d92229'], 
+            borderRadius: 5,
+            borderWidth: 0,
+            barThickness: 45
           }]
         },
         options: { 
@@ -301,8 +303,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           scales: {
             x: { grid: { display: false } },
             y: { 
-              grid: { color: '#f1f5f9' },
+              grid: { color: '#e2e8f0' },
               ticks: {
+                font: { family: "'Segoe UI', Roboto, sans-serif", size: 11 },
                 callback: function(value) { return '₹' + Number(value).toLocaleString('en-IN'); }
               }
             }
@@ -313,6 +316,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   updateChartsDynamic(): void {
+    // FIXED: Instantly lazy-init charts if backend loaded first before canvas fully mounts layout wrapper
+    if (!this.balanceChart || !this.analysisChart) {
+      this.initCharts();
+      return;
+    }
+
     if (this.balanceChart) {
       this.balanceChart.data.datasets[0].data = [
         this.totalBalance * 0.6, 

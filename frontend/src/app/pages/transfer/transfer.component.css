@@ -1,58 +1,106 @@
 /* Main Content Area Wrapper */
 .main-content {
-    margin-left: 250px; /* sidebar exact width alignment */
+    margin-left: 260px; /* Synchronized sidebar exact width alignment */
     height: 100vh;
-    width: calc(100% - 250px);
+    width: calc(100% - 260px);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: #f3f4f6;
+    background-color: #f1f5f9; /* Premium institutional backdrop */
 }
 
-/* Transfer Card Container */
+/* Kotak Inspired Premium Transfer Container */
 .transfer-box {
-    background: white;
-    padding: 35px;
+    background: #ffffff;
+    padding: 40px;
     border-radius: 12px;
-    width: 420px;
+    width: 440px;
     max-width: 90%;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08); /* Smooth drop-shadow matrix */
     box-sizing: border-box;
+    border-top: 4px solid #ee2c24; /* Authentic Kotak Crimson Primary Accent Line */
 }
 
-/* Input Fields Styling */
+/* Typography Headings */
+.transfer-box h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #003366; /* Kotak Corporate Signature Royal Blue */
+    text-align: center;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Label Elements Styling */
+label {
+    display: block;
+    font-size: 11px;
+    color: #003366; /* Matching identifiers with corporate blue */
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    margin-top: 14px;
+}
+
+/* Input Fields Styling to match professional banking standards */
 input {
     width: 100%;
-    padding: 12px;
-    margin: 8px 0 18px 0;
-    border: 1px solid #d1d5db;
+    padding: 12px 14px;
+    margin-bottom: 4px;
+    border: 1px solid #cbd5e1;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 15px;
+    color: #0f172a;
     box-sizing: border-box;
     outline: none;
-    transition: border-color 0.2s;
+    background-color: #fafafa;
+    transition: all 0.2s ease-in-out;
 }
 
 input:focus {
-    border-color: #1e3a8a;
+    background-color: #ffffff;
+    border-color: #ee2c24; /* Focus turns into sleek Kotak Ruby Red border */
+    box-shadow: 0 0 0 4px rgba(238, 44, 36, 0.12); /* Subtle protective crimson glow */
 }
 
-/* Action Execution Button Styling */
-button {
+/* Read-only / Disabled input states */
+input[readonly], 
+input:disabled {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+    cursor: not-allowed;
+    font-weight: 500;
+}
+
+/* Premium Kotak Call to Action Button */
+button[type="submit"] {
     width: 100%;
-    padding: 12px;
-    background: #1e3a8a;
-    color: white;
+    padding: 14px;
+    margin-top: 25px;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
+    background: #ee2c24; /* Core Kotak Red Brand Identifier */
+    color: #ffffff;
     font-size: 16px;
     font-weight: 600;
-    transition: background 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(238, 44, 36, 0.25);
+    transition: all 0.2s ease;
 }
 
-button:hover {
-    background: #1d4ed8;
+button[type="submit"]:hover {
+    background: #d11a14; /* Deeper executive red state */
+    box-shadow: 0 6px 16px rgba(238, 44, 36, 0.35);
+    transform: translateY(-1px);
 }
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+

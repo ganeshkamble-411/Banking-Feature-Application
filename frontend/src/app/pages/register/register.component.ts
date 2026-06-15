@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // ReactiveFormsModule add kiya
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Errors dikhane ke liye zaroori hai
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CommonModule], // Modules update kiye
+  imports: [ReactiveFormsModule, RouterLink, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -23,26 +23,25 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Pure form ka validation yahan setup hoga
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [
         Validators.required, 
         Validators.email, 
-        Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$') // Sirf @gmail.com validation
+        Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$') // Sirf @gmail.com support
       ]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]], // Upgraded to 8 characters
       confirmPassword: ['', Validators.required]
     }, {
-      validators: this.passwordMatchValidator // Custom validator donon password match karne ke liye
+      // FIXED: .bind(this) lagana zaroori hai taaki context app component ka hi rahe
+      validators: this.passwordMatchValidator.bind(this)
     });
   }
 
-  // HTML me aasani se access karne ke liye getter function
   get f() { return this.registerForm.controls; }
 
-  // Custom function check karne ke liye ki dono password same hain ya nahi
-  passwordMatchValidator(form: FormGroup) {
+  // FIXED: Parameter ka type AbstractControl ya FormGroup explicitly define karein
+  passwordMatchValidator(form: AbstractControl) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
@@ -51,32 +50,32 @@ export class RegisterComponent implements OnInit {
   registerUser() {
     this.submitted = true;
 
-    // Agar form khali hai ya email me @gmail.com nahi hai to yahi rok do
     if (this.registerForm.invalid) {
       return;
     }
 
-    // Agar sab sahi hai to form ka data nikal lo
     const formData = {
       name: this.registerForm.value.name,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password
     };
 
+    console.log('Initiating Secure Institutional Registration Node...');
+
     this.authService.register(formData)
       .subscribe({
         next: (response: string) => {
           console.log('Server Response:', response);
           if (response === 'Email already exists') {
-            alert('Email already exists');
+            alert('Email already exists! Please use another dynamic enterprise mail identity.');
             return;
           }
-          alert('Registration Successful');
+          alert('Registration Successful ✅. Welcome to Kotak Core Console Framework.');
           this.router.navigate(['/login']);
         },
         error: (error: any) => {
-          console.error(error);
-          alert('Registration Failed');
+          console.error('Registration registry failure:', error);
+          alert('Registration Failed! Please verify security credentials format.');
         }
       });
   }

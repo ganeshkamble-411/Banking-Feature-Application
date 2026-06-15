@@ -1,0 +1,81 @@
+/* 🔴 Kotak Premium Red Global Header Container */
+.kotak-header-container {
+  width: 100%;
+  background: linear-gradient(90deg, #d92229 0%, #ee3124 100%); /* Kotak Signature Red Gradient */
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  height: 65px; /* Fixed desktop standard height */
+  display: flex;
+  align-items: center;
+  position: fixed; /* FIXED: Screen par top par fix rahega */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Sidebar se upar rahega */
+}
+
+/* Flex Wrapper for Internal Content Mapping */
+.header-inner-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 🏢 Left Brand Section Layout */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+}
+
+.brand-divider {
+  opacity: 0.6;
+  font-weight: 300;
+}
+
+.portal-tag {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.user-session-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.secure-badge {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #ffffff;
+  color: #d92229; 
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.user-identity {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.username-highlight {
+  font-weight: 700;
+  border-bottom: 2px solid #ffffff; 
+  padding-bottom: 1px;
+}

@@ -5,40 +5,35 @@
 }
 
 .auth-container {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-
-    background: linear-gradient(135deg, #2563eb, #1e3a8a);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a); /* Vibrant Blue Gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: sans-serif;
 }
 
 .auth-card {
-    width: 90%;
-    max-width: 1000px;
-    height: 80vh;
-
-    background: white;
-    border-radius: 20px;
-    display: flex;
-    overflow: hidden;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 1000px;
+  height: 80vh;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .left-panel {
   flex: 1;
-  background: #ea7e25;
+  background: #ea7e25; /* Symmetric Orange Branding */
   color: white;
   padding: 40px;
   text-align: center;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -47,11 +42,13 @@
 .left-panel h1 {
   font-size: 40px;
   margin-bottom: 20px;
+  font-weight: 700;
 }
 
 .left-panel p {
   margin-bottom: 30px;
   line-height: 1.6;
+  font-size: 15px;
 }
 
 .left-panel img {
@@ -65,19 +62,40 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: #ffffff;
 }
 
 .right-panel h2 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+  color: #333333;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.input-group {
+  margin-bottom: 14px; /* Slightly packed to manage extra register inputs */
+  width: 100%;
 }
 
 .right-panel input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
+  padding: 12px 14px;
   border-radius: 8px;
   border: 1px solid #ddd;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.right-panel input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 4px;
 }
 
 .right-panel button {
@@ -89,43 +107,40 @@
   color: white;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: background-color 0.2s;
 }
 
 .right-panel button:hover {
-  background: #1d4ed8;
+  background: #1e40af;
 }
 
 .bottom-text {
-  margin-top: 20px;
   text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
 }
 
 .bottom-text a {
   color: #2563eb;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
 }
 
-/* Purane CSS ke niche ise jod dena */
-.input-group {
-  width: 100%;
-  margin-bottom: 15px; /* Input ke niche thodi space */
+.bottom-text a:hover {
+  text-decoration: underline;
 }
 
-.right-panel input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 5px; /* isko 15px se 5px kar diya taaki error thik niche chipke */
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-.error-msg {
-  color: #dc2626; /* Danger Red Color */
-  text-align: left;
-  font-size: 13px;
-  padding-left: 5px;
-  font-weight: 500;
-  display: block;
+/* Responsiveness for mobile views */
+@media (max-width: 768px) {
+  .left-panel {
+    display: none;
+  }
+  .auth-card {
+    max-width: 450px;
+    height: auto;
+  }
 }
 

@@ -1,4 +1,3 @@
-<p>profile-wizard works!</p>
 <div class="modal-overlay" *ngIf="showProfileWizard">
   <div class="modal profile-wizard-card">
     
@@ -13,8 +12,9 @@
 
     <hr class="section-divider" />
 
+    <!-- Step 1: Personal Identification Core Data -->
     <div *ngIf="currentStep === 1" class="wizard-step-content">
-      <p class="step-instruction">Verify your system identification and registration nodes below.</p>
+      <p class="step-instruction">Verify your pre-authenticated secure credentials and core banking identifier records below.</p>
       
       <div class="form-group">
         <label>LOGGED IN USER ID</label>
@@ -28,14 +28,15 @@
 
       <div class="form-group" *ngIf="account?.accountNumber || account?.account_number">
         <label>CORE ACCOUNT NUMBER</label>
-        <input type="text" [value]="account.accountNumber || account.account_number" readonly class="readonly-input">
+        <input type="text" [value]="account?.accountNumber || account?.account_number" readonly class="readonly-input">
       </div>
       
       <button type="button" class="wizard-btn-primary" (click)="nextStep()">Continue to Step 2</button>
     </div>
 
+    <!-- Step 2: Risk Limits & Security Parameters -->
     <div *ngIf="currentStep === 2" class="wizard-step-content">
-      <p class="step-instruction">Configure your personalized transactional boundaries and safety guidelines.</p>
+      <p class="step-instruction">Configure your personalized transactional boundaries and safety monitoring options.</p>
 
       <div class="form-group">
         <label>DAILY TRANSACTION LIMIT (₹)</label>
@@ -52,15 +53,17 @@
       <div class="form-group checking-row">
         <label class="checkbox-container">
           <input type="checkbox" [(ngModel)]="profileUpdateRequest.notificationEnabled">
-          <span class="custom-label-text">Enable Email/SMS Transaction Ledger Status Alerts</span>
+          <span class="custom-label-text">Enable Email/SMS Real-time Transaction Status Alerts</span>
         </label>
       </div>
 
       <div class="wizard-actions-row">
-        <button type="button" class="close-btn fallback-back" (click)="prevStep()">Back</button>
-        <button type="button" class="wizard-btn-primary split-btn" (click)="submitProfileDetails()">Save & Dashboard</button>
+        <button type="button" class="fallback-back" (click)="prevStep()">Back</button>
+        <button type="button" class="wizard-btn-primary split-btn" (click)="submitProfileDetails()">Save & Proceed</button>
       </div>
     </div>
 
   </div>
 </div>
+
+

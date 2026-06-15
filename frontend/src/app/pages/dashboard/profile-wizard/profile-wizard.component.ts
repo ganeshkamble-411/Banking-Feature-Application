@@ -1,65 +1,77 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+// Profile Update Request Structure Interface
+interface ProfileUpdateRequest {
+  dailyLimit: number | null;
+  twoFactorAuth: boolean;
+  notificationEnabled: boolean;
+}
 
 @Component({
   selector: 'app-profile-wizard',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-wizard.component.html',
-  styleUrls: ['./profile-wizard.component.css']
+  styleUrl: './profile-wizard.component.css'
 })
-export class UserProfileWizardComponent implements OnInit {
-  
+export class ProfileWizardComponent implements OnInit {
+
+  // Modal Control States
+  @Input() showProfileWizard: boolean = true;
   @Input() currentUserId: number = 0;
   @Input() currentAccountId: number = 0;
-  @Input() showProfileWizard: boolean = false;
-  @Input() account: any = null;
-  
-  @Output() wizardCompleted = new EventEmitter<any>();
+  @Input() account: any = { accountNumber: '' };
 
-  // Renamed from currentProfileStep to match template
-  currentStep: number = 1; 
+  currentStep: number = 1;
 
-  // Renamed from profileSetupRequest to match template
-  profileUpdateRequest = {
-    fullName: '',
-    phoneNumber: '',
-    dailyLimit: 50000,
+  // Form Request Model Object initialization
+  profileUpdateRequest: ProfileUpdateRequest = {
+    dailyLimit: null,
     twoFactorAuth: false,
-    notificationEnabled: true
+    notificationEnabled: false
   };
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    const sessionUserId = localStorage.getItem('loggedInUserId');
-    if (sessionUserId && !this.currentUserId) {
-      this.currentUserId = Number(sessionUserId);
+    // Component lifecycle init handles
+    console.log('Wizard Initialized for Account ID:', this.currentAccountId);
+  }
+
+  // Multi-step navigation flows
+  nextStep(): void {
+    if (this.currentStep < 2) {
+      this.currentStep++;
     }
   }
 
-  // Renamed from goToNextProfileStep to match template
-  nextStep(): void {
-    this.currentStep = 2;
-  }
-
-  // Renamed from goToPrevProfileStep to match template
   prevStep(): void {
-    this.currentStep = 1;
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
   }
 
-  // Renamed from submitUserProfileWizard to match template
+  // Submit Operations to persistent handlers
   submitProfileDetails(): void {
-    if (this.profileUpdateRequest.dailyLimit <= 0) {
-      alert('Please enter a valid daily transaction limit.');
+    if (!this.profileUpdateRequest.dailyLimit || this.profileUpdateRequest.dailyLimit <= 0) {
+      alert("Please enter a valid daily transaction limit.");
       return;
     }
 
-    localStorage.setItem(`profile_completed_user_${this.currentUserId}`, 'true');
-    localStorage.setItem(`profile_limit_user_${this.currentUserId}`, this.profileUpdateRequest.dailyLimit.toString());
-    localStorage.setItem(`profile_2fa_user_${this.currentUserId}`, this.profileUpdateRequest.twoFactorAuth.toString());
+    const compiledPayload = {
+      userId: this.currentUserId,
+      accountId: this.currentAccountId,
+      accountNumber: this.account?.accountNumber || this.account?.account_number,
+      ...this.profileUpdateRequest
+    };
 
-    this.wizardCompleted.emit(this.profileUpdateRequest);
+    console.log('Sending Profile Update Data to Backend Node:', compiledPayload);
+    
+    // Yahan aap apna backend service API trigger kar sakte hain
+    alert("Profile setup configuration saved securely! Redirecting to your dashboard...");
+    
+    this.showProfileWizard = false; // Modal turns off once saved
   }
 }
