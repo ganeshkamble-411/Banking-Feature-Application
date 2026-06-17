@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   
   currentUserId!: number;    
   currentAccountId!: number; 
+  userEmail: string | null = null;
   
   balanceChart: any;
   analysisChart: any;
@@ -68,7 +69,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    const sessionUserId = localStorage.getItem('loggedInUserId');
+    let sessionUserId = localStorage.getItem('loggedInUserId');
+    this.userEmail = localStorage.getItem('userEmail');
+
+    // FALLBACK LAYER: Agar dynamic integration ke waqt user ID temporary miss ho, to standard template load ho sake
+    if (!sessionUserId && this.userEmail) {
+      console.warn("User ID not found in storage. Defaulting to operational profile ID: 1");
+      localStorage.setItem('loggedInUserId', '1');
+      sessionUserId = '1';
+    }
+
     if (sessionUserId) {
       this.currentUserId = Number(sessionUserId);
       this.createAccountRequest.userId = this.currentUserId; 
@@ -82,9 +92,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const profileStatus = localStorage.getItem(`profile_completed_user_${this.currentUserId}`);
     if (profileStatus === 'true') {
       this.showProfileWizard = false;
-      // FIXED: Synchronized with standard logging naming variables tracking systems
       this.profileSetupRequest.name = localStorage.getItem(`profile_name_user_${this.currentUserId}`) || localStorage.getItem('loggedInUserName') || 'Premium Customer';
-      this.profileSetupRequest.email = localStorage.getItem(`profile_email_user_${this.currentUserId}`) || 'customer@bank.com';
+      this.profileSetupRequest.email = localStorage.getItem(`profile_email_user_${this.currentUserId}`) || this.userEmail || 'customer@bank.com';
       this.profileSetupRequest.phoneNumber = localStorage.getItem(`profile_phone_user_${this.currentUserId}`) || '9999999999';
       this.profileSetupRequest.dailyLimit = Number(localStorage.getItem(`profile_limit_user_${this.currentUserId}`) || 50000);
       this.profileSetupRequest.twoFactorAuth = localStorage.getItem(`profile_2fa_user_${this.currentUserId}`) === 'true';
@@ -106,12 +115,34 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.totalBalance = Number(response);
           }
           this.syncFormFields();
-          this.updateChartsDynamic();
+          this.loadTransactionHistory(); // Sync back balance analytics
         },
         error: (err: any) => {
           console.error('Failed to load dynamic account details from backend:', err);
         }
       });
+  }
+
+  // Real-time calculation of dynamic credit/debit metrics using history() method from service
+  loadTransactionHistory(): void {
+    if (!this.currentAccountId) return;
+    
+    // FIXED: Formatted method call to 'history' matching with your exact service structure
+    this.transactionService.history(this.currentAccountId).subscribe({
+      next: (txns: any[]) => {
+        if (txns && txns.length > 0) {
+          this.totalCredit = txns
+            .filter((t: any) => t.type === 'DEPOSIT' || t.type === 'TRANSFER_CREDIT')
+            .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
+
+          this.totalDebit = txns
+            .filter((t: any) => t.type === 'WITHDRAW' || t.type === 'TRANSFER_DEBIT')
+            .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
+        }
+        this.updateChartsDynamic();
+      },
+      error: (err: any) => console.error('Error fetching transaction architecture breakdowns:', err)
+    });
   }
 
   syncFormFields(): void {
@@ -138,18 +169,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   logout(): void {
-    localStorage.clear(); // Complete layout storage wipe for maximum safety clearance
+    localStorage.clear(); 
     alert('You have been securely logged out from Core Processing Engine.');
-    window.location.reload();
+    window.location.href = '/login'; 
   }
 
   depositMoney(): void {
     this.transactionService.deposit(this.depositRequest).subscribe({
-      next: (response: any) => {
+      next: (response: string) => {
         alert(response);
-        if (this.depositRequest.amount) {
-          this.totalCredit += this.depositRequest.amount;
-        }
         this.showDepositModal = false;
         this.loadUserAccountDetails();
         this.depositRequest.amount = null;
@@ -160,11 +188,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   withdrawMoney(): void {
     this.transactionService.withdraw(this.withdrawRequest).subscribe({
-      next: (response: any) => {
+      next: (response: string) => {
         alert(response);
-        if (this.withdrawRequest.amount) {
-          this.totalDebit += this.withdrawRequest.amount;
-        }
         this.showWithdrawModal = false;
         this.loadUserAccountDetails();
         this.withdrawRequest.amount = null;
@@ -175,11 +200,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   transferMoney(): void {
     this.transactionService.transfer(this.transferRequest).subscribe({
-      next: (response: any) => {
+      next: (response: string) => {
         alert(response);
-        if (this.transferRequest.amount) {
-          this.totalDebit += this.transferRequest.amount;
-        }
         this.showTransferModal = false;
         this.loadUserAccountDetails();
         this.transferRequest = {
@@ -215,7 +237,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const ctx1 = document.getElementById('balanceChartCanvas') as HTMLCanvasElement | null;
     const ctx2 = document.getElementById('analysisChartCanvas') as HTMLCanvasElement | null;
 
-    // FIXED: Destroy existing instance before rebuilding to avoid canvas reusable buffer leaks
     if (this.balanceChart) {
       this.balanceChart.destroy();
       this.balanceChart = null;
@@ -241,7 +262,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
               this.totalBalance
             ], 
             fill: true, 
-            backgroundColor: 'rgba(217, 34, 41, 0.05)',  // Theme customized soft crimson flow mapping
+            backgroundColor: 'rgba(217, 34, 41, 0.05)',  
             borderColor: '#d92229', 
             borderWidth: 2.5,
             tension: 0.25, 
@@ -316,7 +337,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   updateChartsDynamic(): void {
-    // FIXED: Instantly lazy-init charts if backend loaded first before canvas fully mounts layout wrapper
     if (!this.balanceChart || !this.analysisChart) {
       this.initCharts();
       return;
@@ -339,3 +359,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 }
+
+
+

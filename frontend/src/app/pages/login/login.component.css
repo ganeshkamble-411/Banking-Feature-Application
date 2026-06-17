@@ -9,12 +9,12 @@
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #1e3a8a, #0f172a); /* Secure Dark Navy Background */
+  background: linear-gradient(135deg, #2352d2, #5079d7); /* Secure Dark Navy Background */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: times new roman, serif;
 }
 
 .auth-card {
@@ -76,7 +76,7 @@
 }
 
 .input-group {
-  margin-bottom: 18px;
+  margin-bottom: 38px;
   width: 100%;
 }
 
@@ -108,7 +108,7 @@
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 8px;
+  border-radius: 35px;
   background: #2563eb;
   color: white;
   cursor: pointer;
@@ -150,3 +150,4 @@
     height: auto;
   }
 }
+

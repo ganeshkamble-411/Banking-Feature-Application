@@ -17,7 +17,7 @@ app-root {
 
 /* 🧭 Dashboard Dynamic Shell Viewport Mapping */
 .dashboard-layout {
-    margin-left: 260px;
+    margin-left: 260px; /* Exact Sidebar Width offset clearance */
     height: 100vh;
     overflow-y: auto;
     background: #f4f6f9;
@@ -29,6 +29,7 @@ app-root {
 .dashboard-main-container {
     flex: 1;
     padding: 2rem; 
+    padding-top: calc(65px + 1.5rem); /* FIXED: Clearance for the 65px Kotak Premium Header */
     box-sizing: border-box;
 }
 
@@ -111,14 +112,14 @@ app-root {
 }
 
 .user-profile-badge:hover {
-    border-color: #003366;
-    box-shadow: 0 4px 8px rgba(0,33,102,0.08);
+    border-color: #d92229; /* Kotak Corporate Red Accent Hover */
+    box-shadow: 0 4px 8px rgba(217,34,41,0.08);
 }
 
 .avatar-circle {
     width: 34px; 
     height: 34px; 
-    background: #003366; /* Valid Kotak Deep Blue property */
+    background: #d92229; /* Changed to match Kotak Corporate Red theme */
     color: #ffffff; 
     font-weight: 700; 
     font-size: 13px; 
@@ -139,17 +140,17 @@ app-root {
     color: #64748b;
 }
 
-/* 📜 Profile Dropdown Content Panel Overlay */
+/* 📜 FIXED PROFILE DROPDOWN: Positioned perfectly below navbar strip */
 .profile-dropdown-menu {
     position: absolute; 
-    top: 52px; 
+    top: 54px; /* 👈 Lowered down to avoid overlapping the header container */
     right: 0; 
     background: #ffffff; 
     border: 1px solid #e2e8f0; 
     border-radius: 12px; 
     width: 240px; 
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); 
-    z-index: 100; 
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); 
+    z-index: 9999; /* 👈 Highest visibility layers stack */
     overflow: hidden;
 }
 
@@ -179,11 +180,12 @@ app-root {
     color: #334155; 
     text-decoration: none; 
     transition: background 0.15s;
+    cursor: pointer;
 }
 
 .dropdown-links-list li a:hover {
     background: #f1f5f9; 
-    color: #003366;
+    color: #d92229; /* Changed to match Kotak red hover states */
 }
 
 .dropdown-links-list li.divider {

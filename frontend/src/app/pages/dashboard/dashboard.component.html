@@ -37,8 +37,10 @@
         </div>
 
         <app-profile-wizard 
-            *ngIf="showProfileWizard" 
-            [currentUserId]="currentUserId"
+            [showProfileWizard]="showProfileWizard" 
+            [currentUserId]="currentUserId" 
+            [currentAccountId]="currentAccountId" 
+            [account]="account"
             (wizardClosed)="onWizardClosed()">
         </app-profile-wizard>
 

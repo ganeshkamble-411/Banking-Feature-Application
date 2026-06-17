@@ -12,7 +12,6 @@
 
     <hr class="section-divider" />
 
-    <!-- Step 1: Personal Identification Core Data -->
     <div *ngIf="currentStep === 1" class="wizard-step-content">
       <p class="step-instruction">Verify your pre-authenticated secure credentials and core banking identifier records below.</p>
       
@@ -30,11 +29,25 @@
         <label>CORE ACCOUNT NUMBER</label>
         <input type="text" [value]="account?.accountNumber || account?.account_number" readonly class="readonly-input">
       </div>
+
+      <div class="form-group">
+        <label>FULL PROFILE NAME</label>
+        <input type="text" placeholder="Enter your full name" [(ngModel)]="profileUpdateRequest.name">
+      </div>
+
+      <div class="form-group">
+        <label>REGISTERED MOBILE/PHONE NUMBER</label>
+        <input type="text" placeholder="Enter 10-digit primary phone" [(ngModel)]="profileUpdateRequest.phoneNumber">
+      </div>
+
+      <div class="form-group">
+        <label>EMAIL ADDRESS</label>
+        <input type="email" [(ngModel)]="profileUpdateRequest.email" readonly class="readonly-input">
+      </div>
       
       <button type="button" class="wizard-btn-primary" (click)="nextStep()">Continue to Step 2</button>
     </div>
 
-    <!-- Step 2: Risk Limits & Security Parameters -->
     <div *ngIf="currentStep === 2" class="wizard-step-content">
       <p class="step-instruction">Configure your personalized transactional boundaries and safety monitoring options.</p>
 
@@ -65,5 +78,4 @@
 
   </div>
 </div>
-
 
