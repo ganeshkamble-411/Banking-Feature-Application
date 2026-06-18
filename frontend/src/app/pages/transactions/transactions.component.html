@@ -10,36 +10,32 @@
                 <th>Transaction Type</th>
                 <th>Account ID</th>
                 <th>Amount</th>
-                <th>Date</th>
+                <th>Date / Time</th>
             </tr>
         </thead>
 
         <tbody>
-            <!-- Loop through dynamic records array -->
             <tr *ngFor="let tx of transactions">
                 <td>
-                    <!-- Dynamic Badges rendering text categories neatly -->
                     <span class="tx-badge" 
-                          [ngClass]="(tx.transactionType === 'DEPOSIT' || tx.transactionType === 'CREDIT') ? 'badge-credit' : 'badge-debit'">
-                        {{ tx.transactionType }}
+                          [ngClass]="(tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? 'badge-credit' : 'badge-debit'">
+                        {{ tx.type }}
                     </span>
                 </td>
 
                 <td>
-                    {{ tx.account?.id || currentAccountId }}[cite: 8]
+                    {{ tx.account?.id || currentAccountId }}
                 </td>
 
-                <td class="amount-text" [ngClass]="(tx.transactionType === 'DEPOSIT' || tx.transactionType === 'CREDIT') ? 'text-credit' : 'text-debit'">
-                    <!-- Structural currency formatting with dynamic prefixing colors -->
-                    {{ (tx.transactionType === 'DEPOSIT' || tx.transactionType === 'CREDIT') ? '+' : '-' }} ₹{{ tx.amount | number:'1.2-2' }}
+                <td class="amount-text" [ngClass]="(tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? 'text-credit' : 'text-debit'">
+                    {{ (tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? '+' : '-' }} ₹{{ tx.amount | number:'1.2-2' }}
                 </td>
 
                 <td>
-                    {{ tx.transactionDate | date:'dd MMM yyyy, hh:mm a' }}
+                    {{ (tx.date || tx.timestamp) ? ((tx.date || tx.timestamp) | date:'dd MMM yyyy, hh:mm a') : 'N/A' }}
                 </td>
             </tr>
 
-            <!-- Safe conditional operator handling empty states cleanly -->
             <tr *ngIf="!transactions || transactions.length === 0">
                 <td colspan="4" style="text-align: center; color: #64748b; font-style: italic; padding: 30px; font-size: 14px;">
                     ⚠ No secure transactional ledgers registered on this account node.

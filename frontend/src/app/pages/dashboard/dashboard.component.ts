@@ -33,6 +33,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   
   balanceChart: any;
   analysisChart: any;
+  
+  // Real dynamic chart records collection holder
+  timelineLabels: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+  timelineData: number[] = [0, 0, 0, 0, 0, 0];
 
   // Modals Visibility Flags
   showCreateAccountModal = false;
@@ -70,21 +74,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let sessionUserId = localStorage.getItem('loggedInUserId');
+    let sessionAccountId = localStorage.getItem('accountId');
     this.userEmail = localStorage.getItem('userEmail');
-
-    // FALLBACK LAYER: Agar dynamic integration ke waqt user ID temporary miss ho, to standard template load ho sake
-    if (!sessionUserId && this.userEmail) {
-      console.warn("User ID not found in storage. Defaulting to operational profile ID: 1");
-      localStorage.setItem('loggedInUserId', '1');
-      sessionUserId = '1';
-    }
 
     if (sessionUserId) {
       this.currentUserId = Number(sessionUserId);
       this.createAccountRequest.userId = this.currentUserId; 
 
+      if (sessionAccountId) {
+        this.currentAccountId = Number(sessionAccountId);
+      }
+
       this.loadUserAccountDetails();
       this.evaluateProfileWizardStatus();
+    } else {
+      console.error("No active session identity found. Redirecting to access terminal.");
+      window.location.href = '/login';
     }
   }
 
@@ -111,11 +116,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.account = response;
             this.totalBalance = Number(response.balance);
             this.currentAccountId = response.id; 
+            localStorage.setItem('accountId', this.currentAccountId.toString());
           } else {
             this.totalBalance = Number(response);
           }
           this.syncFormFields();
-          this.loadTransactionHistory(); // Sync back balance analytics
+          this.loadTransactionHistory(); 
         },
         error: (err: any) => {
           console.error('Failed to load dynamic account details from backend:', err);
@@ -123,21 +129,46 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // Real-time calculation of dynamic credit/debit metrics using history() method from service
   loadTransactionHistory(): void {
     if (!this.currentAccountId) return;
     
-    // FIXED: Formatted method call to 'history' matching with your exact service structure
     this.transactionService.history(this.currentAccountId).subscribe({
       next: (txns: any[]) => {
         if (txns && txns.length > 0) {
+          // ✅ FIXED: String mismatch resolved. Matching exact values from TransactionService.java
           this.totalCredit = txns
-            .filter((t: any) => t.type === 'DEPOSIT' || t.type === 'TRANSFER_CREDIT')
+            .filter((t: any) => t.type === 'CREDIT' || t.type === 'TRANSFER_CREDIT')
             .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
 
           this.totalDebit = txns
-            .filter((t: any) => t.type === 'WITHDRAW' || t.type === 'TRANSFER_DEBIT')
+            .filter((t: any) => t.type === 'DEBIT' || t.type === 'TRANSFER_DEBIT')
             .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
+
+          // 📈 Dynamic Progressive Graph: Real values extraction for chart spikes tracking
+          let incrementalBalance = this.totalBalance - this.totalCredit + this.totalDebit;
+          this.timelineData = txns.map((t: any) => {
+            if (t.type === 'CREDIT' || t.type === 'TRANSFER_CREDIT') {
+              incrementalBalance += Number(t.amount);
+            } else {
+              incrementalBalance -= Number(t.amount);
+            }
+            return incrementalBalance;
+          });
+
+          this.timelineLabels = txns.map((_, index) => `Txn #${index + 1}`);
+          
+          // Agar 2 se kam transactions hain toh default curve fill look maintain rakhenge
+          if (this.timelineData.length < 6) {
+            while (this.timelineData.length < 6) {
+              this.timelineData.unshift(this.totalBalance * 0.8);
+              this.timelineLabels.unshift('Prior');
+            }
+          }
+        } else {
+          this.totalCredit = 0;
+          this.totalDebit = 0;
+          this.timelineData = [0, 0, 0, 0, 0, this.totalBalance];
+          this.timelineLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Current'];
         }
         this.updateChartsDynamic();
       },
@@ -175,33 +206,65 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   depositMoney(): void {
+    this.depositRequest.accountId = this.currentAccountId;
+
+    if (!this.depositRequest.amount || this.depositRequest.amount <= 0) {
+      alert("Please enter a valid deposit amount.");
+      return;
+    }
+
     this.transactionService.deposit(this.depositRequest).subscribe({
-      next: (response: string) => {
-        alert(response);
+      next: (res: any) => {
+        console.log('Deposit success:', res);
+        alert(res.message || 'Money Deposited Successfully!'); 
         this.showDepositModal = false;
-        this.loadUserAccountDetails();
+        this.loadUserAccountDetails(); 
         this.depositRequest.amount = null;
       },
-      error: (err: any) => console.error(err)
+      error: (err: any) => {
+        console.error('Deposit Error Response Object:', err);
+        alert(err.error?.message || 'Failed to complete deposit. Please check console logs.');
+      }
     });
   }
 
   withdrawMoney(): void {
+    this.syncFormFields();
+    
+    if (!this.withdrawRequest.amount || this.withdrawRequest.amount <= 0) {
+      alert("Please enter a valid withdrawal amount.");
+      return;
+    }
+
     this.transactionService.withdraw(this.withdrawRequest).subscribe({
-      next: (response: string) => {
-        alert(response);
+      next: (res: any) => {
+        alert(res.message || 'Money Withdrawn Successfully!'); 
         this.showWithdrawModal = false;
         this.loadUserAccountDetails();
         this.withdrawRequest.amount = null;
       },
-      error: (err: any) => console.error(err)
+      error: (err: any) => {
+        console.error('Withdraw Error:', err);
+        alert(err.error?.message || 'Withdrawal failed.');
+      }
     });
   }
 
   transferMoney(): void {
+    this.syncFormFields();
+    
+    if (!this.transferRequest.receiverAccountId) {
+      alert("Please enter Receiver Account ID.");
+      return;
+    }
+    if (!this.transferRequest.amount || this.transferRequest.amount <= 0) {
+      alert("Please enter a valid transfer amount.");
+      return;
+    }
+
     this.transactionService.transfer(this.transferRequest).subscribe({
-      next: (response: string) => {
-        alert(response);
+      next: (res: any) => {
+        alert(res.message || 'Money Transferred Successfully!'); 
         this.showTransferModal = false;
         this.loadUserAccountDetails();
         this.transferRequest = {
@@ -210,7 +273,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           amount: null
         };
       },
-      error: (err: any) => console.error(err)
+      error: (err: any) => {
+        console.error('Transfer Error:', err);
+        alert(err.error?.message || 'Transfer failed. Check balance/Account ID.');
+      }
     });
   }
 
@@ -220,6 +286,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         alert('Secure Banking Account Created Successfully');
         this.account = response;
         this.currentAccountId = response.id;
+        localStorage.setItem('accountId', this.currentAccountId.toString());
         this.loadUserAccountDetails();
         this.showCreateAccountModal = false;
       },
@@ -250,17 +317,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.balanceChart = new Chart(ctx1, {
         type: 'line', 
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+          labels: this.timelineLabels, 
           datasets: [{
             label: 'Balance Trend',
-            data: [
-              this.totalBalance * 0.6, 
-              this.totalBalance * 0.7, 
-              this.totalBalance * 0.85, 
-              this.totalBalance * 0.8, 
-              this.totalBalance * 0.9, 
-              this.totalBalance
-            ], 
+            data: this.timelineData, 
             fill: true, 
             backgroundColor: 'rgba(217, 34, 41, 0.05)',  
             borderColor: '#d92229', 
@@ -343,22 +403,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
 
     if (this.balanceChart) {
-      this.balanceChart.data.datasets[0].data = [
-        this.totalBalance * 0.6, 
-        this.totalBalance * 0.7, 
-        this.totalBalance * 0.85, 
-        this.totalBalance * 0.8, 
-        this.totalBalance * 0.9, 
-        this.totalBalance
-      ];
+      // ✅ FIXED: Static calculation multipliers ko real backend data list state se shift kiya
+      this.balanceChart.data.labels = this.timelineLabels;
+      this.balanceChart.data.datasets[0].data = this.timelineData;
       this.balanceChart.update();
     }
     if (this.analysisChart) {
+      // ✅ FIXED: Dynamic credit/debit arrays completely mapping dynamically 
       this.analysisChart.data.datasets[0].data = [this.totalCredit, this.totalDebit];
       this.analysisChart.update();
     }
   }
 }
-
-
-

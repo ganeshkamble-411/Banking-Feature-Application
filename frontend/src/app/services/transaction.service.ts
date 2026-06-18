@@ -21,12 +21,8 @@ export class TransactionService {
 
   // FIXED: Added deposit method back with safe execution handling
   deposit(data: any): Observable<string> {
-    const headers = this.createAuthorizationHeaders();
-    return this.http.post(`${this.baseUrl}/deposit`, data, { 
-      headers, 
-      responseType: 'text' 
-    });
-  }
+  return this.http.post('http://localhost:8080/api/transaction/deposit', data, { responseType: 'text' });
+ }
 
   // FIXED: Added withdraw method back 
   withdraw(data: any): Observable<string> {

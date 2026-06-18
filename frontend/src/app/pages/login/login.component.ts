@@ -48,29 +48,27 @@ export class LoginComponent implements OnInit {
         next: (response: any) => {
           console.log('Server Response Raw:', response);
           
-          let resObj: any;
-          try {
-            resObj = typeof response === 'string' ? JSON.parse(response) : response;
-          } catch (e) {
-            console.error('Parsing failed, handling as fallback string', e);
-            resObj = { message: response };
+          let resObj: any = response;
+          if (typeof response === 'string') {
+            try {
+              resObj = JSON.parse(response);
+            } catch (e) {
+              console.error('Parsing error', e);
+            }
           }
 
-          // Checking if login status is SUCCESS or message matches
-          if (resObj && (resObj.status === 'SUCCESS' || resObj.message === 'Login Successful')) {
-            console.log('Login match successful. Navigating now...');
+          if (resObj && (resObj.status === 'SUCCESS' || resObj.message?.includes('Successful'))) {
+            console.log('Login Success. Navigating now...');
             
-            // 🌟 FIXED HERE: Session parameters dynamic injection according to active user
+            // 🌟 FIXED HERE: Hardcoded '2' hatakar ab backend se aane wali real IDs set ho rahi hain
             localStorage.setItem('authToken', 'dummy-session-token');
             localStorage.setItem('userEmail', loginData.email);
-
-            // Dynamically determining user ID based on email prefix or checking for user2
-            if (loginData.email.startsWith('user2') || loginData.email.includes('2')) {
-              console.log('Detected User 2 Identity context. Setting loggedInUserId to 2');
-              localStorage.setItem('loggedInUserId', '2');
-            } else {
-              // Agar koi aur test credentials ho toh uske anusaar automatic system handle karega
-              localStorage.setItem('loggedInUserId', '2'); // TESTING DEFAULT: Aapka custom dashboard test user hamesha '2' rahega
+            
+            if (resObj.userId) {
+              localStorage.setItem('loggedInUserId', resObj.userId.toString());
+            }
+            if (resObj.accountId) {
+              localStorage.setItem('accountId', resObj.accountId.toString());
             }
 
             // Directly navigate to dashboard

@@ -28,19 +28,17 @@ export class RegisterComponent implements OnInit {
       email: ['', [
         Validators.required, 
         Validators.email, 
-        Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$') // Sirf @gmail.com support
+        Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$')
       ]],
-      password: ['', [Validators.required, Validators.minLength(8)]], // Upgraded to 8 characters
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
     }, {
-      // FIXED: .bind(this) lagana zaroori hai taaki context app component ka hi rahe
       validators: this.passwordMatchValidator.bind(this)
     });
   }
 
   get f() { return this.registerForm.controls; }
 
-  // FIXED: Parameter ka type AbstractControl ya FormGroup explicitly define karein
   passwordMatchValidator(form: AbstractControl) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
@@ -70,7 +68,8 @@ export class RegisterComponent implements OnInit {
             alert('Email already exists! Please use another dynamic enterprise mail identity.');
             return;
           }
-          alert('Registration Successful ✅. Welcome to Kotak Core Console Framework.');
+          // 🌟 Updated Alert message for clarity
+          alert('Registration Successful ✅. Your bank account has been created automatically!');
           this.router.navigate(['/login']);
         },
         error: (error: any) => {
