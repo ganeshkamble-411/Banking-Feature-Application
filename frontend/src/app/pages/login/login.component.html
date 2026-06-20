@@ -10,7 +10,7 @@
     <div class="right-panel">
       <h2>Login Page</h2>
 
-      <form [formGroup] = "loginForm" (ngSubmit) = "loginUser()">
+      <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
 
         <div class="input-group">
           <input type="email" placeholder="Registered Email (e.g. user@gmail.com)" formControlName="email" />
@@ -28,6 +28,10 @@
           </div>
         </div>
 
+        <div class="forgot-link-container">
+          <a href="javascript:void(0)" (click)="openForgotModal()">Forgot Password?</a>
+        </div>
+
         <button type="submit">Sign In Securely</button>
       </form>
 
@@ -35,6 +39,36 @@
         New to the bank? 
         <a routerLink="/register">Create an Account</a>
       </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="custom-modal-overlay" *ngIf="showForgotModal">
+  <div class="custom-modal-card">
+    
+    <div class="modal-header">
+      <h3>Reset Password</h3>
+      <button class="close-btn" (click)="closeForgotModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-instruction">Apna registered email aur naya password enter karke update karein.</p>
+      
+      <div class="modal-input-group">
+        <label>Registered Email</label>
+        <input type="email" [(ngModel)]="forgotEmail" placeholder="e.g. karry@gmail.com" />
+      </div>
+
+      <div class="modal-input-group">
+        <label>New Password</label>
+        <input type="password" [(ngModel)]="forgotNewPassword" placeholder="Enter new password" />
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeForgotModal()">Cancel</button>
+      <button class="btn-primary" (click)="submitDirectPasswordReset()">Update Password</button>
     </div>
 
   </div>

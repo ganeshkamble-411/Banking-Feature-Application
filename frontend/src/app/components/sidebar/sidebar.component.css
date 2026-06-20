@@ -4,78 +4,114 @@
     box-sizing: border-box;
 }
 
-/* Sidebar Container */
+/* Sidebar Container (Sleek White Portal Layout) */
 .kotak-sidebar-container {
     width: 260px;
-    height: calc(100vh - 65px); /* Header ki height 65px minus ki */
-    background: #0f172a; 
+    height: calc(100vh - 65px); /* Header height clearance */
+    background: #ffffff; 
     position: fixed;
-    top: 65px; /* Header ke exact neeche se start hoga */
+    top: 65px; 
     left: 0;
-    padding: 24px 20px;
+    padding: 16px 0px; /* Screenshot me side padding nahi hai, links full width stretch hain */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Links upar aur logout button automatic bottom me */
-    border-right: 1px solid #1e293b;
-    z-index: 99; /* Header se thoda kam */
+    justify-content: space-between;
+    border-right: 1px solid #f1f5f9; /* Ekdum halki soft line right side me */
+    z-index: 99; 
+    font-family: sans-serif;
 }
 
 .sidebar-nav-menu {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 2px; /* Screenshot ke mutabik links paas-paas hain */
 }
 
-/* Interactive Navigation Link */
+/* Interactive Navigation Link - Steel Blue Typography */
 .nav-item-link {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px; 
     text-decoration: none;
-    color: #94a3b8; 
-    padding: 12px 16px;
-    border-radius: 10px; 
+    color: #5c728a; /* Original Kotak screenshot ka muted steel blue color */
+    padding: 12px 24px;
     font-size: 15px;    
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-weight: 600; /* Medium bold typography standard */
+    transition: all 0.15s ease;
+    border-left: 4px solid transparent; /* Hidden by default to avoid layout shifting */
 }
 
+/* Hover State - Soft Gray/Pink Tint */
 .nav-item-link:hover {
-    background: #1e293b;
-    color: #ffffff;
+    background: #f8fafc;
+    color: #1e293b;
 }
 
+/* FIXED: Screenshot Match - Active Link State with Left Red Bar */
 .active-link {
-    background: #2563eb !important; /* Kotak active status theme */
-    color: #ffffff !important;
+    background: #fdf2f2 !important; /* Premium light pinkish-red hue */
+    color: #000000 !important; /* Screenshot me active link ka text black hai! */
+    font-weight: 700;
+    border-left: 4px solid #e31837 !important; /* Left side vertical red highlight band */
+    padding-left: 20px; /* Padding adjust kiya taaki border aane par icon hil na jaye */
 }
 
+/* Icon Wrapper (Ensures precise alignment with text center) */
 .nav-icon {
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* SVG Color Engine */
+.custom-svg-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor; /* Text color automatic pick karega */
+    transition: fill 0.15s ease;
+}
+
+/* Active State Icon override */
+.active-link .custom-svg-icon {
+    fill: #000000; /* Active state par icon bhi solid black */
 }
 
 /* Sidebar Footer area logout alignment */
 .sidebar-footer {
     margin-top: auto;
+    padding: 12px 0px;
+}
+
+/* Logout Option Styling (Exact Replica of Screenshot) */
+.logout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
 }
 
 .logout-btn {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    color: #f87171; /* Warning soft red */
-    padding: 12px 16px;
-    border-radius: 10px;
-    cursor: pointer;
+    gap: 16px; 
+    padding: 12px 24px; 
     font-size: 15px;
-    font-weight: 600;
-    transition: all 0.2s ease;
+    font-weight: 700;
+    color: #e31837; /* Strict Kotak Signature Red */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    border-left: 4px solid transparent;
 }
 
 .logout-btn:hover {
-    background: #ef4444;
-    color: #ffffff;
+    background-color: #fdf2f2; /* Hover par same active link jaisa feeling */
 }
+

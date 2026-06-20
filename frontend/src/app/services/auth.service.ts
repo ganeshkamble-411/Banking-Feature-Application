@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,6 @@ export class AuthService {
   }
 
   login(loginData: any): Observable<any> {
-    // responseType: 'text' rakhenge kyunki raw response handle karna asan hai angular pipelines me
     return this.http.post(`${this.baseUrl}/login`, loginData, { responseType: 'text' });
   }
 
@@ -25,5 +24,10 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('userEmail');
+  }
+
+  // 🔑 Direct Password Reset Pipeline
+  forgotPasswordReset(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forgot-password-reset`, payload);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'; // 👈 FIXED: FormsModule import kiya
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, RouterLink, CommonModule], // 👈 FIXED: imports me FormsModule add kiya takki ngModel chal sake
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -15,6 +15,11 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   submitted = false;
+
+  // 🛠️ FIXED: Saare modal variables define kiye jo HTML me missing the
+  showForgotModal = false;
+  forgotEmail = '';
+  forgotNewPassword = '';
 
   constructor(
     private fb: FormBuilder,
@@ -60,7 +65,6 @@ export class LoginComponent implements OnInit {
           if (resObj && (resObj.status === 'SUCCESS' || resObj.message?.includes('Successful'))) {
             console.log('Login Success. Navigating now...');
             
-            // 🌟 FIXED HERE: Hardcoded '2' hatakar ab backend se aane wali real IDs set ho rahi hain
             localStorage.setItem('authToken', 'dummy-session-token');
             localStorage.setItem('userEmail', loginData.email);
             
@@ -71,7 +75,6 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('accountId', resObj.accountId.toString());
             }
 
-            // Directly navigate to dashboard
             this.router.navigate(['/dashboard']).then(navigated => {
               if (navigated) {
                 console.log('Successfully reached Dashboard!');
@@ -86,9 +89,59 @@ export class LoginComponent implements OnInit {
         },
         error: (error: any) => {
           console.error('Login error context:', error);
-          alert('Login Failed! Server connection refused or credentials mismatch.');
+          let serverErrorMessage = 'Login Failed! Server connection refused or credentials mismatch.';
+          
+          if (error.error) {
+            try {
+              const errObj = typeof error.error === 'string' ? JSON.parse(error.error) : error.error;
+              if (errObj && errObj.message) {
+                serverErrorMessage = errObj.message;
+              }
+            } catch (e) {
+              if (typeof error.error === 'string' && error.error.length < 100) {
+                serverErrorMessage = error.error;
+              }
+            }
+          }
+          alert(serverErrorMessage);
         }
       });
   }
-}
 
+  // 🔑 FIXED: Modal ko open karne ka method
+  openForgotModal() {
+    this.showForgotModal = true;
+    // Agar user ne login field me email pehle se dala hai, toh wahi default modal me set ho jaye
+    this.forgotEmail = this.loginForm.value.email || '';
+    this.forgotNewPassword = '';
+  }
+
+  // 🔑 FIXED: Modal ko close karne ka method
+  closeForgotModal() {
+    this.showForgotModal = false;
+  }
+
+  // 🔑 FIXED: Direct password reset action hit karne ka method
+  submitDirectPasswordReset() {
+    if (!this.forgotEmail || !this.forgotNewPassword) {
+      alert('Kripya Email aur Naya Password dono dalein!');
+      return;
+    }
+
+    const payload = {
+      email: this.forgotEmail,
+      newPassword: this.forgotNewPassword
+    };
+
+    this.authService.forgotPasswordReset(payload).subscribe({
+      next: (res: any) => {
+        alert('Password successfully reset! Ab aap login kar sakte hain.');
+        this.closeForgotModal();
+      },
+      error: (err: any) => {
+        console.error('Reset error:', err);
+        alert(err.error?.message || 'Password reset fail ho gaya, kripya sahi registered email dalein.');
+      }
+    });
+  }
+}
