@@ -7,8 +7,27 @@ body {
   overflow-y: hidden;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 app-root {
   display: block;
   width: 100%;
   height: 100%;
+  
+}
+
+.element {
+  overflow: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE and old Edge */
+  -ms-overflow-style: none;
+}
+
+.element::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge (Chromium) */
 }

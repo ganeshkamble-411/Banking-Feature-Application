@@ -46,7 +46,25 @@
     box-sizing: border-box;
 }
 
-body {
-    overflow: hidden; /* Login page par scroll disable karne ke liye */
-    scollbar-width: none; /* Firefox ke liye scrollbar hide karne ke liye */
+
+/* Main router outlet viewing container */
+.page-content-renderer {
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: #f8fafc;
+    
+    /* Content scroll karega, lekin default browser elements hide rahenge */
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+
+    /* Firefox ke liye scrollbar hidden status */
+    scrollbar-width: none;
+    /* IE and old Edge custom integration */
+    -ms-overflow-style: none;
+}
+
+/* Chrome, Safari, aur naye Chromium-based Edge ke liye layout override */
+.page-content-renderer::-webkit-scrollbar {
+    display: none;
 }
