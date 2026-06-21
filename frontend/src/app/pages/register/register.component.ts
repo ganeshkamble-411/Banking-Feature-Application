@@ -30,8 +30,10 @@ export class RegisterComponent implements OnInit {
         Validators.email, 
         Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$')
       ]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
+      password: ['', [Validators.required, Validators.pattern(/^(?=(?:.*?\d){3})(?=.*?[#?!@$%^&*-]).*$/),
+        Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required, Validators.pattern(/^(?=(?:.*?\d){3})(?=.*?[#?!@$%^&*-]).*$/),
+        Validators.minLength(8)]
     }, {
       validators: this.passwordMatchValidator.bind(this)
     });

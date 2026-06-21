@@ -1,10 +1,10 @@
-<app-header *ngIf="!isLoginPage()"></app-header>
+<app-header *ngIf="!isAuthPage()"></app-header>
 
-<div [ngClass]="isLoginPage() ? 'login-layout-wrapper' : 'main-portal-layout-wrapper'">
+<div [ngClass]="isAuthPage() ? 'login-layout-wrapper' : 'main-portal-layout-wrapper'">
   
-  <app-sidebar class="portal-sidebar-navigation" *ngIf="!isLoginPage()"></app-sidebar>
+  <app-sidebar class="portal-sidebar-navigation" *ngIf="!isAuthPage()"></app-sidebar>
 
-  <main [ngClass]="isLoginPage() ? 'login-content-renderer' : 'page-content-renderer'">
+  <main [ngClass]="isAuthPage() ? 'login-content-renderer' : 'page-content-renderer'">
     <router-outlet></router-outlet>
   </main>
 

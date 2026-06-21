@@ -45,3 +45,8 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    overflow: hidden; /* Login page par scroll disable karne ke liye */
+    scollbar-width: none; /* Firefox ke liye scrollbar hide karne ke liye */
+}

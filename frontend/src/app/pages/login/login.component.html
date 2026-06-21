@@ -1,6 +1,5 @@
 <div class="auth-container">
   <div class="auth-card">
-
     <div class="left-panel">
       <h1>Welcome Back</h1>
       <p>Check the Login Page.</p>
@@ -11,9 +10,12 @@
       <h2>Login Page</h2>
 
       <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
-
         <div class="input-group">
-          <input type="email" placeholder="Registered Email (e.g. user@gmail.com)" formControlName="email" />
+          <input
+            type="email"
+            placeholder="Registered Email (e.g. user@gmail.com)"
+            formControlName="email"
+          />
           <div *ngIf="submitted && f['email'].errors" class="error-msg">
             <small *ngIf="f['email'].errors['required']">Email is required!</small>
             <small *ngIf="f['email'].errors['email']">Please enter a valid email address!</small>
@@ -24,7 +26,9 @@
           <input type="password" placeholder="Password" formControlName="password" />
           <div *ngIf="submitted && f['password'].errors" class="error-msg">
             <small *ngIf="f['password'].errors['required']">Password is required!</small>
-            <small *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters long.</small>
+            <small *ngIf="f['password'].errors['minlength']"
+              >Password must be at least 8 characters long.</small
+            >
           </div>
         </div>
 
@@ -36,40 +40,63 @@
       </form>
 
       <p class="bottom-text">
-        New to the bank? 
+        New to the bank?
         <a routerLink="/register">Create an Account</a>
       </p>
     </div>
-
   </div>
 </div>
 
 <div class="custom-modal-overlay" *ngIf="showForgotModal">
-  <div class="custom-modal-card">
-    
+  <form class="custom-modal-card" [formGroup]="forgotForm" (ngSubmit)="submitDirectPasswordReset()">
     <div class="modal-header">
       <h3>Reset Password</h3>
-      <button class="close-btn" (click)="closeForgotModal()">&times;</button>
+      <button type="button" class="close-btn" (click)="closeForgotModal()">&times;</button>
     </div>
 
     <div class="modal-body">
-      <p class="modal-instruction">Apna registered email aur naya password enter karke update karein.</p>
-      
+      <p class="modal-instruction">
+        Apna registered email aur naya password enter karke update karein.
+      </p>
+
       <div class="modal-input-group">
         <label>Registered Email</label>
-        <input type="email" [(ngModel)]="forgotEmail" placeholder="e.g. karry@gmail.com" />
+        <input type="email" formControlName="email" placeholder="e.g. karry@gmail.com" />
+
+        <div
+          class="error-msg"
+          *ngIf="forgotForm.get('email')?.touched && forgotForm.get('email')?.invalid"
+        >
+          <small *ngIf="forgotForm.get('email')?.errors?.['required']"
+            >Email dalna zaroori hai.</small
+          >
+          <small *ngIf="forgotForm.get('email')?.errors?.['email']"
+            >Sahi email format enter karein.</small
+          >
+        </div>
       </div>
 
       <div class="modal-input-group">
         <label>New Password</label>
-        <input type="password" [(ngModel)]="forgotNewPassword" placeholder="Enter new password" />
+        <input type="password" formControlName="newPassword" placeholder="Enter new password" />
+
+        <div
+          class="error-msg"
+          *ngIf="forgotForm.get('newPassword')?.touched && forgotForm.get('newPassword')?.invalid"
+        >
+          <small *ngIf="forgotForm.get('newPassword')?.errors?.['required']"
+            >Password empty nahi ho sakta.</small
+          >
+          <small *ngIf="forgotForm.get('newPassword')?.errors?.['pattern']"
+            >Password me kam se kam 3 numbers aur 1 symbol hona chahiye!</small
+          >
+        </div>
       </div>
     </div>
 
     <div class="modal-footer">
-      <button class="btn-secondary" (click)="closeForgotModal()">Cancel</button>
-      <button class="btn-primary" (click)="submitDirectPasswordReset()">Update Password</button>
+      <button type="button" class="btn-secondary" (click)="closeForgotModal()">Cancel</button>
+      <button type="submit" class="btn-primary">Update Password</button>
     </div>
-
-  </div>
+  </form>
 </div>
