@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<app-header *ngIf="!isLoginPage()"></app-header>
+
+<div [ngClass]="isLoginPage() ? 'login-layout-wrapper' : 'main-portal-layout-wrapper'">
+  
+  <app-sidebar class="portal-sidebar-navigation" *ngIf="!isLoginPage()"></app-sidebar>
+
+  <main [ngClass]="isLoginPage() ? 'login-content-renderer' : 'page-content-renderer'">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

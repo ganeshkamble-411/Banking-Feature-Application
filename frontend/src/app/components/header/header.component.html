@@ -1,20 +1,84 @@
-<header class="kotak-header-container">
-  <div class="header-inner-content">
+<header class="kotak-real-header">
+  
+  <div class="header-left-zone">
+    <div class="logo-wrapper">
+      <img src="/assets/Kotak_Mahindra_Bank_idVNFKKm-u_1.png" alt="Kotak Mahindra Bank" class="kotak-bank-logo" />
+    </div>
     
-    <div class="logo-section">
-      <span class="logo">KOTAK BANK</span>
-      <span class="brand-divider">|</span>
-      <span class="portal-tag">Net Banking</span>
+    <div class="real-search-box">
+      <span class="search-lens-red">🔍</span>
+      <input type="text" placeholder="Search for something" class="search-field-input" />
+    </div>
+  </div>
+
+  <div class="header-right-zone">
+    
+    <button class="skip-content-btn">
+      <span class="skip-arrow">⮔</span> Skip to main content
+    </button>
+
+    <div class="desktop-features-nav">
+      
+      <div class="utility-feature-tab">
+        <span class="feature-icon font-icon-md">🚹</span>
+        <span class="feature-label">Accessibility</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon font-icon-md">🔤</span>
+        <span class="feature-label">Language</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon icon-red-star">★</span>
+        <span class="feature-label">Favourites</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon font-icon-md">🛈</span>
+        <span class="feature-label">Help</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon alert-icon-red">🚨</span>
+        <span class="feature-label">Emergency</span>
+      </div>
+      
     </div>
 
-    <div class="user-session-section">
-      <div class="secure-badge">
-        <span class="lock-icon">🔒</span> Secure Session
-      </div>
-      <div class="user-identity">
-        Welcome, <span class="username-highlight">{{ loggedInUser }}</span>
+    <div class="avatar-dropdown-trigger" (click)="toggleDropdown($event)">
+      <div class="name-initial-circle">GK</div>
+      <span class="dropdown-chevron-down">⏷</span>
+
+      <div class="profile-dropdown-card" *ngIf="isDropdownOpen" (click)="$event.stopPropagation()">
+        <div class="dropdown-notch-arrow"></div>
+
+        <div class="dropdown-user-identity">
+          <div class="dropdown-avatar-circle">GK</div>
+          <div class="user-meta-specs">
+            <h4 class="user-full-name">GANESH KAMBLE</h4>
+            <p class="user-crn-number">CRN 839853068</p>
+            <a href="#" class="profile-action-link">View and edit Profile</a>
+          </div>
+        </div>
+
+        <hr class="dropdown-divider" />
+
+        <div class="dropdown-row-action">
+          <span class="action-label-text">Share feedback</span>
+          <span class="arrow-indicator-red">❯</span>
+        </div>
+
+        <hr class="dropdown-divider" />
+
+        <div class="dropdown-row-action logout-action-row">
+          <span class="logout-icon-vector">📤</span>
+          <span class="logout-label-text">Log out</span>
+        </div>
       </div>
     </div>
 
   </div>
 </header>
+
+

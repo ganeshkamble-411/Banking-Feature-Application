@@ -4,17 +4,19 @@
   box-sizing: border-box;
 }
 
+/* Parent Container */
 .auth-container {
   width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #2352d2, #5079d7); /* Secure Dark Navy Background */
+  background: linear-gradient(135deg, #fdf2f2, #fdf2f2); /* Secure Dark Navy Background */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Times New Roman se zyada clean modern web font hai */
+  /* FIXED: Applied Times New Roman as global font for login architecture */
+  font-family: 'Times New Roman', Times, serif; 
 }
 
 .auth-card {
@@ -76,11 +78,11 @@
 }
 
 .input-group {
-  margin-bottom: 24px; /* Balanced spacing takki forgot-link adjust ho sake */
+  margin-bottom: 24px; 
   width: 100%;
 }
 
-/* 🔒 ADDED: Forgot password link container alignment */
+/* Forgot password link container alignment */
 .forgot-link-container {
   text-align: right;
   margin-bottom: 24px;
@@ -100,11 +102,13 @@
   text-decoration: underline;
 }
 
+/* FIXED: Inherited global font family on input elements explicitly */
 .right-panel input {
   width: 100%;
   padding: 14px 16px;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
+  font-family: inherit; 
   font-size: 15px;
   color: #0f172a;
   transition: all 0.2s ease;
@@ -124,6 +128,7 @@
   padding-left: 2px;
 }
 
+/* FIXED: Inherited global font family on buttons */
 .right-panel button {
   width: 100%;
   padding: 14px;
@@ -132,6 +137,7 @@
   background: #2563eb;
   color: white;
   cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 600;
   margin-top: 10px;
@@ -161,7 +167,7 @@
 }
 
 /* ======================================================== */
-/* 🛠️ ADDED: Glassmorphism Floating Popup Modal Design     */
+/* 🛠️ Glassmorphism Floating Popup Modal Design             */
 /* ======================================================== */
 .custom-modal-overlay {
   position: fixed;
@@ -169,12 +175,12 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(15, 23, 42, 0.6); /* Translucent dark background overlay */
-  backdrop-filter: blur(5px); /* Premium blur filter effect */
+  background: rgba(15, 23, 42, 0.6); 
+  backdrop-filter: blur(5px); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Sabse upar render hone ke liye */
+  z-index: 1000; 
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -240,11 +246,13 @@
   margin-bottom: 6px;
 }
 
+/* FIXED: Handled modal inputs to follow global font scale */
 .modal-input-group input {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
+  font-family: inherit;
   font-size: 14px;
   color: #0f172a;
   outline: none;
@@ -265,12 +273,14 @@
   gap: 12px;
 }
 
+/* FIXED: Handled secondary buttons to inherit global typography rules */
 .btn-secondary {
   padding: 10px 18px;
   background: #e2e8f0;
   border: none;
   border-radius: 8px;
   color: #475569;
+  font-family: inherit;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -281,12 +291,14 @@
   background: #cbd5e1;
 }
 
+/* FIXED: Handled primary buttons to inherit global typography rules */
 .btn-primary {
   padding: 10px 18px;
   background: #2563eb;
   border: none;
   border-radius: 8px;
   color: white;
+  font-family: inherit;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;

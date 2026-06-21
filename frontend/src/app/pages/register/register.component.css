@@ -9,12 +9,12 @@
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a); /* Vibrant Blue Gradient */
+  background: linear-gradient(135deg, #fdf2f2, #fdf2f2); /* Vibrant Blue Gradient */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .auth-card {
