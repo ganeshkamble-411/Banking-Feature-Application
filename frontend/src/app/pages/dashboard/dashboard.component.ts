@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import Chart from 'chart.js/auto';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../components/header/header.component'; 
 import { ProfileWizardComponent } from './profile-wizard/profile-wizard.component'; 
@@ -21,7 +20,7 @@ import { TransactionService } from '../../services/transaction.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
 
   totalBalance = 0;
   totalCredit = 0;
@@ -30,13 +29,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   currentUserId!: number;    
   currentAccountId!: number; 
   userEmail: string | null = null;
-  
-  balanceChart: any;
-  analysisChart: any;
-  
-  // Real dynamic chart records collection holder
-  timelineLabels: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-  timelineData: number[] = [0, 0, 0, 0, 0, 0];
+
+  // 👁️ Balance Visibility Toggle Flags
+  isAssetVisible = false;
+  isLiabilityVisible = false;
 
   // Modals Visibility Flags
   showCreateAccountModal = false;
@@ -135,7 +131,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.transactionService.history(this.currentAccountId).subscribe({
       next: (txns: any[]) => {
         if (txns && txns.length > 0) {
-          // ✅ FIXED: String mismatch resolved. Matching exact values from TransactionService.java
           this.totalCredit = txns
             .filter((t: any) => t.type === 'CREDIT' || t.type === 'TRANSFER_CREDIT')
             .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
@@ -143,34 +138,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.totalDebit = txns
             .filter((t: any) => t.type === 'DEBIT' || t.type === 'TRANSFER_DEBIT')
             .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
-
-          // 📈 Dynamic Progressive Graph: Real values extraction for chart spikes tracking
-          let incrementalBalance = this.totalBalance - this.totalCredit + this.totalDebit;
-          this.timelineData = txns.map((t: any) => {
-            if (t.type === 'CREDIT' || t.type === 'TRANSFER_CREDIT') {
-              incrementalBalance += Number(t.amount);
-            } else {
-              incrementalBalance -= Number(t.amount);
-            }
-            return incrementalBalance;
-          });
-
-          this.timelineLabels = txns.map((_, index) => `Txn #${index + 1}`);
-          
-          // Agar 2 se kam transactions hain toh default curve fill look maintain rakhenge
-          if (this.timelineData.length < 6) {
-            while (this.timelineData.length < 6) {
-              this.timelineData.unshift(this.totalBalance * 0.8);
-              this.timelineLabels.unshift('Prior');
-            }
-          }
         } else {
           this.totalCredit = 0;
           this.totalDebit = 0;
-          this.timelineData = [0, 0, 0, 0, 0, this.totalBalance];
-          this.timelineLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Current'];
         }
-        this.updateChartsDynamic();
       },
       error: (err: any) => console.error('Error fetching transaction architecture breakdowns:', err)
     });
@@ -186,12 +157,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.showProfileDropdown = !this.showProfileDropdown;
   }
 
+  // 🔄 View/Hide Handlers for Assets & Liabilities Balance
+  toggleAssetBalance(): void {
+    this.isAssetVisible = !this.isAssetVisible;
+  }
+
+  toggleLiabilityBalance(): void {
+    this.isLiabilityVisible = !this.isLiabilityVisible;
+  }
+
   onWizardClosed(): void {
     this.showProfileWizard = false;
     this.evaluateProfileWizardStatus();
-    setTimeout(() => {
-      this.initCharts();
-    }, 150);
   }
 
   openChangePasswordModal(): void {
@@ -292,126 +269,5 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
       error: (err: any) => console.error(err)
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (!this.showProfileWizard) {
-      this.initCharts();
-    }
-  }
-
-  initCharts(): void {
-    const ctx1 = document.getElementById('balanceChartCanvas') as HTMLCanvasElement | null;
-    const ctx2 = document.getElementById('analysisChartCanvas') as HTMLCanvasElement | null;
-
-    if (this.balanceChart) {
-      this.balanceChart.destroy();
-      this.balanceChart = null;
-    }
-    if (this.analysisChart) {
-      this.analysisChart.destroy();
-      this.analysisChart = null;
-    }
-
-    if (ctx1) {
-      this.balanceChart = new Chart(ctx1, {
-        type: 'line', 
-        data: {
-          labels: this.timelineLabels, 
-          datasets: [{
-            label: 'Balance Trend',
-            data: this.timelineData, 
-            fill: true, 
-            backgroundColor: 'rgba(217, 34, 41, 0.05)',  
-            borderColor: '#d92229', 
-            borderWidth: 2.5,
-            tension: 0.25, 
-            pointBackgroundColor: '#d92229',
-            pointHoverRadius: 6,
-            pointRadius: 3
-          }]
-        },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false,
-          plugins: { 
-            legend: { display: false },
-            tooltip: { mode: 'index', intersect: false }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: {
-                font: { family: "'Segoe UI', Roboto, sans-serif", size: 11 },
-                color: '#64748b'
-              }
-            },
-            y: {
-              grid: { color: '#e2e8f0' },
-              ticks: {
-                font: { family: "'Segoe UI', Roboto, sans-serif", size: 11 },
-                color: '#64748b',
-                callback: function(value) {
-                  return '₹' + Number(value).toLocaleString('en-IN');
-                }
-              }
-            }
-          }
-        }
-      });
-    }
-
-    if (ctx2) {
-      this.analysisChart = new Chart(ctx2, {
-        type: 'bar', 
-        data: {
-          labels: ['Total Credit', 'Total Debit'],
-          datasets: [{
-            label: 'Transactions Architecture',
-            data: [this.totalCredit, this.totalDebit],
-            backgroundColor: ['#10b981', '#d92229'], 
-            borderRadius: 5,
-            borderWidth: 0,
-            barThickness: 45
-          }]
-        },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: { grid: { display: false } },
-            y: { 
-              grid: { color: '#e2e8f0' },
-              ticks: {
-                font: { family: "'Segoe UI', Roboto, sans-serif", size: 11 },
-                callback: function(value) { return '₹' + Number(value).toLocaleString('en-IN'); }
-              }
-            }
-          }
-        }
-      });
-    }
-  }
-
-  updateChartsDynamic(): void {
-    if (!this.balanceChart || !this.analysisChart) {
-      this.initCharts();
-      return;
-    }
-
-    if (this.balanceChart) {
-      // ✅ FIXED: Static calculation multipliers ko real backend data list state se shift kiya
-      this.balanceChart.data.labels = this.timelineLabels;
-      this.balanceChart.data.datasets[0].data = this.timelineData;
-      this.balanceChart.update();
-    }
-    if (this.analysisChart) {
-      // ✅ FIXED: Dynamic credit/debit arrays completely mapping dynamically 
-      this.analysisChart.data.datasets[0].data = [this.totalCredit, this.totalDebit];
-      this.analysisChart.update();
-    }
   }
 }

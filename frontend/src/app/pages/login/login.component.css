@@ -1,173 +1,392 @@
+/* ======================================================== */
+/* 🌐 Global Base Reset & Overrides                         */
+/* ======================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Parent Container */
+body {
+  font-family: times, sans-serif;
+  background-color: #fafbfc;
+  color: #333333;
+}
+
+/* ======================================================== */
+/* 🧭 Fixed Top Header Bar                                  */
+/* ======================================================== */
+.kotak-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eef0f3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 1000;
+}
+
+.kotak-logo {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555555;
+}
+
+.font-btn {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.font-btn.active {
+  background-color: #0066cc;
+  color: #ffffff;
+  border-color: #0066cc;
+}
+
+.contrast-container {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  gap: 10px;
+  border-left: 1px solid #e5e7eb;
+  padding-left: 15px;
+}
+
+.beta-tag {
+  background: #e02424;
+  color: #ffffff;
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+/* Toggle Switch UI */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+}
+.toggle-switch input { display: none; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #e5e7eb; transition: .3s; border-radius: 20px;
+}
+.slider:before {
+  position: absolute; content: ""; height: 12px; width: 12px;
+  left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;
+}
+input:checked + .slider { background-color: #0066cc; }
+input:checked + .slider:before { transform: translateX(16px); }
+
+/* ======================================================== */
+/* 🏗️ Centered Split Grid Layout                            */
+/* ======================================================== */
 .auth-container {
   width: 100vw;
   height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #fdf2f2, #fdf2f2); /* Secure Dark Navy Background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 75px;
+  padding-bottom: 60px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+
+.left-panel {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle-frame {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background-color: #f1efee;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  /* FIXED: Applied Times New Roman as global font for login architecture */
-  font-family: 'Times New Roman', Times, serif; 
 }
 
-.auth-card {
+.circle-frame img {
   width: 90%;
-  max-width: 1000px;
-  height: 80vh;
-  background: white;
-  border-radius: 16px;
-  display: flex;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  height: 90%;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
-.left-panel {
-  flex: 1;
-  background: #ea7e25; /* Branding Orange Accent */
-  color: white;
-  padding: 48px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.left-panel h1 {
-  font-size: 36px;
+.safe-banking-title {
+  font-size: 18px;
+  color: #333333;
   font-weight: 700;
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  margin-top: 24px;
+  text-align: center;
 }
 
-.left-panel p {
-  margin-bottom: 32px;
-  line-height: 1.6;
-  font-size: 15px;
-  opacity: 0.95;
-}
-
-.left-panel img {
-  width: 180px;
-  margin: 0 auto;
+.safe-banking-desc {
+  font-size: 13px;
+  color: #666666;
+  margin-top: 6px;
+  text-align: center;
+  max-width: 320px;
+  line-height: 1.4;
 }
 
 .right-panel {
-  flex: 1;
-  padding: 56px;
+  flex: 0.9;
+  max-width: 430px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 35px 30px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+}
+
+.card-header-row {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #ffffff;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .right-panel h2 {
-  text-align: center;
-  margin-bottom: 32px;
-  color: #0f172a;
-  font-size: 24px;
+  font-size: 20px;
+  color: #000000;
   font-weight: 700;
 }
 
-.input-group {
-  margin-bottom: 24px; 
-  width: 100%;
+.dropdown-select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #0066cc;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-/* Forgot password link container alignment */
-.forgot-link-container {
-  text-align: right;
+.login-tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
   margin-bottom: 24px;
-  margin-top: -12px;
+  gap: 20px;
 }
 
-.forgot-link-container a {
-  color: #ea7e25;
-  text-decoration: none;
+.tab-btn {
+  background: none;
+  border: none;
+  padding-bottom: 8px;
   font-size: 14px;
   font-weight: 600;
-  transition: color 0.2s;
+  color: #6b7280;
+  cursor: pointer;
+  position: relative;
 }
 
-.forgot-link-container a:hover {
-  color: #b75e14;
-  text-decoration: underline;
+.tab-btn.active {
+  color: #0066cc;
 }
 
-/* FIXED: Inherited global font family on input elements explicitly */
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #0066cc;
+}
+
+/* ======================================================== */
+/* 🗂️ Input Controls Block Fix (Preventing Click Blocks)    */
+/* ======================================================== */
+.main-login-form {
+  display: block;
+  position: relative;
+}
+
+.input-container-block {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-relative-container {
+  position: relative;
+  width: 100%;
+  height: 54px;
+  clear: both;
+}
+
 .right-panel input {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  font-family: inherit; 
+  height: 54px;
+  padding: 22px 16px 6px 16px;
+  border: 1px solid #7f7f7f;
+  border-radius: 4px;
   font-size: 15px;
-  color: #0f172a;
-  transition: all 0.2s ease;
+  outline: none;
+  background: #ffffff;
+  display: block;
 }
 
 .right-panel input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  border-color: #0b1e33;
 }
 
-.error-msg {
-  color: #ef4444;
+.input-relative-container label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  color: #6b7280;
+  font-size: 14px;
+  transition: 0.2s ease all;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.right-panel input:focus ~ label,
+.right-panel input:not(:placeholder-shown) ~ label {
+  top: 6px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.show-password-trigger {
+  position: absolute;
+  right: 16px;
+  top: 18px;
+  font-size: 13px;
+  color: #0066cc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+.utility-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.virtual-keypad {
+  color: #4b5563;
+  text-decoration: underline;
   font-size: 12px;
-  margin-top: 6px;
-  font-weight: 500;
-  padding-left: 2px;
 }
 
-/* FIXED: Inherited global font family on buttons */
-.right-panel button {
+/* ======================================================== */
+/* 🎯 Isolated Clickable Link Element Fix                   */
+/* ======================================================== */
+.forgot-link-container {
+  margin-bottom: 25px;
+  position: relative; 
+  display: block;
+  width: 100%;
+  clear: both;
+  z-index: 9999 !important; /* Forces link to stay on topmost stack overlay */
+}
+
+.forgot-trigger-span {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-block;
+  cursor: pointer !important;
+  pointer-events: auto !important; /* Allows browser to fire dynamic angular bindings */
+}
+
+.forgot-trigger-span:hover {
+  text-decoration: underline;
+}
+
+.terms-disclaimer {
+  font-size: 11px;
+  color: #777777;
+  line-height: 1.5;
+  margin: 20px 0;
+}
+
+.terms-disclaimer a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+.secure-login-btn {
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 35px;
-  background: #2563eb;
-  color: white;
+  border-radius: 4px;
+  background-color: #fbcbc9;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 10px;
-  transition: background 0.2s;
-}
-
-.right-panel button:hover {
-  background: #1d4ed8;
 }
 
 .bottom-text {
   text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
-  color: #64748b;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #4b5563;
 }
 
 .bottom-text a {
-  color: #2563eb;
+  color: #0066cc;
   text-decoration: none;
   font-weight: 600;
-  margin-left: 4px;
 }
 
-.bottom-text a:hover {
-  text-decoration: underline;
+.error-msg {
+  color: #dc2626;
+  font-size: 11px;
+  margin-top: 4px;
 }
 
 /* ======================================================== */
-/* 🛠️ Glassmorphism Floating Popup Modal Design             */
+/* 🔒 Forgot Password Modal Container Styles                */
 /* ======================================================== */
 .custom-modal-overlay {
   position: fixed;
@@ -175,158 +394,99 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(15, 23, 42, 0.6); 
-  backdrop-filter: blur(5px); 
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
-  animation: fadeIn 0.2s ease-out;
+  z-index: 50000 !important; /* Places entire modal at highest depth */
 }
 
 .custom-modal-card {
-  width: 90%;
-  max-width: 480px;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  max-width: 450px;
+  border-radius: 6px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 .modal-header {
-  padding: 20px 24px;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.modal-header h3 {
-  color: #0f172a;
-  font-size: 18px;
-  font-weight: 700;
+  margin-bottom: 16px;
 }
 
 .close-btn {
-  background: transparent;
+  background: none;
   border: none;
   font-size: 24px;
-  color: #94a3b8;
   cursor: pointer;
-  line-height: 1;
-  transition: color 0.2s;
-}
-
-.close-btn:hover {
-  color: #475569;
-}
-
-.modal-body {
-  padding: 24px;
-}
-
-.modal-instruction {
-  font-size: 14px;
-  color: #64748b;
-  margin-bottom: 20px;
-  line-height: 1.5;
 }
 
 .modal-input-group {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .modal-input-group label {
   display: block;
   font-size: 13px;
-  font-weight: 600;
-  color: #475569;
   margin-bottom: 6px;
+  color: #4b5563;
 }
 
-/* FIXED: Handled modal inputs to follow global font scale */
 .modal-input-group input {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  font-family: inherit;
-  font-size: 14px;
-  color: #0f172a;
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.modal-input-group input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
 }
 
 .modal-footer {
-  padding: 16px 24px;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+  margin-top: 20px;
 }
 
-/* FIXED: Handled secondary buttons to inherit global typography rules */
 .btn-secondary {
-  padding: 10px 18px;
-  background: #e2e8f0;
+  background: #e5e7eb;
   border: none;
-  border-radius: 8px;
-  color: #475569;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-.btn-secondary:hover {
-  background: #cbd5e1;
-}
-
-/* FIXED: Handled primary buttons to inherit global typography rules */
 .btn-primary {
-  padding: 10px 18px;
-  background: #2563eb;
-  border: none;
-  border-radius: 8px;
+  background: #0066cc;
   color: white;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 14px;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-.btn-primary:hover {
-  background: #1d4ed8;
+.kotak-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 40px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #4b5563;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.kotak-footer a {
+  color: #0066cc;
+  text-decoration: underline;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-/* Responsiveness for mobile views */
-@media (max-width: 768px) {
-  .left-panel {
-    display: none;
-  }
-  .auth-card {
-    max-width: 450px;
-    height: auto;
-  }
+@media (max-width: 900px) {
+  .left-panel, .kotak-header .header-right, .kotak-footer { display: none; }
+  .auth-card { justify-content: center; }
 }

@@ -4,8 +4,8 @@ html, body {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    background: #f4f6f9;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean Banking Functional UI Font */
+    background: #eef2f5; /* Light gray backdrop matching the Kotak app exactly */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -20,331 +20,278 @@ app-root {
     margin-left: 260px; /* Exact Sidebar Width offset clearance */
     height: 100vh;
     overflow-y: auto;
-    background: #f4f6f9;
+    background: #eef2f5;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+
+    -ms-overflow-style: none;  /* IE and Edge hide scrollbar */
+    scrollbar-width: none;  /* Firefox hide scrollbar */
 }
 
-.dashboard-main-container {
-    flex: 1;
-    padding: 2rem; 
-    padding-top: calc(65px + 1.5rem); /* FIXED: Clearance for the 65px Kotak Premium Header */
-    box-sizing: border-box;
+.dashboard-layout::-webkit-scrollbar {
+    display: none; /* Chrome/Safari hide scrollbar */
 }
 
 /* Dashboard container sizing layout framework */
 .dashboard-main-wrapper {
-    margin-left: 260px; /* Exact Sidebar Width offset clearance */
-    padding-top: 65px;  /* Exact Header Height offset clearance */
-    background-color: #f8fafc; /* Premium smooth backdrop surface */
-    min-height: 100vh;
+    padding-top: 85px;  /* Clearance below the Kotak Main Header */
     box-sizing: border-box;
-    padding-inline: 30px;
+    padding-inline: 24px;
     padding-block-end: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* 👤 Top Welcome & Last Login Banner Row */
+.welcome-banner-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 14px;
+    padding-inline: 4px;
+}
+
+.welcome-text {
+    font-size: 13px;
+    color: #718096; /* Subtle muted slate gray text */
+    margin: 0;
+    font-weight: 500;
+}
+
+.sort-btn {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: #4a5568;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.sort-icon {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ⬜ Premium Rounded Kotak White Container Base */
+.kotak-clean-card {
+    background: #ffffff;
+    border-radius: 4px; /* Real Kotak dashboard uses minimal sharp/clean borders */
+    padding: 24px 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+}
+
+.card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.card-title-row h2 {
+    font-size: 24px;
+    color: #000000;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.download-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+}
+
+/* 🔄 Summary Lists Rows (Assets / Liabilities) */
+.summary-list {
     display: flex;
     flex-direction: column;
 }
 
-.dashboard-content-card {
-    background: white;
-    margin-top: 25px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-}
-
-/* 🏷️ Top Kotak Corporate Header Branding Block */
-.top-branding-row {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100%; 
-    margin-bottom: 2rem;
-}
-
-.top-branding-row h1 {
-    color: #003366; /* Kotak Deep Blue */
-    font-size: 26px;
-    font-weight: 700;
-    margin: 0 0 6px 0;
-    letter-spacing: -0.01em;
-}
-
-.sub-text {
-    font-size: 14px;
-    color: #556575;
-    margin: 0;
-}
-
-.badge {
-    background: #003366;
-    color: #ffffff;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 13px;
-}
-
-.badge-secondary {
-    background: #e2e8f0;
-    color: #334155;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 13px;
-}
-
-/* 👤 Premium Navigation Dropdown User Badge Profile Configs */
-.user-profile-badge {
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    background: #ffffff; 
-    padding: 8px 18px; 
-    border-radius: 99px; 
-    border: 1px solid #dcdfe4; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.04); 
-    cursor: pointer; 
-    user-select: none;
-    transition: all 0.2s ease;
-}
-
-.user-profile-badge:hover {
-    border-color: #d92229; /* Kotak Corporate Red Accent Hover */
-    box-shadow: 0 4px 8px rgba(217,34,41,0.08);
-}
-
-.avatar-circle {
-    width: 34px; 
-    height: 34px; 
-    background: #d92229; /* Changed to match Kotak Corporate Red theme */
-    color: #ffffff; 
-    font-weight: 700; 
-    font-size: 13px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    border-radius: 50%;
-}
-
-.profile-name-text {
-    font-size: 14px; 
-    font-weight: 600; 
-    color: #1e293b;
-}
-
-.dropdown-arrow-icon {
-    font-size: 10px; 
-    color: #64748b;
-}
-
-/* 📜 FIXED PROFILE DROPDOWN: Positioned perfectly below navbar strip */
-.profile-dropdown-menu {
-    position: absolute; 
-    top: 54px; /* 👈 Lowered down to avoid overlapping the header container */
-    right: 0; 
-    background: #ffffff; 
-    border: 1px solid #e2e8f0; 
-    border-radius: 12px; 
-    width: 240px; 
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); 
-    z-index: 9999; /* 👈 Highest visibility layers stack */
-    overflow: hidden;
-}
-
-.dropdown-header {
-    padding: 14px 16px; 
-    background: #f8fafc; 
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.user-email {
-    margin: 0; 
-    font-size: 12px; 
-    color: #64748b; 
-    word-break: break-all;
-}
-
-.dropdown-links-list {
-    list-style: none; 
-    margin: 0; 
-    padding: 0;
-}
-
-.dropdown-links-list li a {
-    display: block; 
-    padding: 12px 16px; 
-    font-size: 14px; 
-    color: #334155; 
-    text-decoration: none; 
-    transition: background 0.15s;
-    cursor: pointer;
-}
-
-.dropdown-links-list li a:hover {
-    background: #f1f5f9; 
-    color: #d92229; /* Changed to match Kotak red hover states */
-}
-
-.dropdown-links-list li.divider {
-    height: 1px; 
-    background: #e2e8f0; 
-    margin: 4px 0;
-}
-
-.dropdown-links-list li a.logout-link {
-    color: #d92229;
-    font-weight: 600;
-}
-
-.dropdown-links-list li a.logout-link:hover {
-    background: #fef2f2;
-}
-
-/* 📊 Financial Statistics Cards Row Grid Layout */
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.metric-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-}
-
-.balance-card {
-    border-top: 4px solid #003366; /* Kotak Deep Blue Highlight Header Accent */
-}
-
-.credit-card {
-    border-top: 4px solid #10b981; /* Green Success Credit Indicator */
-}
-
-.debit-card {
-    border-top: 4px solid #d92229; /* Kotak Ruby Red Debit Indicator */
-}
-
-.card-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #64748b;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-}
-
-.card-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 10px;
-}
-
-.text-green { color: #10b981; }
-.text-red { color: #d92229; }
-
-.card-footer-text {
-    font-size: 12px;
-    color: #64748b;
-    font-weight: 500;
-}
-
-.text-success { color: #10b981; font-weight: 600; }
-
-/* 🛠️ Operations Center Functional Command Deck Bar */
-.quick-actions-panel {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
-}
-
-.quick-actions-panel h2 {
-    margin: 0 0 1rem 0;
-    font-size: 16px;
-    font-weight: 700;
-    color: #003366;
-}
-
-.actions-btn-group {
+.summary-item {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 16px;
+    border-bottom: 1px solid #edf2f7;
 }
 
-.action-btn {
-    padding: 12px 24px;
+.summary-item:last-of-type {
+    border-bottom: none; /* No border for the last element before promo */
+}
+
+.item-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.icon-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.asset-icon { background: #e0f2fe; color: #0284c7; }
+.liability-icon { background: #fee2e2; color: #ef4444; }
+
+.item-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.info-bubble {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #cbd5e0;
+    border-radius: 50%;
+    font-size: 9px;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 👁 View Balance Link Style Button */
+.view-balance-btn {
+    background: none;
     border: none;
-    border-radius: 6px;
+    color: #003366; /* Kotak Corporate Brand Blue Interaction Link */
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.btn-primary { background: #003366; color: #ffffff; }
-.btn-primary:hover { background: #002244; box-shadow: 0 4px 12px rgba(0,51,102,0.2); }
-
-.btn-secondary { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
-.btn-secondary:hover { background: #e2e8f0; }
-
-.btn-accent { background: #d92229; color: #ffffff; }
-.btn-accent:hover { background: #b91c22; box-shadow: 0 4px 12px rgba(217,34,41,0.2); }
-
-/* 📈 Visual Charts Analytical Core Container Grid Layout */
-.charts-layout-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: 1.5rem;
+.view-balance-btn:hover {
+    color: #d92229; /* Hover state turns Kotak Corporate Red */
 }
 
-@media (max-width: 640px) {
-    .charts-layout-grid { grid-template-columns: 1fr; }
-}
-
-.chart-holder-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
-}
-
-.chart-holder-card h3 {
-    margin: 0 0 1.25rem 0;
+.eye-icon {
     font-size: 15px;
-    font-weight: 700;
-    color: #1e293b;
 }
 
-.chart-wrapper {
-    position: relative;
-    height: 280px;
+/* 📣 Card Bottom Promo links block */
+.card-footer-promo {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #edf2f7;
+    font-size: 13px;
+    color: #4a5568;
+}
+
+.card-footer-promo a {
+    color: #3182ce;
+    text-decoration: none;
+}
+.card-footer-promo a:hover { 
+    text-decoration: underline; 
+}
+
+/* 🎁 Recommended Section Items Layout */
+.recommendation-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.rec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.rec-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.rec-avatar-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+.green-avatar { background-color: #e6f4ea; }
+.blue-avatar { background-color: #e8f0fe; }
+
+.rec-details h3 {
+    margin: 0 0 2px 0;
+    font-size: 16px;
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.rec-details p {
+    margin: 0;
+    font-size: 13px;
+    color: #718096;
+}
+
+.action-link-btn {
+    background: none;
+    border: none;
+    color: #3182ce;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.action-link-btn:hover { 
+    text-decoration: underline; 
+}
+
+/* ⬇ Full Width Blueprint outline button */
+.see-more-fullwidth-btn {
     width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #3182ce;
+    color: #3182ce;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.15s ease-in-out;
 }
 
-/* 🪟 Interactive Modal Popups Core Styling Overlay Panels */
+.see-more-fullwidth-btn:hover {
+    background: #ebf8ff;
+}
+
+/* 🪟 Interactive Modal Popups Styles (Keeping them safely at the bottom) */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.6); /* Soft Blurred Shadow Focus Overlay */
+    background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -358,87 +305,6 @@ app-root {
     max-width: 420px;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    animation: modalSlideUp 0.3s ease-out;
 }
-
-@keyframes modalSlideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.modal h2 {
-    margin: 0 0 1.5rem 0;
-    color: #003366;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.modal-field-label {
-    font-size: 11px; 
-    color: #64748b; 
-    font-weight: 700; 
-    display: block; 
-    margin-bottom: 6px;
-    letter-spacing: 0.05em;
-}
-
-.modal input {
-    width: 100%;
-    padding: 12px 16px;
-    margin-bottom: 1.25rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 15px;
-    color: #0f172a;
-    transition: all 0.2s;
-}
-
-.modal input:focus {
-    outline: none;
-    border-color: #003366;
-    box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.12);
-}
-
-.disabled-input {
-    background-color: #f1f5f9; 
-    color: #64748b; 
-    cursor: not-allowed;
-    border-color: #e2e8f0 !important;
-}
-
-.modal-submit-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background: #003366;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background 0.2s;
-    margin-bottom: 8px;
-}
-
-.modal-submit-btn:hover { background: #002244; }
-.modal-submit-btn.btn-red { background: #d92229; }
-.modal-submit-btn.btn-red:hover { background: #b91c22; }
-.modal-submit-btn.btn-accent-dark { background: #003366; }
-
-.modal-close-btn {
-    width: 100%;
-    padding: 11px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #475569;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: background 0.2s;
-}
-
-.modal-close-btn:hover { background: #f8fafc; color: #1e293b; }
