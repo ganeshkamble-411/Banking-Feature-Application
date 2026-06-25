@@ -1,4 +1,6 @@
-/* 🔷 Global Layout Rules Override */
+/* ==========================================================================
+   🔷 1. Global Layout Rules & Override
+   ========================================================================== */
 html, body {
     margin: 0;
     padding: 0;
@@ -15,7 +17,9 @@ app-root {
     overflow: hidden;
 }
 
-/* 🧭 Dashboard Dynamic Shell Viewport Mapping */
+/* ==========================================================================
+   🧭 2. Dashboard Dynamic Shell Viewport Mapping
+   ========================================================================== */
 .dashboard-layout {
     margin-left: 260px; /* Exact Sidebar Width offset clearance */
     height: 100vh;
@@ -24,7 +28,6 @@ app-root {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-
     -ms-overflow-style: none;  /* IE and Edge hide scrollbar */
     scrollbar-width: none;  /* Firefox hide scrollbar */
 }
@@ -33,18 +36,36 @@ app-root {
     display: none; /* Chrome/Safari hide scrollbar */
 }
 
-/* Dashboard container sizing layout framework */
 .dashboard-main-wrapper {
+    position: relative;
     padding-top: 85px;  /* Clearance below the Kotak Main Header */
-    box-sizing: border-box;
     padding-inline: 24px;
     padding-block-end: 30px;
     display: flex;
     flex-direction: column;
     width: 100%;
+    box-sizing: border-box;
 }
 
-/* 👤 Top Welcome & Last Login Banner Row */
+/* 🛠️ Main Grid Structural Setup (Consolidated from 3 duplicates) */
+.dashboard-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 350px; /* Left main content & exact Kotak Sidebar size */
+    gap: 24px;
+    width: 100%;
+    align-items: start;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-grid-container {
+        grid-template-columns: 1fr; /* Responsive fallback */
+    }
+}
+
+/* ==========================================================================
+   👤 3. Header, Welcome Banner & Profile Dropdown
+   ========================================================================== */
 .welcome-banner-row {
     display: flex;
     justify-content: space-between;
@@ -56,9 +77,15 @@ app-root {
 
 .welcome-text {
     font-size: 13px;
-    color: #718096; /* Subtle muted slate gray text */
+    color: #718096;
     margin: 0;
     font-weight: 500;
+}
+
+.welcome-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .sort-btn {
@@ -78,7 +105,142 @@ app-root {
     font-weight: bold;
 }
 
-/* ⬜ Premium Rounded Kotak White Container Base */
+/* Profile Circle & Dropdown */
+.dashboard-circle-profile-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dashboard-avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: #003366; /* Kotak deep blue tone */
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.dashboard-avatar-circle:hover {
+    transform: scale(1.05);
+}
+
+.profile-dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: #ffffff;
+    min-width: 220px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    z-index: 1010;
+    padding: 12px 0;
+}
+
+.dropdown-header {
+    padding: 4px 16px 12px 16px;
+}
+
+.dropdown-user-title {
+    margin: 0 0 2px 0;
+    font-size: 14px;
+    color: #1a202c;
+    font-weight: 700;
+}
+
+.user-email {
+    margin: 0;
+    font-size: 12px;
+    color: #718096;
+}
+
+.dropdown-links-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-links-list li a {
+    display: block;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #4a5568;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dropdown-links-list li a:hover {
+    background-color: #f7fafc;
+    color: #003366;
+}
+
+.dropdown-links-list .divider {
+    height: 1px;
+    background-color: #edf2f7;
+    margin: 6px 0;
+}
+
+.dropdown-links-list li a.logout-link {
+    color: #d92229; /* Kotak Red brand identifier */
+}
+
+/* ==========================================================================
+   🟥 4. Kotak Premium Red Promos / Alert Banners
+   ========================================================================== */
+.kotak-promo-banner-card,
+.kotak-red-alert-card,
+.kotak-alert-banner {
+    background: linear-gradient(135deg, #ff7676 0%, #ff5252 100%);
+    border-radius: 6px;
+    padding: 16px 20px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 10px rgba(255, 82, 82, 0.25);
+    transition: transform 0.15s ease-in-out;
+}
+
+.kotak-promo-banner-card:hover,
+.kotak-red-alert-card:hover {
+    transform: translateY(-2px);
+}
+
+.banner-content h3,
+.alert-text-wrapper h3,
+.alert-banner-text h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.banner-arrow-circle,
+.alert-arrow-action,
+.alert-banner-arrow {
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+   ⬜ 5. Main Clean Content Cards (Assets / Liabilities / Recs)
+   ========================================================================== */
 .kotak-clean-card {
     background: #ffffff;
     border-radius: 4px; /* Real Kotak dashboard uses minimal sharp/clean borders */
@@ -112,13 +274,13 @@ app-root {
     align-items: center;
 }
 
-/* 🔄 Summary Lists Rows (Assets / Liabilities) */
-.summary-list {
+/* Lists Inside Clean Cards */
+.summary-list, .recommendation-list {
     display: flex;
     flex-direction: column;
 }
 
-.summary-item {
+.summary-item, .rec-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -127,10 +289,10 @@ app-root {
 }
 
 .summary-item:last-of-type {
-    border-bottom: none; /* No border for the last element before promo */
+    border-bottom: none;
 }
 
-.item-left {
+.item-left, .rec-left {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -150,10 +312,11 @@ app-root {
 .asset-icon { background: #e0f2fe; color: #0284c7; }
 .liability-icon { background: #fee2e2; color: #ef4444; }
 
-.item-name {
+.item-name, .rec-details h3 {
     font-size: 16px;
     font-weight: 600;
     color: #1a202c;
+    margin: 0;
 }
 
 .info-bubble {
@@ -169,65 +332,6 @@ app-root {
     cursor: pointer;
 }
 
-/* 👁 View Balance Link Style Button */
-.view-balance-btn {
-    background: none;
-    border: none;
-    color: #003366; /* Kotak Corporate Brand Blue Interaction Link */
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.view-balance-btn:hover {
-    color: #d92229; /* Hover state turns Kotak Corporate Red */
-}
-
-.eye-icon {
-    font-size: 15px;
-}
-
-/* 📣 Card Bottom Promo links block */
-.card-footer-promo {
-    text-align: center;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid #edf2f7;
-    font-size: 13px;
-    color: #4a5568;
-}
-
-.card-footer-promo a {
-    color: #3182ce;
-    text-decoration: none;
-}
-.card-footer-promo a:hover { 
-    text-decoration: underline; 
-}
-
-/* 🎁 Recommended Section Items Layout */
-.recommendation-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.rec-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-block: 16px;
-    border-bottom: 1px solid #edf2f7;
-}
-
-.rec-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
 .rec-avatar-placeholder {
     width: 44px;
     height: 44px;
@@ -240,37 +344,43 @@ app-root {
 .green-avatar { background-color: #e6f4ea; }
 .blue-avatar { background-color: #e8f0fe; }
 
-.rec-details h3 {
-    margin: 0 0 2px 0;
-    font-size: 16px;
-    color: #1a202c;
-    font-weight: 600;
-}
-
 .rec-details p {
     margin: 0;
     font-size: 13px;
     color: #718096;
 }
 
-.action-link-btn {
+/* Interactivity Elements */
+.view-balance-btn, .action-link-btn {
     background: none;
     border: none;
-    color: #3182ce;
+    color: #003366; /* Kotak Corporate Brand Blue Interaction Link */
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-.action-link-btn:hover { 
-    text-decoration: underline; 
-}
+.view-balance-btn:hover { color: #d92229; }
+.action-link-btn:hover { text-decoration: underline; color: #3182ce;}
 
-/* ⬇ Full Width Blueprint outline button */
+.card-footer-promo {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #edf2f7;
+    font-size: 13px;
+    color: #4a5568;
+}
+.card-footer-promo a { color: #3182ce; text-decoration: none; }
+.card-footer-promo a:hover { text-decoration: underline; }
+
 .see-more-fullwidth-btn {
     width: 100%;
     padding: 12px;
     background: white;
-    border: 1px solid #3182ce;
+    border: 1px solid #3361cc;
     color: #3182ce;
     border-radius: 4px;
     font-size: 14px;
@@ -279,12 +389,144 @@ app-root {
     margin-top: 20px;
     transition: all 0.15s ease-in-out;
 }
+.see-more-fullwidth-btn:hover { background: #ebf8ff; }
 
-.see-more-fullwidth-btn:hover {
-    background: #ebf8ff;
+/* ==========================================================================
+   🏢 6. Kotak Sidebar Panels & Custom Action Rows
+   ========================================================================== */
+.kotak-sidebar-panel, .kotak-native-sidebar-box {
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-/* 🪟 Interactive Modal Popups Styles (Keeping them safely at the bottom) */
+.kotak-sidebar-section {
+    margin-bottom: 30px;
+    background: transparent; /* Seamless variant layout */
+}
+
+.panel-header-row, .sidebar-box-section-header, .sidebar-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.panel-header-row h3, .sidebar-box-section-header h3, .sidebar-section-header h3 {
+    margin: 0;
+    font-size: 11px;
+    color: #718096;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.see-all-link, .box-action-link, .sidebar-see-all {
+    font-size: 12px;
+    color: #0066cc;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.see-all-link:hover, .box-action-link:hover, .sidebar-see-all:hover { text-decoration: underline; }
+
+/* Consolidated Sidebar Links Lists */
+.sidebar-action-list, .box-services-list, .kotak-services-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-action-list li, .box-services-list li, .kotak-services-links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 12px;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.sidebar-action-list li:hover, .box-services-list li:hover, .kotak-services-links li:hover {
+    border-color: #cbd5e0;
+    background: #f8fafc;
+}
+
+.action-item-left, .list-item-core, .service-item-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-icon, .list-icon-bg, .service-icon { font-size: 16px; }
+.action-label, .list-title, .service-text { font-size: 13px; color: #2d3748; font-weight: 500; }
+.sidebar-arrow, .list-chevron, .service-chevron { font-size: 10px; color: #a0aec0; }
+
+.sidebar-box-divider {
+    height: 1px;
+    border-top: 1px dashed #e2e8f0;
+    margin: 20px 0 24px 0;
+}
+
+/* ==========================================================================
+   🐷 7. What's New Feed Blocks / Cards
+   ========================================================================== */
+.target-whats-new {
+    border-top: 1px dashed #cbd5e0;
+    padding-top: 20px;
+}
+
+.whats-new-item, .box-feed-row, .kotak-feed-card {
+    display: flex;
+    gap: 14px;
+    background: #ffffff;
+    padding: 14px;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.whats-new-thumb, .feed-icon-avatar, .feed-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.speed-meter-bg, .meter-blue, .blue-box { background: #e6f2ff; }
+.piggy-bg, .piggy-pink, .pink-box { background: #ffebeb; }
+
+.whats-new-details h4, .feed-body h4, .feed-content-box h4 {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    color: #2d3748;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.whats-new-details a, .feed-body a, .feed-content-box a {
+    font-size: 12px;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+}
+.whats-new-details a:hover, .feed-body a:hover, .feed-content-box a:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   🪟 8. Interactive Modals
+   ========================================================================== */
 .modal-overlay {
     position: fixed;
     top: 0;
