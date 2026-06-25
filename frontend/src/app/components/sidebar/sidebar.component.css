@@ -18,7 +18,7 @@
     justify-content: space-between;
     border-right: 1px solid #f1f5f9; /* Ekdum halki soft line right side me */
     z-index: 99; 
-    font-family: sans-serif;
+    font-family: times new roman, sans-serif; /* Screenshot me serif font ka feel hai */
 }
 
 .sidebar-nav-menu {
@@ -109,6 +109,7 @@
     cursor: pointer;
     transition: background-color 0.15s;
     border-left: 4px solid transparent;
+    font-family: times new roman, sans-serif
 }
 
 .logout-btn:hover {

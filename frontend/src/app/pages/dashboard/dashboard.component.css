@@ -30,6 +30,10 @@ app-root {
     box-sizing: border-box;
     -ms-overflow-style: none;  /* IE and Edge hide scrollbar */
     scrollbar-width: none;  /* Firefox hide scrollbar */
+
+    /* 🛠️ LAYOUT KO RIGHT SIDE SE KAM KARNE KE LIYE */
+    width: calc(100% - 270px - 25%); /* Sidebar ki width aur right se 20% area chor kar baaki me layout rahega */
+    /* Alternative Simple Option: width: 70%; use kar sakte ho */
 }
 
 .dashboard-layout::-webkit-scrollbar {
@@ -43,154 +47,27 @@ app-root {
     padding-block-end: 30px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100%; /* Ab ye apne layout ke hisab se automatic set rahega */
     box-sizing: border-box;
 }
 
-/* 🛠️ Main Grid Structural Setup (Consolidated from 3 duplicates) */
-.dashboard-grid-container {
-    display: grid;
-    grid-template-columns: 1fr 350px; /* Left main content & exact Kotak Sidebar size */
+/* HTML wale naye wrapper container ki styling */
+.dashboard-fullwidth-container {
+    display: flex;
+    flex-direction: column;
     gap: 24px;
     width: 100%;
-    align-items: start;
     box-sizing: border-box;
 }
 
+/* Responsive fix */
 @media (max-width: 1024px) {
-    .dashboard-grid-container {
-        grid-template-columns: 1fr; /* Responsive fallback */
+    .dashboard-layout {
+        width: 100%;
+        margin-left: 0;
     }
 }
 
-/* ==========================================================================
-   👤 3. Header, Welcome Banner & Profile Dropdown
-   ========================================================================== */
-.welcome-banner-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 14px;
-    padding-inline: 4px;
-}
-
-.welcome-text {
-    font-size: 13px;
-    color: #718096;
-    margin: 0;
-    font-weight: 500;
-}
-
-.welcome-right-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.sort-btn {
-    background: none;
-    border: none;
-    font-size: 13px;
-    color: #4a5568;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 500;
-}
-
-.sort-icon {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* Profile Circle & Dropdown */
-.dashboard-circle-profile-container {
-    position: relative;
-    display: inline-block;
-}
-
-.dashboard-avatar-circle {
-    width: 40px;
-    height: 40px;
-    background-color: #003366; /* Kotak deep blue tone */
-    color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-    user-select: none;
-}
-
-.dashboard-avatar-circle:hover {
-    transform: scale(1.05);
-}
-
-.profile-dropdown-menu {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background: #ffffff;
-    min-width: 220px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 1px solid #e2e8f0;
-    z-index: 1010;
-    padding: 12px 0;
-}
-
-.dropdown-header {
-    padding: 4px 16px 12px 16px;
-}
-
-.dropdown-user-title {
-    margin: 0 0 2px 0;
-    font-size: 14px;
-    color: #1a202c;
-    font-weight: 700;
-}
-
-.user-email {
-    margin: 0;
-    font-size: 12px;
-    color: #718096;
-}
-
-.dropdown-links-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.dropdown-links-list li a {
-    display: block;
-    padding: 10px 16px;
-    font-size: 13px;
-    color: #4a5568;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.dropdown-links-list li a:hover {
-    background-color: #f7fafc;
-    color: #003366;
-}
-
-.dropdown-links-list .divider {
-    height: 1px;
-    background-color: #edf2f7;
-    margin: 6px 0;
-}
-
-.dropdown-links-list li a.logout-link {
-    color: #d92229; /* Kotak Red brand identifier */
-}
 
 /* ==========================================================================
    🟥 4. Kotak Premium Red Promos / Alert Banners
@@ -394,18 +271,27 @@ app-root {
 /* ==========================================================================
    🏢 6. Kotak Sidebar Panels & Custom Action Rows
    ========================================================================== */
-.kotak-sidebar-panel, .kotak-native-sidebar-box {
+.grid-right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Uniform gap between isolated sidebar components */
+}
+
+.kotak-sidebar-panel {
     background: #ffffff;
     border-radius: 4px;
     border: 1px solid #e2e8f0;
     padding: 20px;
-    margin-bottom: 24px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
+/* Clear out mixed structural transparent margins */
 .kotak-sidebar-section {
-    margin-bottom: 30px;
-    background: transparent; /* Seamless variant layout */
+    margin-bottom: 0;
+    background: transparent;
+}
+.target-whats-new {
+    border-top: 1px solid #e2e8f0 !important;
 }
 
 .panel-header-row, .sidebar-box-section-header, .sidebar-section-header {
@@ -548,5 +434,18 @@ app-root {
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.dashboard-fullwidth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    
+    /* 🛠️ Right side se width kam karne ke liye */
+    max-width: 75%; /* Tum isse apne hisab se 70%, 80% ya fixed px (jaise 850px) bhi kar sakte ho */
+    margin: 0;      /* Center ke badle left-aligned rakhega, jisse right me space dikhega */
+    
     box-sizing: border-box;
 }
