@@ -1,0 +1,39 @@
+<div class="kotak-sidebar">
+  <div class="promo-card">
+    <div class="promo-text">Create/Update your username to log in to Net banking</div>
+    <div class="promo-arrow">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <span class="section-title">POPULAR SERVICE REQUEST</span>
+    <a href="#" class="see-all-link">See All</a>
+  </div>
+
+  <ul class="service-list">
+    <li *ngFor="let service of services" class="service-item" (click)="onServiceClick(service.name)">
+      <div class="service-icon">{{ service.icon }}</div>
+      <span class="service-name">{{ service.name }}</span>
+      <span class="arrow-right">❯</span>
+    </li>
+  </ul>
+
+  <hr class="divider">
+
+  <div class="section-header">
+    <span class="section-title">WHAT'S NEW</span>
+  </div>
+
+  <div class="whats-new-list">
+    <div *ngFor="let item of whatsNewList" class="whats-new-item">
+      <div class="feature-icon" [ngClass]="item.bgClass">{{ item.icon }}</div>
+      <div class="feature-content">
+        <p class="feature-text">{{ item.text }}</p>
+        <a [href]="item.linkUrl" class="feature-link">{{ item.linkText }}</a>
+      </div>
+    </div>
+  </div>
+</div>
