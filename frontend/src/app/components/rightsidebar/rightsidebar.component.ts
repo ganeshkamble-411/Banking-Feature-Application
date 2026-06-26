@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 interface ServiceRequest {
   icon: string;
+  imgUrl?: string; // Optional image reference layer
   name: string;
 }
 
 interface WhatsNewItem {
   icon: string;
+  imgUrl?: string;
   bgClass: string;
   text: string;
   linkText: string;
@@ -15,15 +17,14 @@ interface WhatsNewItem {
 }
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'app-rightsidebar',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './sidebar.component.ts.html',
-  styleUrls: ['./sidebar.component.css']
+  templateUrl: './rightsidebar.component.html',
+  styleUrls: ['./rightsidebar.component.css']
 })
-export class SidebarComponent {
+export class RightSidebarComponent {
   
-  // Popular services data array
   services: ServiceRequest[] = [
     { icon: '🏠', name: 'Correspondence address update' },
     { icon: '🏢', name: 'Change of home branch' },
@@ -31,7 +32,6 @@ export class SidebarComponent {
     { icon: '👤', name: 'Update nominee' }
   ];
 
-  // What's New data array
   whatsNewList: WhatsNewItem[] = [
     {
       icon: '📊',
@@ -51,8 +51,8 @@ export class SidebarComponent {
 
   onServiceClick(serviceName: string) {
     console.log(`Clicked on: ${serviceName}`);
-    // Yahan aap Router use karke navigate kar sakte hain
   }
 }
+
 
 

@@ -23,6 +23,7 @@ app-root {
 .dashboard-layout {
     margin-left: 190px; /* Exact Sidebar Width offset clearance */
     height: 100vh;
+    flex: 1;
     overflow-y: auto; 
     background: #eef2f5;
     display: flex;
@@ -446,6 +447,24 @@ app-root {
     /* 🛠️ Right side se width kam karne ke liye */
     max-width: 75%; /* Tum isse apne hisab se 70%, 80% ya fixed px (jaise 850px) bhi kar sakte ho */
     margin: 0;      /* Center ke badle left-aligned rakhega, jisse right me space dikhega */
-    
+    flex: 1;
+    box-sizing: border-box;
+}
+
+app-rightsidebar {
+    width: 360px;
+    min-width: 360px;
+    background-color: #ffffff;
+    border-left: 1px solid #e2e8f0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.main-dashboard-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
     box-sizing: border-box;
 }

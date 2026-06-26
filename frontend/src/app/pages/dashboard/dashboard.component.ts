@@ -6,6 +6,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ProfileWizardComponent } from './profile-wizard/profile-wizard.component'; 
 import { AccountService } from '../../services/account.service';
 import { TransactionService } from '../../services/transaction.service';
+import { RightSidebarComponent } from '../../components/rightsidebar/rightsidebar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,8 @@ import { TransactionService } from '../../services/transaction.service';
     SidebarComponent,
     HeaderComponent, 
     ProfileWizardComponent, 
-    FormsModule
+    FormsModule,
+    RightSidebarComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
