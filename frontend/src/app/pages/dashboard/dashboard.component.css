@@ -58,6 +58,7 @@ app-root {
     flex-direction: column;
     gap: 24px;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
 }
 
@@ -124,6 +125,7 @@ app-root {
     border-radius: 4px; /* Real Kotak dashboard uses minimal sharp/clean borders */
     padding: 24px 30px;
     margin-bottom: 24px;
+    margin-left: 40px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     border: 1px solid #e2e8f0;
 }
@@ -445,7 +447,7 @@ app-root {
     width: 100%;
     
     /* 🛠️ Right side se width kam karne ke liye */
-    max-width: 75%; /* Tum isse apne hisab se 70%, 80% ya fixed px (jaise 850px) bhi kar sakte ho */
+    max-width: 95%; /* Tum isse apne hisab se 70%, 80% ya fixed px (jaise 850px) bhi kar sakte ho */
     margin: 0;      /* Center ke badle left-aligned rakhega, jisse right me space dikhega */
     flex: 1;
     box-sizing: border-box;
@@ -467,4 +469,70 @@ app-rightsidebar {
     min-height: 100vh;
     overflow: hidden;
     box-sizing: border-box;
+}
+
+/* ==========================================================================
+   💰 9. Loans Grid Layout (Based on image_716f66.png)
+   ========================================================================== */
+.loans-grid-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.loan-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.loan-icon-bg {
+    width: 70px;
+    height: 70px;
+    background-color: #f4f6f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.loan-grid-item h3 {
+    font-size: 15px;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+}
+
+.loan-apply-link {
+    color: #1e70cd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.loan-apply-link:hover {
+    text-decoration: underline;
+}
+
+.loans-footer-text {
+    border-top: 1px solid #edf1f4;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+}
+
+.loans-footer-text a {
+    color: #1e70cd;
+    text-decoration: none;
+}
+
+.loans-footer-text a:hover {
+    text-decoration: underline;
 }
