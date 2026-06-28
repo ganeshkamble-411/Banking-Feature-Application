@@ -1,13 +1,14 @@
 /* ==========================================================================
-   🔷 1. Global Layout Rules & Override
+    🔷 1. Global Layout Rules & Override (Typography Intensity Boost)
    ========================================================================== */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
-    background: #eef2f5; /* Light gray backdrop matching the Kotak app exactly */
-    font-family: 'Roboto', sans-serif; 
+    background: #eef2f5; 
+    /* Modern dynamic fontstack with crisp anti-aliasing */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -18,61 +19,70 @@ app-root {
 }
 
 /* ==========================================================================
-   🧭 2. Dashboard Dynamic Shell Viewport Mapping
+    🧭 2. Dashboard Dynamic Shell Viewport Mapping (Pure Layout Fixes)
    ========================================================================== */
+.main-dashboard-wrapper {
+    display: flex;
+    flex-direction: row; /* Strict sequential arrangement of elements */
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
 .dashboard-layout {
-    margin-left: 190px; /* Exact Sidebar Width offset clearance */
+    flex: 1; /* Automatically consumes exactly available space left by sidebars */
+    margin-left: 190px; /* Resetting direct positioning hacks */
     height: 100vh;
-    flex: 1;
     overflow-y: auto; 
     background: #eef2f5;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    -ms-overflow-style: none;  /* IE and Edge hide scrollbar */
-    scrollbar-width: none;  /* Firefox hide scrollbar */
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
 
-    /* 🛠️ LAYOUT KO RIGHT SIDE SE KAM KARNE KE LIYE */
-    width: calc(100% - 270px - 25%); /* Sidebar ki width aur right se 20% area chor kar baaki me layout rahega */
-    /* Alternative Simple Option: width: 70%; use kar sakte ho */
+    width: calc(100% - 270px - 25%);
 }
 
 .dashboard-layout::-webkit-scrollbar {
-    display: none; /* Chrome/Safari hide scrollbar */
+    display: none; 
 }
 
 .dashboard-main-wrapper {
     position: relative;
-    padding-top: 25px;  /* Clearance below the Kotak Main Header */
+    padding-top: 24px;  
     padding-inline: 24px;
-    padding-block-end: 30px;
+    padding-block-end: 32px;
     display: flex;
     flex-direction: column;
-    width: 100%; /* Ab ye apne layout ke hisab se automatic set rahega */
+    width: 100%; 
     box-sizing: border-box;
 }
 
-/* HTML wale naye wrapper container ki styling */
+/* HTML Wrapper Container Adaptive Width Track */
 .dashboard-fullwidth-container {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 24px; /* Rigid spacing density for elements */
     width: 100%;
-    max-width: 100%;
+    max-width: 100%; /* Spans naturally without squeezing structural columns */
+    flex: 1;
     box-sizing: border-box;
 }
 
-/* Responsive fix */
-@media (max-width: 1024px) {
-    .dashboard-layout {
-        width: 100%;
-        margin-left: 0;
-    }
+app-rightsidebar {
+    width: 360px;
+    min-width: 360px;
+    background-color: #ffffff;
+    border-left: 1px solid #e2e8f0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0; /* Sidebar drops compression factors completely */
 }
 
-
 /* ==========================================================================
-   🟥 4. Kotak Premium Red Promos / Alert Banners
+    🟥 3. Kotak Premium Red Promos / Alert Banners
    ========================================================================== */
 .kotak-promo-banner-card,
 .kotak-red-alert-card,
@@ -85,8 +95,7 @@ app-root {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 10px rgba(255, 82, 82, 0.25);
+    box-shadow: 0 4px 12px rgba(255, 82, 82, 0.2);
     transition: transform 0.15s ease-in-out;
 }
 
@@ -102,6 +111,7 @@ app-root {
     font-size: 14px;
     font-weight: 600;
     line-height: 1.4;
+    letter-spacing: -0.01em;
 }
 
 .banner-arrow-circle,
@@ -118,38 +128,37 @@ app-root {
 }
 
 /* ==========================================================================
-   ⬜ 5. Main Clean Content Cards (Assets / Liabilities / Recs)
+    ⬜ 4. Main Clean Content Cards (Enhanced Typography & Alignment)
    ========================================================================== */
 .kotak-clean-card {
     background: #ffffff;
-    border-radius: 4px; /* Real Kotak dashboard uses minimal sharp/clean borders */
+    border-radius: 15px; 
     padding: 24px 30px;
-    margin-bottom: 24px;
-    margin-left: 40px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    margin-left: 0; /* Clear horizontal trace push offsets */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
     border: 1px solid #e2e8f0;
 }
 
 .card-title-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between; /* Keeps downloads icon and title symmetrically apart */
     margin-bottom: 24px;
 }
 
 .card-title-row h2 {
-    font-size: 24px;
+    font-size: 22px; /* Premium banking text scaling configuration */
     color: #000000;
     font-weight: 700;
     margin: 0;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
 }
 
 .download-icon-btn {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 2px;
+    padding: 4px;
     display: flex;
     align-items: center;
 }
@@ -168,7 +177,7 @@ app-root {
     border-bottom: 1px solid #edf2f7;
 }
 
-.summary-item:last-of-type {
+.summary-item:last-of-type, .rec-item:last-of-type {
     border-bottom: none;
 }
 
@@ -179,21 +188,21 @@ app-root {
 }
 
 .icon-circle {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 11px;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .asset-icon { background: #e0f2fe; color: #0284c7; }
 .liability-icon { background: #fee2e2; color: #ef4444; }
 
 .item-name, .rec-details h3 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #1a202c;
     margin: 0;
@@ -219,13 +228,13 @@ app-root {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 20px;
 }
 .green-avatar { background-color: #e6f4ea; }
 .blue-avatar { background-color: #e8f0fe; }
 
 .rec-details p {
-    margin: 0;
+    margin: 4px 0 0 0;
     font-size: 13px;
     color: #718096;
 }
@@ -234,7 +243,7 @@ app-root {
 .view-balance-btn, .action-link-btn {
     background: none;
     border: none;
-    color: #003366; /* Kotak Corporate Brand Blue Interaction Link */
+    color: #003366; 
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -272,29 +281,20 @@ app-root {
 .see-more-fullwidth-btn:hover { background: #ebf8ff; }
 
 /* ==========================================================================
-   🏢 6. Kotak Sidebar Panels & Custom Action Rows
+    🏢 5. Kotak Sidebar Panels & Custom Action Rows
    ========================================================================== */
 .grid-right-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Uniform gap between isolated sidebar components */
+    gap: 20px; 
 }
 
 .kotak-sidebar-panel {
     background: #ffffff;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid #e2e8f0;
     padding: 20px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-/* Clear out mixed structural transparent margins */
-.kotak-sidebar-section {
-    margin-bottom: 0;
-    background: transparent;
-}
-.target-whats-new {
-    border-top: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .panel-header-row, .sidebar-box-section-header, .sidebar-section-header {
@@ -308,10 +308,11 @@ app-root {
 
 .panel-header-row h3, .sidebar-box-section-header h3, .sidebar-section-header h3 {
     margin: 0;
-    font-size: 11px;
-    color: #718096;
+    font-size: 12px;
+    color: #4a5568;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
 .see-all-link, .box-action-link, .sidebar-see-all {
@@ -323,7 +324,6 @@ app-root {
 }
 .see-all-link:hover, .box-action-link:hover, .sidebar-see-all:hover { text-decoration: underline; }
 
-/* Consolidated Sidebar Links Lists */
 .sidebar-action-list, .box-services-list, .kotak-services-links {
     list-style: none;
     padding: 0;
@@ -358,14 +358,8 @@ app-root {
 .action-label, .list-title, .service-text { font-size: 13px; color: #2d3748; font-weight: 500; }
 .sidebar-arrow, .list-chevron, .service-chevron { font-size: 10px; color: #a0aec0; }
 
-.sidebar-box-divider {
-    height: 1px;
-    border-top: 1px dashed #e2e8f0;
-    margin: 20px 0 24px 0;
-}
-
 /* ==========================================================================
-   🐷 7. What's New Feed Blocks / Cards
+    🐷 6. What's New Feed Blocks / Cards
    ========================================================================== */
 .target-whats-new {
     border-top: 1px dashed #cbd5e0;
@@ -411,100 +405,43 @@ app-root {
     text-decoration: none;
     font-weight: 600;
 }
-.whats-new-details a:hover, .feed-body a:hover, .feed-content-box a:hover { text-decoration: underline; }
 
 /* ==========================================================================
-   🪟 8. Interactive Modals
-   ========================================================================== */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.modal {
-    background: #ffffff;
-    width: 100%;
-    max-width: 420px;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-}
-
-.dashboard-fullwidth-container {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    
-    /* 🛠️ Right side se width kam karne ke liye */
-    max-width: 95%; /* Tum isse apne hisab se 70%, 80% ya fixed px (jaise 850px) bhi kar sakte ho */
-    margin: 0;      /* Center ke badle left-aligned rakhega, jisse right me space dikhega */
-    flex: 1;
-    box-sizing: border-box;
-}
-
-app-rightsidebar {
-    width: 360px;
-    min-width: 360px;
-    background-color: #ffffff;
-    border-left: 1px solid #e2e8f0;
-    height: 100vh;
-    overflow-y: auto;
-}
-
-.main-dashboard-wrapper {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    min-height: 100vh;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-/* ==========================================================================
-   💰 9. Loans Grid Layout (Based on image_716f66.png)
+    💰 7. Loans Grid Layout (Clean Symmetric Multi-Row Grid)
    ========================================================================== */
 .loans-grid-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 30px 0;
-    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Dynamic item container split */
+    gap: 16px;
+    padding: 24px 0;
 }
 
 .loan-grid-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    flex: 1;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 20px 12px;
+    box-sizing: border-box;
 }
 
 .loan-icon-bg {
-    width: 70px;
-    height: 70px;
+    width: 64px;
+    height: 64px;
     background-color: #f4f6f8;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
-    margin-bottom: 5px;
+    font-size: 24px;
+    margin-bottom: 12px;
 }
 
 .loan-grid-item h3 {
-    font-size: 15px;
-    color: #333;
+    font-size: 14px;
+    color: #2d3748;
     font-weight: 600;
     margin: 0;
 }
@@ -513,26 +450,42 @@ app-rightsidebar {
     color: #1e70cd;
     text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.loan-apply-link:hover { text-decoration: underline; }
+
+/* ==========================================================================
+    📱 8. Adaptive Mobile Fluidic Responsive Systems
+   ========================================================================== */
+@media (max-width: 1280px) {
+    app-rightsidebar {
+        width: 320px;
+        min-width: 320px;
+    }
 }
 
-.loan-apply-link:hover {
-    text-decoration: underline;
+@media (max-width: 1024px) {
+    .main-dashboard-wrapper {
+        flex-direction: column; /* Stack vertically if desktop layout breaks */
+        overflow-y: auto;
+    }
+    .dashboard-layout, app-rightsidebar {
+        width: 100%;
+        height: auto;
+        overflow-y: visible;
+    }
+    app-rightsidebar {
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+    }
 }
 
-.loans-footer-text {
-    border-top: 1px solid #edf1f4;
-    padding-top: 20px;
-    text-align: center;
-    font-size: 13px;
-    color: #555;
-}
-
-.loans-footer-text a {
-    color: #1e70cd;
-    text-decoration: none;
-}
-
-.loans-footer-text a:hover {
-    text-decoration: underline;
+@media (max-width: 768px) {
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 rows layout setup on mobile */
+    }
+    .kotak-clean-card {
+        padding: 20px 16px;
+    }
 }
