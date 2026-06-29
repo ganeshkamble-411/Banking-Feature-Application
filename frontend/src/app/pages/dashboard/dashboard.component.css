@@ -1,3 +1,7 @@
+*, *::before, *::after {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 /* ==========================================================================
     🔷 1. Global Layout Rules & Override (Typography Intensity Boost)
    ========================================================================== */
@@ -488,4 +492,97 @@ app-rightsidebar {
     .kotak-clean-card {
         padding: 20px 16px;
     }
+}
+
+/* ==========================================================================
+    🆕 Welcome Banner Typography
+   ========================================================================== */
+.welcome-text {
+    font-size: 16px;
+    color: #1a202c;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.welcome-text strong {
+    font-weight: 700;
+    color: #003366; /* Kotak Premium Dark Blue Tone */
+}
+
+.last-login-span {
+    font-size: 13px;
+    color: #718096;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+/* Loans Section Typography Consistency */
+.loan-grid-item h3 {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    margin: 12px 0 0 0; /* Margin layout adjust kiya */
+    letter-spacing: -0.01em;
+}
+
+.loans-footer-text {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #edf2f7;
+    font-size: 13px;
+    color: #4a5568;
+}
+
+.loans-footer-text a {
+    color: #3182ce;
+    text-decoration: none;
+    font-weight: 600;
+}
+.loans-footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+    🆕 Transaction Timeline Typography
+   ========================================================================== */
+.timeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.timeline-item:last-of-type {
+    border-bottom: none;
+}
+
+.timeline-details h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a202c;
+    line-height: 1.4;
+}
+
+.timeline-details p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: #718096;
+}
+
+.timeline-amt {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.timeline-amt.negative {
+    color: #e53e3e; /* Clear Red for Debit */
+}
+
+.timeline-amt.positive {
+    color: #38a169; /* Clear Green for Credit */
 }

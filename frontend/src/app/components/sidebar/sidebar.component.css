@@ -64,6 +64,9 @@
     width: 22px;
     height: 22px;
     flex-shrink: 0;
+    font-size: 18px;
+    margin-right: 12px;
+    
 }
 
 /* SVG Color Engine */
@@ -116,3 +119,88 @@
     background-color: #fdf2f2; /* Hover par same active link jaisa feeling */
 }
 
+
+/* ==========================================================================
+    🧱 Sidebar Main Container & Global Roboto Reset
+   ========================================================================== */
+.sidebar-container, app-sidebar {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 🔷 1. Brand / Logo Section Typography */
+.sidebar-logo-section, .brand-logo-wrapper {
+    padding: 24px;
+}
+
+.sidebar-logo-section h1, .brand-title {
+    font-size: 20px;
+    font-weight: 700; /* Crisp Bold for Brand Name */
+    color: #003366;    /* Kotak Premium Dark Blue */
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.brand-subtitle, .logo-subtext {
+    font-size: 11px;
+    font-weight: 500;
+    color: #d92229;    /* Kotak Accent Red */
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* 🧭 2. Navigation Menu Links */
+.sidebar-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.nav-item-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    font-size: 14px;      /* Clean uniform readable text */
+    font-weight: 500;     /* Roboto Medium for high clarity */
+    color: #4a5568;       /* Balanced slate gray */
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+/* Active & Hover States */
+.nav-item-link:hover {
+    color: #003366;
+    background-color: #f7fafc;
+}
+
+.nav-item-link.active-link {
+    color: #003366;
+    font-weight: 700;     /* Extra prominence for active page */
+    background-color: #ebf8ff;
+    border-left: 4px solid #d92229; /* Left visual accent guide */
+}
+
+/* Icons inside nav links */
+.nav-icon {
+    
+}
+
+/* 👤 3. User Profile Footer Section (If any) */
+.sidebar-footer-profile {
+    padding: 16px 24px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.profile-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.profile-user-role {
+    font-size: 11px;
+    font-weight: 400;
+    color: #718096;
+}
