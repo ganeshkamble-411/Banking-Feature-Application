@@ -6,7 +6,7 @@
   padding: 0;
   box-sizing: border-box;
   /* Pure website par ek jaisa font family aur smooth render maintain karne ke liye */
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
 }
 
 body {
@@ -19,7 +19,7 @@ body {
 
 /* Native Form Controls explicit font override */
 input, button, select, textarea {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
 }
 
 /* ======================================================== */

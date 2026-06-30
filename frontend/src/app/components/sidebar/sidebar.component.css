@@ -18,7 +18,7 @@
     justify-content: space-between;
     border-right: 1px solid #f1f5f9; /* Ekdum halki soft line right side me */
     z-index: 99; 
-    font-family: 'Roboto', sans-serif; 
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
 }
 
 .sidebar-nav-menu {
@@ -112,7 +112,7 @@
     cursor: pointer;
     transition: background-color 0.15s;
     border-left: 4px solid transparent;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
 }
 
 .logout-btn:hover {
@@ -124,7 +124,7 @@
     🧱 Sidebar Main Container & Global Roboto Reset
    ========================================================================== */
 .sidebar-container, app-sidebar {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -182,10 +182,6 @@
     border-left: 4px solid #d92229; /* Left visual accent guide */
 }
 
-/* Icons inside nav links */
-.nav-icon {
-    
-}
 
 /* 👤 3. User Profile Footer Section (If any) */
 .sidebar-footer-profile {

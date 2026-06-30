@@ -8,7 +8,7 @@
 .kotak-sidebar {
   width: 100%; /* Parent element isko dynamic handles provide karega */
   background-color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
   padding: 20px;
   box-sizing: border-box;
 }
