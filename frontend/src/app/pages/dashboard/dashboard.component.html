@@ -1,186 +1,248 @@
 <app-sidebar></app-sidebar>
 
 <div class="main-dashboard-wrapper">
+  <div class="dashboard-layout">
+    <app-header></app-header>
 
-    <div class="dashboard-layout">
-        <app-header></app-header>
+    <main class="dashboard-main-wrapper">
+      <div class="welcome-banner-row">
+        <p class="welcome-text">
+          Good morning <strong>{{ profileSetupRequest.name || 'GANESH KAMBLE' }}</strong
+          >,
+          <span class="last-login-span">you last logged on 25 Jun 2026, 11:42 AM</span>
+        </p>
+      </div>
 
-        <main class="dashboard-main-wrapper">
-            
-            <div class="welcome-banner-row">
-                <p class="welcome-text">
-                    Good morning <strong>{{ profileSetupRequest.name || 'GANESH KAMBLE' }}</strong>, 
-                    <span class="last-login-span">you last logged on 25 Jun 2026, 11:42 AM</span>
-                </p>
+      <div class="dashboard-fullwidth-container">
+        <!-- 1. Your Summary Card -->
+        <div class="kotak-clean-card">
+          <div class="card-title-row">
+            <h2>Your Summary</h2>
+            <button class="download-icon-btn">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#556575"
+                stroke-width="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="summary-list">
+            <div class="summary-item">
+              <div class="item-left">
+                <span class="icon-circle asset-icon">↗</span>
+                <span class="item-name">Assets</span>
+                <span class="info-bubble">i</span>
+              </div>
+              <button class="view-balance-btn" (click)="toggleAssetBalance()">
+                <span class="eye-icon">👁️</span> View balance
+              </button>
             </div>
 
-            <div class="dashboard-fullwidth-container">
-                
-                <!-- 1. Your Summary Card -->
-                <div class="kotak-clean-card">
-                    <div class="card-title-row">
-                        <h2>Your Summary</h2>
-                        <button class="download-icon-btn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#556575" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                            </svg>
-                        </button>
-                    </div>
-                    
-                    <div class="summary-list">
-                        <div class="summary-item">
-                            <div class="item-left">
-                                <span class="icon-circle asset-icon">↗</span>
-                                <span class="item-name">Assets</span>
-                                <span class="info-bubble">i</span>
-                            </div>
-                            <button class="view-balance-btn" (click)="toggleAssetBalance()">
-                                <span class="eye-icon">👁️</span> View balance
-                            </button>
-                        </div>
-                        
-                        <div class="summary-item">
-                            <div class="item-left">
-                                <span class="icon-circle liability-icon">↙</span>
-                                <span class="item-name">Liabilities</span>
-                                <span class="info-bubble">i</span>
-                            </div>
-                            <button class="view-balance-btn" (click)="toggleLiabilityBalance()">
-                                <span class="eye-icon">👁️</span> View balance
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="card-footer-promo">
-                        <p>Explore popular offers on payment through <a href="javascript:void(0)">Credit Card</a>, <a href="javascript:void(0)">Debit Card</a>, <a href="javascript:void(0)">Net banking & other modes</a></p>
-                    </div>
+            <div class="summary-item">
+              <div class="item-left">
+                <span class="icon-circle liability-icon">↙</span>
+                <span class="item-name">Liabilities</span>
+                <span class="info-bubble">i</span>
+              </div>
+              <button class="view-balance-btn" (click)="toggleLiabilityBalance()">
+                <span class="eye-icon">👁️</span> View balance
+              </button>
+            </div>
+          </div>
+
+          <div class="card-footer-promo">
+            <p>
+              Explore popular offers on payment through
+              <a href="javascript:void(0)">Credit Card</a>,
+              <a href="javascript:void(0)">Debit Card</a>,
+              <a href="javascript:void(0)">Net banking & other modes</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- 2. Loans Section Card -->
+        <div class="kotak-clean-card loans-section-card">
+          <div class="card-title-row">
+            <h2>Loans</h2>
+          </div>
+
+          <div class="loans-grid-container">
+            <!-- Personal Loan -->
+            <div class="loan-grid-item">
+              <div class="loan-icon-bg">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                  style="width: 24px; height: 24px"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </div>
+              <h3>Personal Loan</h3>
+              <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
+            </div>
+
+            <!-- Home Loan -->
+            <div class="loan-grid-item">
+              <div class="loan-icon-bg">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                  style="width: 24px; height: 24px"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  />
+                </svg>
+              </div>
+              <h3>Home Loan</h3>
+              <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
+            </div>
+
+            <!-- Car Loan -->
+          <div class="loan-grid-item">
+            <div class="loan-icon-bg">
+              <!-- Naam car-icon se badal kar car-profile.svg kar diya -->
+              <img src="assets/car-profile.svg" alt="Car Loan" style="width: 24px; height: 24px" />
+            </div>
+            <h3>Car Loan</h3>
+            <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
+          </div>
+
+            <!-- Gold Loan (Updated with SVG) -->
+            <div class="loan-grid-item">
+              <div class="loan-icon-bg">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                  style="width: 24px; height: 24px"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25"
+                  />
+                </svg>
+              </div>
+              <h3>Gold Loan</h3>
+              <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
+            </div>
+          </div>
+
+          <div class="loans-footer-text">
+            <p>
+              Explore more loan plans like <a href="javascript:void(0)">Business Loan</a>,
+              <a href="javascript:void(0)">Two wheeler Loan</a>,
+              <a href="javascript:void(0)">Loan Against Securities</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. Recommended for you Card -->
+        <div class="kotak-clean-card">
+          <div class="card-title-row">
+            <h2>Recommended for you</h2>
+          </div>
+
+          <div class="recommendation-list">
+            <div class="rec-item">
+              <div class="rec-left">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                  style="width: 24px; height: 24px"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                <div class="rec-details">
+                  <h3>Personal Loan</h3>
+                  <p>Hurry! Grab your Pre Approved loan up to Rs. 2,00,000</p>
                 </div>
+              </div>
+              <button class="action-link-btn">Act Fast</button>
+            </div>
 
-                <!-- 2. Loans Section Card -->
-                <div class="kotak-clean-card loans-section-card">
-                    <div class="card-title-row">
-                        <h2>Loans</h2>
-                    </div>
-                    
-                    <div class="loans-grid-container">
-                        <!-- Personal Loan -->
-                        <div class="loan-grid-item">
-                            <div class="loan-icon-bg">
-                                <span class="loan-emoji">💰</span>
-                            </div>
-                            <h3>Personal Loan</h3>
-                            <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
-                        </div>
-
-                        <!-- Home Loan -->
-                        <div class="loan-grid-item">
-                            <div class="loan-icon-bg">
-                                <span class="loan-emoji">🏠</span>
-                            </div>
-                            <h3>Home Loan</h3>
-                            <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
-                        </div>
-
-                        <!-- Car Loan -->
-                        <div class="loan-grid-item">
-                            <div class="loan-icon-bg">
-                                <span class="loan-emoji">🚗</span>
-                            </div>
-                            <h3>Car Loan</h3>
-                            <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
-                        </div>
-
-                        <!-- Gold Loan (Updated with SVG) -->
-                        <div class="loan-grid-item">
-                            <div class="loan-icon-bg">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" style="width: 24px; height: 24px;">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
-                                </svg>
-                            </div>
-                            <h3>Gold Loan</h3>
-                            <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
-                        </div>
-                    </div>
-                    
-                    <div class="loans-footer-text">
-                        <p>Explore more loan plans like 
-                            <a href="javascript:void(0)">Business Loan</a>, 
-                            <a href="javascript:void(0)">Two wheeler Loan</a>, 
-                            <a href="javascript:void(0)">Loan Against Securities</a>
-                        </p>
-                    </div>
+            <div class="rec-item">
+              <div class="rec-left">
+                <div class="rec-avatar-placeholder blue-avatar">🕒</div>
+                <div class="rec-details">
+                  <h3>Fixed Deposit</h3>
+                  <p>Avail 6.80%* p.a. for 24 months to less than 36 months.</p>
                 </div>
+              </div>
+              <button class="action-link-btn">Invest Now</button>
+            </div>
+          </div>
 
-                <!-- 3. Recommended for you Card -->
-                <div class="kotak-clean-card">
-                    <div class="card-title-row">
-                        <h2>Recommended for you</h2>
-                    </div>
-                    
-                    <div class="recommendation-list">
-                        <div class="rec-item">
-                            <div class="rec-left">
-                                <div class="rec-avatar-placeholder green-avatar">💰</div>
-                                <div class="rec-details">
-                                    <h3>Personal Loan</h3>
-                                    <p>Hurry! Grab your Pre Approved loan up to Rs. 2,00,000</p>
-                                </div>
-                            </div>
-                            <button class="action-link-btn">Act Fast</button>
-                        </div>
+          <button class="see-more-fullwidth-btn">+ See more</button>
+        </div>
 
-                        <div class="rec-item">
-                            <div class="rec-left">
-                                <div class="rec-avatar-placeholder blue-avatar">🕒</div>
-                                <div class="rec-details">
-                                    <h3>Fixed Deposit</h3>
-                                    <p>Avail 6.80%* p.a. for 24 months to less than 36 months.</p>
-                                </div>
-                            </div>
-                            <button class="action-link-btn">Invest Now</button>
-                        </div>
-                    </div>
-                    
-                    <button class="see-more-fullwidth-btn">+ See more</button>
+        <!-- 4. Recent Transitions & Activity Card -->
+        <div class="kotak-clean-card dynamic-transitions-card">
+          <div class="card-title-row">
+            <h2>Recent Transitions & Activity</h2>
+            <span class="info-bubble">i</span>
+          </div>
+
+          <div class="transaction-timeline">
+            <div class="timeline-item">
+              <div class="timeline-left">
+                <div class="timeline-icon success-bg">✓</div>
+                <div class="timeline-details">
+                  <h4>Funds Transferred Successfully</h4>
+                  <p>To Acc XXXXXX1234 • IMPS Ref: 617823</p>
                 </div>
+              </div>
+              <span class="timeline-amt negative">- ₹5,000.00</span>
+            </div>
 
-                <!-- 4. Recent Transitions & Activity Card -->
-                <div class="kotak-clean-card dynamic-transitions-card">
-                    <div class="card-title-row">
-                        <h2>Recent Transitions & Activity</h2>
-                        <span class="info-bubble">i</span>
-                    </div>
-                    
-                    <div class="transaction-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-left">
-                                <div class="timeline-icon success-bg">✓</div>
-                                <div class="timeline-details">
-                                    <h4>Funds Transferred Successfully</h4>
-                                    <p>To Acc XXXXXX1234 • IMPS Ref: 617823</p>
-                                </div>
-                            </div>
-                            <span class="timeline-amt negative">- ₹5,000.00</span>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-left">
-                                <div class="timeline-icon primary-bg">📥</div>
-                                <div class="timeline-details">
-                                    <h4>Salary Credited</h4>
-                                    <p>From Corp Hub Tech Private Ltd</p>
-                                </div>
-                            </div>
-                            <span class="timeline-amt positive">+ ₹1,24,500.00</span>
-                        </div>
-                    </div>
+            <div class="timeline-item">
+              <div class="timeline-left">
+                <div class="timeline-icon primary-bg">📥</div>
+                <div class="timeline-details">
+                  <h4>Salary Credited</h4>
+                  <p>From Corp Hub Tech Private Ltd</p>
                 </div>
+              </div>
+              <span class="timeline-amt positive">+ ₹1,24,500.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 
-            </div> 
-        </main>
-    </div>
-
-    <app-rightsidebar></app-rightsidebar>
-
+  <app-rightsidebar></app-rightsidebar>
 </div>
-
