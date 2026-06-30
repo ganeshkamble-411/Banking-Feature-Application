@@ -1,597 +1,625 @@
-/* ======================================================== */
-/* 🌐 Global Base Reset, Overrides & Consistent Typography   */
-/* ======================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* Pure page ke saare elements par ek jaisa font apply karne ke liye */
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
-}
-
-body {
-  background-color: #fafbfc;
-  color: #333333;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Form controls explicit override taaki browsers ka default font override ho jaye */
-input, button, select, textarea {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
-}
-
-/* ======================================================== */
-/* 🧭 Fixed Top Header Bar                                  */
-/* ======================================================== */
-.kotak-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 70px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #eef0f3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  z-index: 1000;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.kotak-logo {
-  height: 34px;
-  width: auto;
-  display: block;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 400;
-  color: #555555;
-  flex-wrap: wrap;
-}
-
-.font-btn {
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.font-btn.active {
-  background-color: #0066cc;
-  color: #ffffff;
-  border-color: #0066cc;
-}
-
-.contrast-container {
-  display: flex;
-  align-items: center;
-  margin-left: 5px;
-  gap: 10px;
-  border-left: 1px solid #e5e7eb;
-  padding-left: 10px;
-}
-
-.beta-tag {
-  background: #e02424;
-  color: #ffffff;
-  font-size: 10px;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-/* Toggle Switch UI */
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 34px;
-  height: 18px;
-}
-.toggle-switch input { display: none; }
-.slider {
-  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #e5e7eb; transition: .3s; border-radius: 20px;
-}
-.slider:before {
-  position: absolute; content: ""; height: 12px; width: 12px;
-  left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;
-}
-input:checked + .slider { background-color: #0066cc; }
-input:checked + .slider:before { transform: translateX(16px); }
-
-/* ======================================================== */
-/* 🏗️ Centered Split Grid Layout                            */
-/* ======================================================== */
-.auth-container {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 90px 20px 80px 20px; 
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 1100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-}
-
-.left-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.circle-frame {
-  width: 100%;
-  max-width: 340px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background-color: #f1efee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.circle-frame img {
-  width: 90%;
-  height: 90%;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.safe-banking-title {
-  font-size: 20px;
-  color: #111111;
-  font-weight: 700;
-  margin-top: 24px;
-  text-align: center;
-  letter-spacing: -0.3px;
-}
-
-.safe-banking-desc {
-  font-size: 14px;
-  color: #555555;
-  margin-top: 8px;
-  text-align: center;
-  max-width: 320px;
-  line-height: 1.5;
-}
-
-.right-panel {
-  flex: 1;
-  max-width: 430px;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 35px 30px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
-}
-
-.card-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.right-panel h2 {
-  font-size: 22px;
-  color: #0b1e33;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-}
-
-.dropdown-select {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #0066cc;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.login-tabs {
-  display: flex;
-  border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 24px;
-  gap: 20px;
-}
-
-.tab-btn {
-  background: none;
-  border: none;
-  padding-bottom: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #6b7280;
-  cursor: pointer;
-  position: relative;
-  letter-spacing: -0.1px;
-}
-
-.tab-btn.active {
-  color: #0066cc;
-}
-
-.tab-btn.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #0066cc;
-}
-
-/* ======================================================== */
-/* 🗂️ Input Controls Block Fix                               */
-/* ======================================================== */
-.main-login-form {
-  display: block;
-  position: relative;
-}
-
-.input-container-block {
-  display: block;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.input-relative-container {
-  position: relative;
-  width: 100%;
-  height: 56px;
-}
-
-.right-panel input {
-  width: 100%;
-  height: 56px;
-  padding: 24px 65px 8px 16px; 
-  border: 1px solid #a3a3a3;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 400;
-  color: #1f2937;
-  outline: none;
-  background: #ffffff;
-  display: block;
-  transition: border-color 0.2s ease;
-}
-
-.right-panel input:focus {
-  border-color: #0b1e33;
-  border-width: 1.5px;
-}
-
-.input-relative-container label {
-  position: absolute;
-  left: 16px;
-  top: 18px;
-  color: #6b7280;
-  font-size: 14px;
-  font-weight: 400;
-  transition: 0.2s ease all;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.right-panel input:focus ~ label,
-.right-panel input:not(:placeholder-shown) ~ label {
-  top: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #0066cc;
-}
-
-.show-password-trigger {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 13px;
-  font-weight: 500;
-  color: #0066cc;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  z-index: 3;
-}
-
-.utility-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 18px;
-  gap: 10px;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #4b5563;
-  cursor: pointer;
-}
-
-.virtual-keypad {
-  color: #0066cc;
-  text-decoration: none;
-  font-size: 13px;
-}
-
-.virtual-keypad:hover {
-  text-decoration: underline;
-}
-
-/* ======================================================== */
-/* 🎯 Isolated Clickable Link Element Fix                   */
-/* ======================================================== */
-.forgot-link-container {
-  margin-bottom: 25px;
-  position: relative; 
-  display: block;
-  width: 100%;
-}
-
-.forgot-trigger-span {
-  color: #0066cc;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.forgot-trigger-span:hover {
-  text-decoration: underline;
-}
-
-.terms-disclaimer {
-  font-size: 12px;
-  color: #666666;
-  line-height: 1.6;
-  margin: 20px 0;
-}
-
-.terms-disclaimer a {
-  color: #0066cc;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.terms-disclaimer a:hover {
-  text-decoration: underline;
-}
-
-.secure-login-btn {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 4px;
-  background-color: #0066cc; 
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.secure-login-btn:hover {
-  background-color: #0052a3;
-}
-
-.bottom-text {
-  text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
-  color: #4b5563;
-}
-
-.bottom-text a {
-  color: #0066cc;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.bottom-text a:hover {
-  text-decoration: underline;
-}
-
-.error-msg {
-  color: #dc2626;
-  font-size: 12px;
-  font-weight: 500;
-  margin-top: 5px;
-}
-
-/* ======================================================== */
-/* 🔒 Forgot Password Modal Container Styles                */
-/* ======================================================== */
-.custom-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50000;
-  padding: 20px;
-}
-
-.custom-modal-card {
-  background: #ffffff;
-  width: 100%;
-  max-width: 450px;
-  border-radius: 6px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-
-.modal-header h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0b1e33;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.modal-instruction {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #555555;
-  margin-bottom: 16px;
-}
-
-.modal-input-group {
-  margin-bottom: 16px;
-}
-
-.modal-input-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: #4b5563;
-}
-
-.modal-input-group input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.btn-secondary {
-  background: #e5e7eb;
-  border: none;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: #0066cc;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* ======================================================== */
-/* 🧱 Footer Setup                                          */
-/* ======================================================== */
-.kotak-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 15px 20px;
-  background: #ffffff;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 400;
-  color: #4b5563;
-  flex-wrap: wrap;
-  gap: 10px;
-  z-index: 1000;
-}
-
-.kotak-footer a {
-  color: #0066cc;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.kotak-footer a:hover {
-  text-decoration: underline;
-}
-
-/* ======================================================== */
-/* 📱 Media Queries                                         */
-/* ======================================================== */
-@media (max-width: 992px) {
-  .left-panel {
-    display: none;
-  }
-}
-
-@media (max-width: 576px) {
-  .right-panel h2 {
-    font-size: 20px; 
-  }
-  
-  .header-right {
-    display: none; 
-  }
-
-  .auth-container {
-    padding-top: 85px;
-    padding-bottom: 100px; 
-  }
-
-  .right-panel {
-    padding: 24px 20px;
-    border: none; 
-    box-shadow: none;
-  }
-
-  .kotak-footer {
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+}
+
+/* ==========================================================================
+    🔷 1. Global Layout Rules & Override (Typography Intensity Boost)
+   ========================================================================== */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #eef2f5; 
+    /* Modern dynamic fontstack with crisp anti-aliasing */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+app-root {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+    🧭 2. Dashboard Dynamic Shell Viewport Mapping (Pure Layout Fixes)
+   ========================================================================== */
+.main-dashboard-wrapper {
+    display: flex;
+    flex-direction: row; /* Strict sequential arrangement of elements */
+    width: 100%;
+    min-height: 100vh;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+}
+
+.dashboard-layout {
+    flex: 1; /* Automatically consumes exactly available space left by sidebars */
+    margin-left: 190px; /* Resetting direct positioning hacks */
+    height: 100vh;
+    overflow-y: auto; 
+    background: #eef2f5;
+    display: flex;
     flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    gap: 6px;
+    box-sizing: border-box;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+
+    width: calc(100% - 270px - 25%);
+}
+
+.dashboard-layout::-webkit-scrollbar {
+    display: none; 
+}
+
+.dashboard-main-wrapper {
+    position: relative;
+    padding-top: 24px;  
+    padding-inline: 24px;
+    padding-block-end: 32px;
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+/* HTML Wrapper Container Adaptive Width Track */
+.dashboard-fullwidth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Rigid spacing density for elements */
+    width: 100%;
+    max-width: 100%; /* Spans naturally without squeezing structural columns */
+    flex: 1;
+    box-sizing: border-box;
+}
+
+app-rightsidebar {
+    width: 360px;
+    min-width: 360px;
+    background-color: #ffffff;
+    border-left: 1px solid #e2e8f0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0; /* Sidebar drops compression factors completely */
+}
+
+/* ==========================================================================
+    🟥 3. Kotak Premium Red Promos / Alert Banners
+   ========================================================================== */
+.kotak-promo-banner-card,
+.kotak-red-alert-card,
+.kotak-alert-banner {
+    background: linear-gradient(135deg, #ff7676 0%, #ff5252 100%);
+    border-radius: 6px;
+    padding: 16px 20px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 82, 82, 0.2);
+    transition: transform 0.15s ease-in-out;
+}
+
+.kotak-promo-banner-card:hover,
+.kotak-red-alert-card:hover {
+    transform: translateY(-2px);
+}
+
+.banner-content h3,
+.alert-text-wrapper h3,
+.alert-banner-text h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
     line-height: 1.4;
-  }
+    letter-spacing: -0.01em;
+}
+
+.banner-arrow-circle,
+.alert-arrow-action,
+.alert-banner-arrow {
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+    ⬜ 4. Main Clean Content Cards (Enhanced Typography & Alignment)
+   ========================================================================== */
+.kotak-clean-card {
+    background: #ffffff;
+    border-radius: 15px; 
+    padding: 24px 30px;
+    margin-left: 0; /* Clear horizontal trace push offsets */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+}
+
+.card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Keeps downloads icon and title symmetrically apart */
+    margin-bottom: 24px;
+}
+
+.card-title-row h2 {
+    font-size: 22px; /* Premium banking text scaling configuration */
+    color: #000000;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.download-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+/* Lists Inside Clean Cards */
+.summary-list, .recommendation-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-item, .rec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.summary-item:last-of-type, .rec-item:last-of-type {
+    border-bottom: none;
+}
+
+.item-left, .rec-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.icon-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.asset-icon { background: #e0f2fe; color: #0284c7; }
+.liability-icon { background: #fee2e2; color: #ef4444; }
+
+.item-name, .rec-details h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
+}
+
+.info-bubble {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #cbd5e0;
+    border-radius: 50%;
+    font-size: 9px;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.rec-avatar-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+.green-avatar { background-color: #e6f4ea; }
+.blue-avatar { background-color: #e8f0fe; }
+
+.rec-details p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: #718096;
+}
+
+/* Interactivity Elements */
+.view-balance-btn, .action-link-btn {
+    background: none;
+    border: none;
+    color: #003366; 
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.view-balance-btn:hover { color: #d92229; }
+.action-link-btn:hover { text-decoration: underline; color: #3182ce;}
+
+.eye-svg {
+    width: 18px;  /* Sahi proportions ke liye responsive size */
+    height: 18px;
+    display: block;
+}
+
+.card-footer-promo {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #edf2f7;
+    font-size: 13px;
+    color: #4a5568;
+}
+.card-footer-promo a { color: #3182ce; text-decoration: none; }
+.card-footer-promo a:hover { text-decoration: underline; }
+
+.see-more-fullwidth-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #3361cc;
+    color: #3182ce;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.15s ease-in-out;
+}
+.see-more-fullwidth-btn:hover { background: #ebf8ff; }
+
+/* ==========================================================================
+    🏢 5. Kotak Sidebar Panels & Custom Action Rows
+   ========================================================================== */
+.grid-right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    padding: 20px;
+}
+
+.kotak-sidebar-panel {
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.panel-header-row, .sidebar-box-section-header, .sidebar-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.panel-header-row h3, .sidebar-box-section-header h3, .sidebar-section-header h3 {
+    margin: 0;
+    font-size: 12px;
+    color: #4a5568;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.see-all-link, .box-action-link, .sidebar-see-all {
+    font-size: 12px;
+    color: #0066cc;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.see-all-link:hover, .box-action-link:hover, .sidebar-see-all:hover { text-decoration: underline; }
+
+.sidebar-action-list, .box-services-list, .kotak-services-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-action-list li, .box-services-list li, .kotak-services-links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 12px;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.sidebar-action-list li:hover, .box-services-list li:hover, .kotak-services-links li:hover {
+    border-color: #cbd5e0;
+    background: #f8fafc;
+}
+
+.action-item-left, .list-item-core, .service-item-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-icon, .list-icon-bg, .service-icon { font-size: 16px; }
+.action-label, .list-title, .service-text { font-size: 13px; color: #2d3748; font-weight: 500; }
+.sidebar-arrow, .list-chevron, .service-chevron { font-size: 10px; color: #a0aec0; }
+
+/* ==========================================================================
+    🐷 6. What's New Feed Blocks / Cards
+   ========================================================================== */
+.target-whats-new {
+    border-top: 1px dashed #cbd5e0;
+    padding-top: 20px;
+}
+
+.whats-new-item, .box-feed-row, .kotak-feed-card {
+    display: flex;
+    gap: 14px;
+    background: #ffffff;
+    padding: 14px;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.whats-new-thumb, .feed-icon-avatar, .feed-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.speed-meter-bg, .meter-blue, .blue-box { background: #e6f2ff; }
+.piggy-bg, .piggy-pink, .pink-box { background: #ffebeb; }
+
+.whats-new-details h4, .feed-body h4, .feed-content-box h4 {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    color: #2d3748;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.whats-new-details a, .feed-body a, .feed-content-box a {
+    font-size: 12px;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+    💰 7. Loans Grid Layout (Clean Symmetric Multi-Row Grid)
+   ========================================================================== */
+.loans-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Dynamic item container split */
+    gap: 16px;
+    padding: 24px 0;
+}
+
+.loan-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 20px 12px;
+    box-sizing: border-box;
+}
+
+.loan-icon-bg {
+    width: 64px;
+    height: 64px;
+    background-color: #f4f6f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.loan-grid-item h3 {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    margin: 0;
+}
+
+.loan-apply-link {
+    color: #1e70cd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.loan-apply-link:hover { text-decoration: underline; }
+
+/* ==========================================================================
+    📱 8. Adaptive Mobile Fluidic Responsive Systems
+   ========================================================================== */
+/* Tablet & Smaller Desktops (Jaise iPad Mini screenshot ka issue) */
+@media (max-width: 1024px) {
+    .main-dashboard-wrapper {
+        flex-direction: column; /* Pura structure row se column ho jayega */
+        overflow-y: auto;       /* Screen scrollable ho sake */
+        height: auto;
+    }
+
+    /* Agar left sidebar app-sidebar component hai toh mobile pe full width */
+    /* app-sidebar { width: 100% !important; height: auto !important; } */
+
+    .dashboard-layout {
+        width: 100%;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .dashboard-main-wrapper {
+        padding: 16px; /* Padding thoda kam kiya screen space ke liye */
+    }
+
+    app-rightsidebar {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+        overflow-y: visible;
+    }
+}
+
+/* Mobile Screens (iPhone 14 Pro Max screenshot ka issue) */
+@media (max-width: 768px) {
+    .dashboard-main-wrapper {
+        padding: 12px;
+    }
+
+    .kotak-clean-card {
+        padding: 16px; /* Cards ka padding kam kiya taaki text na kate */
+    }
+
+    .card-title-row h2 {
+        font-size: 18px; /* Heading thodi choti ki mobile ke liye */
+    }
+
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* Mobile par clear 2 columns grid */
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* Bahut choti screens par bhi do cards barabar dikhenge */
+    }
+    
+    .summary-item, .rec-item {
+        flex-direction: row; /* Content row hi rahega text alignment wrap ho jayega automatically */
+    }
+}
+
+/* ==========================================================================
+    🆕 Welcome Banner Typography
+   ========================================================================== */
+.welcome-text {
+    font-size: 16px;
+    color: #1a202c;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.welcome-text strong {
+    font-weight: 700;
+    color: #003366; /* Kotak Premium Dark Blue Tone */
+}
+
+.last-login-span {
+    font-size: 13px;
+    color: #718096;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+/* Loans Section Typography Consistency */
+.loan-grid-item h3 {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    margin: 12px 0 0 0; /* Margin layout adjust kiya */
+    letter-spacing: -0.01em;
+}
+
+.loans-footer-text {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #edf2f7;
+    font-size: 13px;
+    color: #4a5568;
+}
+
+.loans-footer-text a {
+    color: #3182ce;
+    text-decoration: none;
+    font-weight: 600;
+}
+.loans-footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+    🆕 Transaction Timeline Typography
+   ========================================================================== */
+.timeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.timeline-item:last-of-type {
+    border-bottom: none;
+}
+
+.timeline-details h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a202c;
+    line-height: 1.4;
+}
+
+.timeline-details p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: #718096;
+}
+
+.timeline-amt {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.timeline-amt.negative {
+    color: #e53e3e; /* Clear Red for Debit */
+}
+
+.timeline-amt.positive {
+    color: #38a169; /* Clear Green for Credit */
 }
