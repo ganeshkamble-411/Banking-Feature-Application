@@ -7,17 +7,15 @@
     <main class="dashboard-main-wrapper">
       <div class="welcome-banner-row">
         <p class="welcome-text">
-          Good morning <strong>{{ profileSetupRequest.name || 'GANESH KAMBLE' }}</strong
-          >,
+          Good morning <strong>{{ profileSetupRequest.name || 'Premium Customer' }}</strong>,
           <span class="last-login-span">you last logged on 25 Jun 2026, 11:42 AM</span>
         </p>
       </div>
 
       <div class="dashboard-fullwidth-container">
-        <!-- 1. Your Summary Card -->
         <div class="kotak-clean-card">
           <div class="card-title-row">
-            <h2>Your Summary</h2>
+            <h2>Your Summary <span *ngIf="accountNumber">(Acc: {{ accountNumber }} - {{ accountType }})</span></h2>
             <button class="download-icon-btn">
               <svg
                 width="18"
@@ -36,53 +34,99 @@
             <div class="summary-item">
               <div class="item-left">
                 <span class="icon-circle asset-icon">↗</span>
-                <span class="item-name">Assets</span>
+                <span class="item-name">Assets (Net Balance)</span>
                 <span class="info-bubble">i</span>
               </div>
-              <button class="view-balance-btn" (click)="toggleAssetBalance()">
-                <span class="eye-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="eye-svg"
-                  >
-                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+              
+              <div class="item-right-display" style="display: flex; align-items: center; gap: 12px;">
+                <span class="summary-value-text" style="font-weight: 700; font-size: 1.1rem; color: #2f855a;">
+                  {{ isAssetVisible ? '₹' + (totalBalance | number:'1.2-2') : 'X' }}
                 </span>
-                View balance
-              </button>
+                <button class="view-balance-btn" (click)="toggleAssetBalance()">
+                  <span class="eye-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="eye-svg"
+                      style="width: 16px; height: 16px; margin-right: 4px;"
+                    >
+                      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                      <path
+                        fill-rule="evenodd"
+                        d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                  {{ isAssetVisible ? 'Hide' : 'View balance' }}
+                </button>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <div class="item-left">
+                <span class="icon-circle asset-icon" style="background: #e6fffa; color: #319795;">📥</span>
+                <span class="item-name">This Month Credits</span>
+              </div>
+              
+              <div class="item-right-display" style="display: flex; align-items: center; gap: 12px;">
+                <span class="summary-value-text" style="font-weight: 600; color: #2f855a;">
+                  {{ isAssetVisible ? '+ ₹' + (totalCredit | number:'1.2-2') : 'X' }}
+                </span>
+                <button class="view-balance-btn" (click)="toggleAssetBalance()">
+                  <span class="eye-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="eye-svg"
+                      style="width: 16px; height: 16px; margin-right: 4px;"
+                    >
+                      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                      <path
+                        fill-rule="evenodd"
+                        d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                  {{ isAssetVisible ? 'Hide' : 'View' }}
+                </button>
+              </div>
             </div>
 
             <div class="summary-item">
               <div class="item-left">
                 <span class="icon-circle liability-icon">↙</span>
-                <span class="item-name">Liabilities</span>
+                <span class="item-name">This Month (Total Debits)</span>
                 <span class="info-bubble">i</span>
               </div>
-              <button class="view-balance-btn" (click)="toggleLiabilityBalance()">
-                <span class="eye-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="eye-svg"
-                  >
-                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+              
+              <div class="item-right-display" style="display: flex; align-items: center; gap: 12px;">
+                <span class="summary-value-text" style="font-weight: 700; font-size: 1.1rem; color: #c53030;">
+                  {{ isLiabilityVisible ? '₹' + (totalDebit | number:'1.2-2') : 'X' }}
                 </span>
-                View balance
-              </button>
+                <button class="view-balance-btn" (click)="toggleLiabilityBalance()">
+                  <span class="eye-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="eye-svg"
+                      style="width: 16px; height: 16px; margin-right: 4px;"
+                    >
+                      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                      <path
+                        fill-rule="evenodd"
+                        d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                  {{ isLiabilityVisible ? 'Hide' : 'View balance' }}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -96,14 +140,12 @@
           </div>
         </div>
 
-        <!-- 2. Loans Section Card -->
         <div class="kotak-clean-card loans-section-card">
           <div class="card-title-row">
             <h2>Loans</h2>
           </div>
 
           <div class="loans-grid-container">
-            <!-- Personal Loan -->
             <div class="loan-grid-item">
               <div class="loan-icon-bg">
                 <svg
@@ -126,7 +168,6 @@
               <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
             </div>
 
-            <!-- Home Loan -->
             <div class="loan-grid-item">
               <div class="loan-icon-bg">
                 <svg
@@ -149,10 +190,8 @@
               <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
             </div>
 
-            <!-- Car Loan -->
             <div class="loan-grid-item">
               <div class="loan-icon-bg">
-                <!-- Naam car-icon se badal kar car-profile.svg kar diya -->
                 <img
                   src="assets/car-profile.svg"
                   alt="Car Loan"
@@ -163,7 +202,6 @@
               <a href="javascript:void(0)" class="loan-apply-link">Apply</a>
             </div>
 
-            <!-- Gold Loan (Updated with SVG) -->
             <div class="loan-grid-item">
               <div class="loan-icon-bg">
                 <svg
@@ -196,7 +234,6 @@
           </div>
         </div>
 
-        <!-- 3. Recommended for you Card -->
         <div class="kotak-clean-card">
           <div class="card-title-row">
             <h2>Recommended for you</h2>
@@ -243,7 +280,6 @@
           <button class="see-more-fullwidth-btn">+ See more</button>
         </div>
 
-        <!-- 4. Recent Transitions & Activity Card -->
         <div class="kotak-clean-card dynamic-transitions-card">
           <div class="card-title-row">
             <h2>Recent Transitions & Activity</h2>
@@ -251,26 +287,24 @@
           </div>
 
           <div class="transaction-timeline">
-            <div class="timeline-item">
+            <div class="timeline-item" *ngFor="let txn of recentTransactions">
               <div class="timeline-left">
-                <div class="timeline-icon success-bg">✓</div>
+                <div class="timeline-icon" [ngClass]="(txn.type === 'CREDIT' || txn.type === 'TRANSFER_CREDIT') ? 'success-bg' : 'primary-bg'">
+                  {{ (txn.type === 'CREDIT' || txn.type === 'TRANSFER_CREDIT') ? '✓' : '📤' }}
+                </div>
                 <div class="timeline-details">
-                  <h4>Funds Transferred Successfully</h4>
-                  <p>To Acc XXXXXX1234 • IMPS Ref: 617823</p>
+                  <h4>{{ txn.description || 'Transaction Processed' }}</h4>
+                  <p>Type: {{ txn.type }} • Date: {{ txn.timestamp | date:'short' }}</p>
                 </div>
               </div>
-              <span class="timeline-amt negative">- ₹5,000.00</span>
+              
+              <span class="timeline-amt" [ngClass]="(txn.type === 'CREDIT' || txn.type === 'TRANSFER_CREDIT') ? 'positive' : 'negative'">
+                {{ (txn.type === 'CREDIT' || txn.type === 'TRANSFER_CREDIT') ? '+' : '-' }} ₹{{ txn.amount | number:'1.2-2' }}
+              </span>
             </div>
 
-            <div class="timeline-item">
-              <div class="timeline-left">
-                <div class="timeline-icon primary-bg">📥</div>
-                <div class="timeline-details">
-                  <h4>Salary Credited</h4>
-                  <p>From Corp Hub Tech Private Ltd</p>
-                </div>
-              </div>
-              <span class="timeline-amt positive">+ ₹1,24,500.00</span>
+            <div class="no-transactions-placeholder" *ngIf="recentTransactions?.length === 0" style="text-align: center; color: #718096; padding: 20px 0;">
+              <p>No recent transaction activities found for this account identity.</p>
             </div>
           </div>
         </div>

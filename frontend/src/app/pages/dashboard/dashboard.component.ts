@@ -6,6 +6,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ProfileWizardComponent } from './profile-wizard/profile-wizard.component'; 
 import { AccountService } from '../../services/account.service';
 import { TransactionService } from '../../services/transaction.service';
+import { HttpClient } from '@angular/common/http'; 
 import { RightSidebarComponent } from '../../components/rightsidebar/rightsidebar.component';
 
 @Component({
@@ -28,11 +29,16 @@ export class DashboardComponent implements OnInit {
   totalCredit = 0;
   totalDebit = 0;
   
+  // Extra fields dashboard response se summary ke liye
+  accountNumber = '';
+  accountType = '';
+  recentTransactions: any[] = [];
+  
   currentUserId!: number;    
   currentAccountId!: number; 
   userEmail: string | null = null;
 
-  // 👁️ Balance Visibility Toggle Flags
+  // 👁️ Balance Visibility Toggle Flags (By default true rakh sakte ho agar direct dikhana hai)
   isAssetVisible = false;
   isLiabilityVisible = false;
 
@@ -67,27 +73,26 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private http: HttpClient 
   ) {}
 
   ngOnInit(): void {
-    let sessionUserId = localStorage.getItem('loggedInUserId');
-    let sessionAccountId = localStorage.getItem('accountId');
-    this.userEmail = localStorage.getItem('userEmail');
+    // 1. LocalStorage se IDs nikalo
+    const storedUserId = localStorage.getItem('userId');
+    const storedAccountId = localStorage.getItem('accountId');
 
-    if (sessionUserId) {
-      this.currentUserId = Number(sessionUserId);
-      this.createAccountRequest.userId = this.currentUserId; 
-
-      if (sessionAccountId) {
-        this.currentAccountId = Number(sessionAccountId);
-      }
-
-      this.loadUserAccountDetails();
+    if (storedUserId) {
+      this.currentUserId = parseInt(storedUserId, 10);
       this.evaluateProfileWizardStatus();
+    }
+    
+    if (storedAccountId) {
+      this.currentAccountId = parseInt(storedAccountId, 10);
+      // ⚡ FIXED: loadUserAccountDetails ki jagah loadDashboardData() call hoga jo real data lata hai
+      this.loadDashboardData();
     } else {
-      console.error("No active session identity found. Redirecting to access terminal.");
-      window.location.href = '/login';
+      console.warn("Account ID nahi mili localStorage me!");
     }
   }
 
@@ -105,47 +110,38 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  loadUserAccountDetails(): void {
-    this.accountService
-      .getAccountByUserId(this.currentUserId) 
-      .subscribe({
-        next: (response: any) => {
-          if (response && typeof response === 'object') {
-            this.account = response;
-            this.totalBalance = Number(response.balance);
-            this.currentAccountId = response.id; 
-            localStorage.setItem('accountId', this.currentAccountId.toString());
-          } else {
-            this.totalBalance = Number(response);
-          }
-          this.syncFormFields();
-          this.loadTransactionHistory(); 
-        },
-        error: (err: any) => {
-          console.error('Failed to load dynamic account details from backend:', err);
-        }
-      });
-  }
-
-  loadTransactionHistory(): void {
+  // 🔄 New Integrated Dashboard API Call Handler
+  loadDashboardData(): void {
     if (!this.currentAccountId) return;
     
-    this.transactionService.history(this.currentAccountId).subscribe({
-      next: (txns: any[]) => {
-        if (txns && txns.length > 0) {
-          this.totalCredit = txns
-            .filter((t: any) => t.type === 'CREDIT' || t.type === 'TRANSFER_CREDIT')
-            .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
-
-          this.totalDebit = txns
-            .filter((t: any) => t.type === 'DEBIT' || t.type === 'TRANSFER_DEBIT')
-            .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
-        } else {
-          this.totalCredit = 0;
-          this.totalDebit = 0;
+    const dashboardUrl = `http://localhost:8080/api/dashboard/${this.currentAccountId}`;
+    
+    this.http.get<any>(dashboardUrl).subscribe({
+      next: (data) => {
+        console.log('Dashboard Response Payload Loaded:', data);
+        if (data) {
+          // ⚡ FIXED: Dono keys safe map ki hain - chahe backend se 'totalBalance' aaye ya 'balance'
+          this.totalBalance = data.totalBalance ?? data.balance ?? 0;
+          this.totalCredit = data.totalCredit ?? 0;
+          this.totalDebit = data.totalDebit ?? 0;
+          this.accountNumber = data.accountNumber ?? '';
+          this.accountType = data.accountType ?? '';
+          this.recentTransactions = data.recentTransactions ?? [];
+          
+          // Legacy object consistency handle karne ke liye
+          this.account = {
+            id: this.currentAccountId,
+            balance: this.totalBalance,
+            accountNumber: this.accountNumber,
+            accountType: this.accountType
+          };
+          
+          this.syncFormFields();
         }
       },
-      error: (err: any) => console.error('Error fetching transaction architecture breakdowns:', err)
+      error: (err) => {
+        console.error('Failed to load summary details from dashboard API:', err);
+      }
     });
   }
 
@@ -159,7 +155,6 @@ export class DashboardComponent implements OnInit {
     this.showProfileDropdown = !this.showProfileDropdown;
   }
 
-  // 🔄 View/Hide Handlers for Assets & Liabilities Balance
   toggleAssetBalance(): void {
     this.isAssetVisible = !this.isAssetVisible;
   }
@@ -194,15 +189,13 @@ export class DashboardComponent implements OnInit {
 
     this.transactionService.deposit(this.depositRequest).subscribe({
       next: (res: any) => {
-        console.log('Deposit success:', res);
         alert(res.message || 'Money Deposited Successfully!'); 
         this.showDepositModal = false;
-        this.loadUserAccountDetails(); 
+        this.loadDashboardData(); // UI sync automatic reload
         this.depositRequest.amount = null;
       },
       error: (err: any) => {
-        console.error('Deposit Error Response Object:', err);
-        alert(err.error?.message || 'Failed to complete deposit. Please check console logs.');
+        alert(err.error?.message || 'Failed to complete deposit.');
       }
     });
   }
@@ -219,11 +212,10 @@ export class DashboardComponent implements OnInit {
       next: (res: any) => {
         alert(res.message || 'Money Withdrawn Successfully!'); 
         this.showWithdrawModal = false;
-        this.loadUserAccountDetails();
+        this.loadDashboardData(); // UI sync automatic reload
         this.withdrawRequest.amount = null;
       },
       error: (err: any) => {
-        console.error('Withdraw Error:', err);
         alert(err.error?.message || 'Withdrawal failed.');
       }
     });
@@ -245,7 +237,7 @@ export class DashboardComponent implements OnInit {
       next: (res: any) => {
         alert(res.message || 'Money Transferred Successfully!'); 
         this.showTransferModal = false;
-        this.loadUserAccountDetails();
+        this.loadDashboardData(); // UI sync automatic reload
         this.transferRequest = {
           senderAccountId: this.currentAccountId,
           receiverAccountId: null,
@@ -253,7 +245,6 @@ export class DashboardComponent implements OnInit {
         };
       },
       error: (err: any) => {
-        console.error('Transfer Error:', err);
         alert(err.error?.message || 'Transfer failed. Check balance/Account ID.');
       }
     });
@@ -266,10 +257,13 @@ export class DashboardComponent implements OnInit {
         this.account = response;
         this.currentAccountId = response.id;
         localStorage.setItem('accountId', this.currentAccountId.toString());
-        this.loadUserAccountDetails();
+        this.loadDashboardData(); // Naya account aate hi dashboard reload karega
         this.showCreateAccountModal = false;
       },
       error: (err: any) => console.error(err)
     });
   }
 }
+
+
+

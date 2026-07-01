@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { TransactionService } from '../../services/transaction.service';
+import { HttpClient } from '@angular/common/http'; // 👈 Direct API hit karne ke liye import kiya
 
 @Component({
   selector: 'app-transactions',
@@ -15,10 +15,10 @@ export class TransactionsComponent implements OnInit {
   transactions: any[] = [];
   currentAccountId!: number;
 
-  constructor(private transactionService: TransactionService) {}
+  constructor(private http: HttpClient) {} // 👈 HttpClient inject kiya
 
   ngOnInit(): void {
-    // 🌟 FIXED: Dashboard ki tarah yahan se bhi context accountId fetch karenge
+    // Session context se active accountId nikalna
     const sessionAccountId = localStorage.getItem('accountId');
     
     if (sessionAccountId) {
@@ -32,18 +32,19 @@ export class TransactionsComponent implements OnInit {
   loadTransactionHistory(): void {
     if (!this.currentAccountId) return;
 
-    console.log(`Fetching ledger streams from database for Account ID: ${this.currentAccountId}...`);
+    const apiUrl = `http://localhost:8080/api/transaction/history/${this.currentAccountId}`;
+    console.log(`Fetching ledger streams from database: ${apiUrl}`);
     
-    // 🌟 FIXED: Service hooks dynamic call aur transactions structure population
-    this.transactionService.history(this.currentAccountId).subscribe({
+    this.http.get<any[]>(apiUrl).subscribe({
       next: (txns: any[]) => {
-        console.log('Ledger logs retrieved successfully:', txns);
-        // Sahi sequence maintain karne ke liye latest transactions upar dikhayenge (Reverse Array)
+        console.log('Ledger logs retrieved successfully from backend:', txns);
+        // Latest transactions ko sabse upar dikhane ke liye reverse array kiya
         this.transactions = txns ? txns.reverse() : [];
       },
       error: (err: any) => {
-        console.error('Failed to resolve transaction statement registry architecture:', err);
+        console.error('Failed to resolve transaction statement registry:', err);
       }
     });
   }
 }
+

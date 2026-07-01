@@ -10,6 +10,7 @@
                 <th>Transaction Type</th>
                 <th>Account ID</th>
                 <th>Amount</th>
+                <th>Status</th>
                 <th>Date / Time</th>
             </tr>
         </thead>
@@ -24,7 +25,7 @@
                 </td>
 
                 <td>
-                    {{ tx.account?.id || currentAccountId }}
+                    <strong style="color: #475569;">#{{ tx.account?.id || currentAccountId }}</strong>
                 </td>
 
                 <td class="amount-text" [ngClass]="(tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? 'text-credit' : 'text-debit'">
@@ -32,12 +33,19 @@
                 </td>
 
                 <td>
-                    {{ (tx.date || tx.timestamp) ? ((tx.date || tx.timestamp) | date:'dd MMM yyyy, hh:mm a') : 'N/A' }}
+                    <span [style.color]="tx.status === 'SUCCESS' ? '#10b981' : '#ef4444'" 
+                          style="font-weight: 600; font-size: 13px; letter-spacing: 0.03em;">
+                        ● {{ tx.status || 'SUCCESS' }}
+                    </span>
+                </td>
+
+                <td style="color: #64748b; font-weight: 500;">
+                    {{ tx.transactionDate ? (tx.transactionDate | date:'dd MMM yyyy, hh:mm a') : 'N/A' }}
                 </td>
             </tr>
 
             <tr *ngIf="!transactions || transactions.length === 0">
-                <td colspan="4" style="text-align: center; color: #64748b; font-style: italic; padding: 30px; font-size: 14px;">
+                <td colspan="5" style="text-align: center; color: #64748b; font-style: italic; padding: 40px; font-size: 14px;">
                     ⚠ No secure transactional ledgers registered on this account node.
                 </td>
             </tr>
