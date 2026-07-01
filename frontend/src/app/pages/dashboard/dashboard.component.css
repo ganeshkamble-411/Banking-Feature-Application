@@ -12,7 +12,6 @@ html, body {
     height: 100%;
     overflow: hidden;
     background: #eef2f5; 
-    /* Modern dynamic fontstack with crisp anti-aliasing */
     font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
     -webkit-font-smoothing: antialiased;
 }
@@ -23,15 +22,12 @@ app-root {
     overflow: hidden;
 }
 
-/* ==========================================================================
-    🧭 2. Dashboard Dynamic Shell Viewport Mapping (Pure Layout Fixes)
-   ========================================================================== */
+
 .main-dashboard-wrapper {
     display: flex;
-    flex-direction: row; /* Strict sequential arrangement of elements */
+    flex-direction: row; 
     width: 100%;
     min-height: 100vh;
-    /* overflow: hidden; */
     box-sizing: border-box;
 }
 
@@ -470,156 +466,60 @@ app-rightsidebar {
 /* ==========================================================================
     📱 8. Adaptive Mobile Fluidic Responsive Systems
    ========================================================================== */
-/* Tablet & Smaller Desktops (Jaise iPad Mini screenshot ka issue) */
+/* Tablet & Smaller Desktops */
 @media (max-width: 1024px) {
     .main-dashboard-wrapper {
-        flex-direction: column; /* Pura structure row se column ho jayega */
-        overflow-y: auto;       /* Screen scrollable ho sake */
+        flex-direction: column !important; /* Row se hatakar content ek ke niche ek kiya */
+        overflow-y: auto;      
         height: auto;
     }
 
-    /* Agar left sidebar app-sidebar component hai toh mobile pe full width */
-    /* app-sidebar { width: 100% !important; height: auto !important; } */
-
     .dashboard-layout {
-        width: 100%;
+        width: 100% !important; /* Desktop ka calc math drop kiya */
+        max-width: 100% !important;
+        margin-left: 0 !important; /* Side margin zero kiya taaki center stretch ho */
         height: auto;
         overflow-y: visible;
     }
 
     .dashboard-main-wrapper {
-        padding: 16px; /* Padding thoda kam kiya screen space ke liye */
+        padding: 16px; 
+        width: 100% !important;
     }
 
-    app-rightsidebar {
-        width: 100%;
-        min-width: 100%;
-        height: auto;
-        border-left: none;
-        border-top: 1px solid #e2e8f0;
-        overflow-y: visible;
+    /* 🛑 RIGHT SIDEBAR / CART SECTION KO POORI TARAH HIDE KAR DIYA */
+    app-rightsidebar, 
+    .grid-right-sidebar {
+        display: none !important;
     }
 }
 
-/* Mobile Screens (iPhone 14 Pro Max screenshot ka issue) */
+/* Mobile Screens */
 @media (max-width: 768px) {
     .dashboard-main-wrapper {
         padding: 12px;
     }
 
     .kotak-clean-card {
-        padding: 16px; /* Cards ka padding kam kiya taaki text na kate */
+        padding: 16px; 
     }
 
     .card-title-row h2 {
-        font-size: 18px; /* Heading thodi choti ki mobile ke liye */
+        font-size: 18px; 
     }
 
     .loans-grid-container {
-        grid-template-columns: repeat(2, 1fr); /* Mobile par clear 2 columns grid */
+        grid-template-columns: repeat(2, 1fr) !important; 
         gap: 12px;
     }
 }
 
 @media (max-width: 480px) {
     .loans-grid-container {
-        grid-template-columns: repeat(2, 1fr); /* Bahut choti screens par bhi do cards barabar dikhenge */
+        grid-template-columns: repeat(2, 1fr) !important; 
     }
     
     .summary-item, .rec-item {
-        flex-direction: row; /* Content row hi rahega text alignment wrap ho jayega automatically */
+        flex-direction: row; 
     }
-}
-
-/* ==========================================================================
-    🆕 Welcome Banner Typography
-   ========================================================================== */
-.welcome-text {
-    font-size: 16px;
-    color: #1a202c;
-    font-weight: 500;
-    margin-bottom: 20px;
-}
-
-.welcome-text strong {
-    font-weight: 700;
-    color: #003366; /* Kotak Premium Dark Blue Tone */
-}
-
-.last-login-span {
-    font-size: 13px;
-    color: #718096;
-    font-weight: 400;
-    display: inline-block;
-    margin-left: 8px;
-}
-
-/* Loans Section Typography Consistency */
-.loan-grid-item h3 {
-    font-size: 14px;
-    color: #2d3748;
-    font-weight: 600;
-    margin: 12px 0 0 0; /* Margin layout adjust kiya */
-    letter-spacing: -0.01em;
-}
-
-.loans-footer-text {
-    text-align: center;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid #edf2f7;
-    font-size: 13px;
-    color: #4a5568;
-}
-
-.loans-footer-text a {
-    color: #3182ce;
-    text-decoration: none;
-    font-weight: 600;
-}
-.loans-footer-text a:hover {
-    text-decoration: underline;
-}
-
-/* ==========================================================================
-    🆕 Transaction Timeline Typography
-   ========================================================================== */
-.timeline-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-block: 16px;
-    border-bottom: 1px solid #edf2f7;
-}
-
-.timeline-item:last-of-type {
-    border-bottom: none;
-}
-
-.timeline-details h4 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #1a202c;
-    line-height: 1.4;
-}
-
-.timeline-details p {
-    margin: 4px 0 0 0;
-    font-size: 13px;
-    color: #718096;
-}
-
-.timeline-amt {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-}
-
-.timeline-amt.negative {
-    color: #e53e3e; /* Clear Red for Debit */
-}
-
-.timeline-amt.positive {
-    color: #38a169; /* Clear Green for Credit */
 }

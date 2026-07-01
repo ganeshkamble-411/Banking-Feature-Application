@@ -20,14 +20,123 @@ app-root {
 
 .element {
   overflow: auto;
-
-  /* Firefox */
-  scrollbar-width: none;
-
-  /* IE and old Edge */
+  scrollbar-width: none;  
   -ms-overflow-style: none;
 }
 
 .element::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge (Chromium) */
+  display: none; 
 }
+
+/* 
+app-dashboard .main-dashboard-wrapper {
+    margin-top: 65px; 
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+app-dashboard .dashboard-layout {
+    margin-left: 260px; 
+    width: calc(100% - 260px - 360px) !important; 
+    flex: 1;
+}
+
+
+@media (max-width: 1024px) {
+    
+    
+    app-dashboard app-rightsidebar {
+        display: none !important;
+    }
+
+  
+    app-dashboard .main-dashboard-wrapper {
+        flex-direction: column !important;
+        height: auto;
+    }
+
+    app-dashboard .dashboard-layout {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important; 
+        height: auto;
+        overflow-y: visible;
+    }
+
+    app-dashboard .dashboard-main-wrapper {
+        padding: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    app-dashboard .dashboard-fullwidth-container {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+  
+    app-sidebar .kotak-sidebar-container {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        top: 0 !important;
+        border-right: none;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 10px 16px;
+    }
+
+    app-sidebar .sidebar-nav-menu {
+        flex-direction: row !important;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    app-sidebar .nav-item-link {
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+        border-left: none !important;
+    }
+    
+    app-sidebar .active-link {
+        border-bottom: 3px solid #e31837 !important;
+    }
+
+    app-sidebar .sidebar-footer {
+        display: none !important;
+    }
+
+    app-dashboard .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 12px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    app-header .real-search-box {
+        display: none !important; 
+    }
+
+    app-sidebar .nav-text {
+        font-size: 11px !important;
+    }
+
+    app-sidebar .nav-item-link {
+        flex-direction: column !important; 
+        align-items: center;
+        gap: 4px !important;
+        padding: 6px 8px !important;
+    }
+    
+    app-sidebar .nav-icon {
+        margin-right: 0 !important;
+    }
+
+    app-dashboard .loans-grid-container {
+        grid-template-columns: 1fr !important; 
+    }
+} */
