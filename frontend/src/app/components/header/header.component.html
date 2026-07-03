@@ -44,18 +44,18 @@
       </div>
     </div>
 
-    <div class="avatar-dropdown-trigger" (click)="toggleDropdown($event)">
-      <div class="name-initial-circle">GK</div>
+    <div class="avatar-dropdown-trigger" (click)="toggleDropdown($event)" *ngIf="userName">
+      <div class="name-initial-circle">{{ userInitials }}</div>
       <span class="dropdown-chevron-down">▼</span>
 
       <div class="profile-dropdown-card" *ngIf="isDropdownOpen">
         <div class="dropdown-notch-arrow"></div>
 
         <div class="dropdown-user-identity">
-          <div class="dropdown-avatar-circle">GK</div>
+          <div class="dropdown-avatar-circle">{{ userInitials }}</div>
           <div class="user-meta-specs">
-            <h4 class="user-full-name">GANESH KAMBLE</h4>
-            <span class="user-crn-number">CRN 839853068</span>
+            <h4 class="user-full-name">{{ userName }}</h4>
+            <span class="user-crn-number">{{ userCrn }}</span>
             <a href="#" class="profile-action-link">View and edit Profile</a>
           </div>
         </div>
@@ -83,6 +83,4 @@
 
   </div>
 </header>
-
-
 

@@ -523,3 +523,159 @@ app-rightsidebar {
         flex-direction: row; 
     }
 }
+
+/* ==========================================================================
+    💰 7. Loans Grid Layout (Responsive Modern Grid)
+   ========================================================================== */
+.loans-grid-container {
+    display: grid;
+    /* Grid automatically adjusts if space is tight, maintaining symmetry */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px;
+    padding: 24px 0;
+    width: 100%;
+}
+
+.loan-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 20px 12px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loan-grid-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.loan-icon-bg {
+    width: 64px;
+    height: 64px;
+    background-color: #f4f6f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+    flex-shrink: 0; /* Icon micro-screens pe shrink nahi hoga */
+}
+
+.loan-grid-item h3 {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    margin: 0;
+    word-break: break-word; /* Chhote screens par text block wrap ho jayega */
+}
+
+.loan-apply-link {
+    color: #1e70cd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    display: inline-block;
+}
+.loan-apply-link:hover { 
+    text-decoration: underline; 
+}
+
+/* Footer alignment fixes */
+.loans-footer-text {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #4a5568;
+    text-align: center;
+}
+.loans-footer-text a {
+    color: #3182ce;
+    text-decoration: none;
+    font-weight: 500;
+}
+.loans-footer-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================================================
+    📱 8. Adaptive Mobile Fluidic Responsive Systems
+   ========================================================================== */
+
+/* Medium Screens & Tablets */
+@media (max-width: 1024px) {
+    .main-dashboard-wrapper {
+        flex-direction: column !important;
+        overflow-y: auto;      
+        height: auto;
+    }
+
+    .dashboard-layout {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    /* Loans grid changes to 2 columns on tablets */
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px;
+    }
+
+    app-rightsidebar, 
+    .grid-right-sidebar {
+        display: none !important;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+    .dashboard-main-wrapper {
+        padding: 12px;
+    }
+
+    .kotak-clean-card {
+        padding: 16px; 
+    }
+
+    /* Super fluid single column layout for tiny devices so card doesn't squeeze */
+    .loans-grid-container {
+        grid-template-columns: 1fr !important; 
+        gap: 12px;
+    }
+    
+    .loan-grid-item {
+        flex-direction: row; /* Mobile me icon left aur text right me align ho jayega space ke liye */
+        justify-content: flex-start;
+        padding: 12px 16px;
+        text-align: left;
+        gap: 16px;
+    }
+
+    .loan-icon-bg {
+        margin-bottom: 0; /* Clear bottom spacing for row layout */
+        width: 48px;
+        height: 48px;
+    }
+
+    .loan-grid-item h3 {
+        font-size: 15px;
+        flex-grow: 1;
+    }
+
+    .loan-apply-link {
+        margin-top: 0;
+        background: #ebf8ff;
+        padding: 6px 12px;
+        border-radius: 4px;
+    }
+}
