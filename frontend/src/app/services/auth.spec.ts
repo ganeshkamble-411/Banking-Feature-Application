@@ -1,16 +1,33 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { AuthService } from './auth.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class AccountService {
+  private baseUrl = 'http://localhost:8080/api/accounts';
 
-describe('AuthService', () => {
-  let service: AuthService;
+  constructor(private http: HttpClient) {}
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AuthService);
-  });
+  // Request token header intercept assembly utility
+  private createAuthorizationHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  // Resolving database account primary identifiers dynamically by userId context
+  getAccountByUserId(userId: number): Observable<any> {
+    const headers = this.createAuthorizationHeaders();
+    return this.http.get<any>(`${this.baseUrl}/user/${userId}`, { headers });
+  }
+
+  // Wizard patch endpoint node tracking update state data logic 
+  updateProfileSecurityLimits(userId: number, updatePayload: any): Observable<any> {
+    const headers = this.createAuthorizationHeaders();
+    return this.http.put<any>(`${this.baseUrl}/user/${userId}/security-profile`, updatePayload, { headers });
+  }
+}

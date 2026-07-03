@@ -1,0 +1,58 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+interface ServiceRequest {
+  icon: string;
+  imgUrl?: string; // Optional image reference layer
+  name: string;
+}
+
+interface WhatsNewItem {
+  icon: string;
+  imgUrl?: string;
+  bgClass: string;
+  text: string;
+  linkText: string;
+  linkUrl: string;
+}
+
+@Component({
+  selector: 'app-rightsidebar',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './rightsidebar.component.html',
+  styleUrls: ['./rightsidebar.component.css']
+})
+export class RightSidebarComponent {
+  
+  services: ServiceRequest[] = [
+    { icon: '🏠', name: 'Correspondence address update' },
+    { icon: '🏢', name: 'Change of home branch' },
+    { icon: '✉️', name: 'Email ID update' },
+    { icon: '👤', name: 'Update nominee' }
+  ];
+
+  whatsNewList: WhatsNewItem[] = [
+    {
+      icon: '📊',
+      bgClass: 'bg-blue-light',
+      text: 'Check your credit score & unlock product recommendations',
+      linkText: 'Get free credit score',
+      linkUrl: '#'
+    },
+    {
+      icon: '🐷',
+      bgClass: 'bg-pink-light',
+      text: 'Experience the new deposit journey',
+      linkText: 'Create fixed/recurring deposit',
+      linkUrl: '#'
+    }
+  ];
+
+  onServiceClick(serviceName: string) {
+    console.log(`Clicked on: ${serviceName}`);
+  }
+}
+
+
+

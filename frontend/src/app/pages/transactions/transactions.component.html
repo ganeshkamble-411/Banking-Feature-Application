@@ -10,33 +10,43 @@
                 <th>Transaction Type</th>
                 <th>Account ID</th>
                 <th>Amount</th>
-                <th>Date</th>
+                <th>Status</th>
+                <th>Date / Time</th>
             </tr>
         </thead>
 
         <tbody>
-            <!-- Loop through dynamic records array -->
             <tr *ngFor="let tx of transactions">
-                <td>{{ tx.transactionType }}</td>
-
                 <td>
-                    <!-- Uses safe navigation operator to prevent crashes if account nested object structure is lazy-loaded -->
-                    {{ tx.account?.id || currentAccountId }}
+                    <span class="tx-badge" 
+                          [ngClass]="(tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? 'badge-credit' : 'badge-debit'">
+                        {{ tx.type }}
+                    </span>
                 </td>
 
                 <td>
-                    ₹{{ tx.amount }}
+                    <strong style="color: #475569;">#{{ tx.account?.id || currentAccountId }}</strong>
+                </td>
+
+                <td class="amount-text" [ngClass]="(tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? 'text-credit' : 'text-debit'">
+                    {{ (tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? '+' : '-' }} ₹{{ tx.amount | number:'1.2-2' }}
                 </td>
 
                 <td>
-                    {{ tx.transactionDate | date:'dd/MM/yyyy HH:mm' }}
+                    <span [style.color]="tx.status === 'SUCCESS' ? '#10b981' : '#ef4444'" 
+                          style="font-weight: 600; font-size: 13px; letter-spacing: 0.03em;">
+                        ● {{ tx.status || 'SUCCESS' }}
+                    </span>
+                </td>
+
+                <td style="color: #64748b; font-weight: 500;">
+                    {{ tx.transactionDate ? (tx.transactionDate | date:'dd MMM yyyy, hh:mm a') : 'N/A' }}
                 </td>
             </tr>
 
-            <!-- Safe conditional operator handling empty states cleanly -->
             <tr *ngIf="!transactions || transactions.length === 0">
-                <td colspan="4" style="text-align: center; color: #666; font-style: italic; padding: 20px;">
-                    No Transactions Found
+                <td colspan="5" style="text-align: center; color: #64748b; font-style: italic; padding: 40px; font-size: 14px;">
+                    ⚠ No secure transactional ledgers registered on this account node.
                 </td>
             </tr>
         </tbody>

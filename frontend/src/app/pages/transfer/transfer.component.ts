@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { TransactionService } from '../../services/transaction.service';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-transfer',
@@ -16,44 +17,49 @@ export class TransferComponent implements OnInit {
   currentUserId!: number;
 
   transferData = {
-    senderAccountId: null as number | null, // Populated dynamically
+    senderAccountId: null as number | null,
     receiverAccountId: null as number | null,
     amount: null as number | null
   };
 
   constructor(
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private accountService: AccountService 
   ) {}
 
   ngOnInit(): void {
-    // 1. Fetch user ID dynamically from local browser session storage
     const sessionUserId = localStorage.getItem('loggedInUserId');
 
     if (sessionUserId) {
       this.currentUserId = Number(sessionUserId);
 
-      // 2. Map the logged-in User ID to the exact database Account ID row
-      if (this.currentUserId === 2) {
-        this.transferData.senderAccountId = 5;  // Virat Kohli's real Account ID
-      } else if (this.currentUserId === 1) {
-        this.transferData.senderAccountId = 1;  // Roman's Account ID
-      } else {
-        this.transferData.senderAccountId = this.currentUserId; // Default fallback
-      }
-      
-      console.log(`Transfer context loaded. Sender Account locked to ID: ${this.transferData.senderAccountId}`);
+      // Resolving database account primary identifiers dynamically
+      this.accountService.getAccountByUserId(this.currentUserId).subscribe({
+        next: (account: any) => {
+          if (account && account.id) {
+            this.transferData.senderAccountId = account.id;
+          }
+        },
+        error: (err) => {
+          console.error('Failed to locate transfer execution sender origin context:', err);
+        }
+      });
     } else {
       console.warn("No active session user ID found in localStorage.");
     }
   }
 
-  transferMoney() {
+  transferMoney(): void {
     if (!this.transferData.senderAccountId) {
-      alert("Error: Sender account could not be resolved. Please log in again.");
+      alert("Security Error: Sender identity could not be verified. Please log in again.");
       return;
     }
     if (!this.transferData.receiverAccountId || !this.transferData.amount || this.transferData.amount <= 0) {
-      alert("Please fill out all fields with valid information.");
+      alert("Invalid Inputs: Please declare a valid recipient identity token and non-zero transactional value.");
+      return;
+    }
+    if (this.transferData.senderAccountId === this.transferData.receiverAccountId) {
+      alert("Validation Error: Destination identifier cannot be identical to the origin root.");
       return;
     }
 
@@ -61,15 +67,16 @@ export class TransferComponent implements OnInit {
       .transfer(this.transferData)
       .subscribe({
         next: (response) => {
-          alert(response);
-          // Clear inputs after successful money transfer execution
+          // Response success handle alerts matching premium corporate structures
+          alert("Transaction Successful ✅: " + response);
           this.transferData.receiverAccountId = null;
           this.transferData.amount = null;
         },
         error: (err) => {
-          console.error('Transfer execution rejected by backend api:', err);
-          alert("Transfer Failed! Check receiver account details.");
+          console.error('Transfer rejected by backend process API:', err);
+          alert("Transfer Authorization Refused! Kindly check your daily limits or routing accuracy.");
         }
       });
   }
 }
+

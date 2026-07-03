@@ -1,0 +1,45 @@
+<div class="kotak-sidebar">
+  <div class="promo-card">
+    <div class="promo-text">Update your password to keep your account secure</div>
+    <div class="promo-arrow">
+      <svg viewBox="0 0 24 24" width="20" height="20">
+        <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <span class="section-title">POPULAR SERVICE REQUEST</span>
+    <a href="#" class="see-all-link">See All</a>
+  </div>
+
+  <ul class="service-list">
+    <li *ngFor="let service of services" class="service-item" (click)="onServiceClick(service.name)">
+      <div class="service-icon-wrapper">
+        <img *ngIf="service.imgUrl; else fallbackIcon" [src]="service.imgUrl" [alt]="service.name" class="service-img"/>
+        <ng-template #fallbackIcon><span class="emoji-icon">{{ service.icon }}</span></ng-template>
+      </div>
+      <span class="service-name">{{ service.name }}</span>
+      <span class="arrow-right">❯</span>
+    </li>
+  </ul>
+
+  <hr class="divider">
+
+  <div class="section-header">
+    <span class="section-title">WHAT'S NEW</span>
+  </div>
+
+  <div class="whats-new-list">
+    <div *ngFor="let item of whatsNewList" class="whats-new-item">
+      <div class="feature-icon-wrapper" [ngClass]="item.bgClass">
+        <img *ngIf="item.imgUrl; else fallbackFeatIcon" [src]="item.imgUrl" [alt]="item.text" class="feature-img"/>
+        <ng-template #fallbackFeatIcon><span class="emoji-icon">{{ item.icon }}</span></ng-template>
+      </div>
+      <div class="feature-content">
+        <p class="feature-text">{{ item.text }}</p>
+        <a [href]="item.linkUrl" class="feature-link">{{ item.linkText }}</a>
+      </div>
+    </div>
+  </div>
+</div>

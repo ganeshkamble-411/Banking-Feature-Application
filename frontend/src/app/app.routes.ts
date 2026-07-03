@@ -10,14 +10,14 @@ import { ContactComponent } from './pages/contact/contact.component';
 
 export const routes: Routes = [
 
-  // Default Route
+  // 1. Default Route (Sabse pehle login par bhejega)
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
 
-  // Authentication Routes
+  // 2. Authentication Routes
   {
     path: 'login',
     component: LoginComponent
@@ -27,7 +27,7 @@ export const routes: Routes = [
     component: RegisterComponent
   },
 
-  // Banking Application Routes
+  // 3. Core Banking Application Routes (Bina kisi dynamic Guard block ke direct config)
   {
     path: 'dashboard',
     component: DashboardComponent
@@ -45,7 +45,7 @@ export const routes: Routes = [
     component: ContactComponent
   },
 
-  // Invalid URL
+  // 4. Wildcard Route (Agar user ajeeb URL type kare toh safe fallback to login)
   {
     path: '**',
     redirectTo: 'login'

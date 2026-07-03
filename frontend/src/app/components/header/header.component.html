@@ -1,0 +1,86 @@
+<header class="kotak-real-header">
+  
+  <div class="header-left-zone">
+    <div class="logo-wrapper">
+      <img src="/assets/Kotak_Mahindra_Bank_idVNFKKm-u_1.png" alt="Kotak Mahindra Bank" class="kotak-bank-logo" />
+    </div>
+    
+    <div class="real-search-box">
+      <span class="search-lens-red">🔍</span>
+      <input type="text" placeholder="Search for something" class="search-field-input" />
+    </div>
+  </div>
+
+  <div class="header-right-zone">
+    
+    <button class="skip-content-btn">
+      <span class="skip-arrow">⮔</span> Skip to main content
+    </button>
+
+    <div class="desktop-features-nav">
+      <div class="utility-feature-tab">
+        <span class="feature-icon font-icon-md">🚹</span>
+        <span class="feature-label">Accessibility</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon font-icon-md">🔤</span>
+        <span class="feature-label">Language</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon icon-red-star">★</span>
+        <span class="feature-label">Favourites</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon font-icon-md">🛈</span>
+        <span class="feature-label">Help</span>
+      </div>
+
+      <div class="utility-feature-tab">
+        <span class="feature-icon alert-icon-red">🚨</span>
+        <span class="feature-label">Emergency</span>
+      </div>
+    </div>
+
+    <div class="avatar-dropdown-trigger" (click)="toggleDropdown($event)" *ngIf="userName">
+      <div class="name-initial-circle">{{ userInitials }}</div>
+      <span class="dropdown-chevron-down">▼</span>
+
+      <div class="profile-dropdown-card" *ngIf="isDropdownOpen">
+        <div class="dropdown-notch-arrow"></div>
+
+        <div class="dropdown-user-identity">
+          <div class="dropdown-avatar-circle">{{ userInitials }}</div>
+          <div class="user-meta-specs">
+            <h4 class="user-full-name">{{ userName }}</h4>
+            <span class="user-crn-number">{{ userCrn }}</span>
+            <a href="#" class="profile-action-link">View and edit Profile</a>
+          </div>
+        </div>
+
+        <hr class="dropdown-divider" />
+
+        <div style="padding: 6px 14px; font-size: 13px; color: #64748b; font-weight: 500; line-height: 1.4;">
+          Last failed password attempt on 25 Jun 2026 at 11:47 PM
+        </div>
+
+        <div class="dropdown-row-action">
+          <span class="action-label-text">Share feedback</span>
+          <span class="arrow-indicator-red">▶</span>
+        </div>
+
+        <hr class="dropdown-divider" />
+
+        <div class="dropdown-row-action logout-action-row">
+          <span class="logout-icon-vector" style="color: #e31837;">↪</span>
+          <span class="logout-label-text">Log out</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</header>
+

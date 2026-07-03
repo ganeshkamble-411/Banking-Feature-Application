@@ -1,201 +1,681 @@
-/* Remove Full Page Scrollbar */
-html,
-body {
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
+}
+
+/* ==========================================================================
+    🔷 1. Global Layout Rules & Override (Typography Intensity Boost)
+   ========================================================================== */
+html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: Arial, sans-serif;
+    background: #eef2f5; 
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Angular Root */
 app-root {
     display: block;
     height: 100%;
     overflow: hidden;
 }
 
-/* Layout */
+
+.main-dashboard-wrapper {
+    display: flex;
+    flex-direction: row; 
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
 .dashboard-layout {
-    margin-left: 260px;
+    flex: 1; /* Automatically consumes exactly available space left by sidebars */
+    margin-left: 190px; /* Resetting direct positioning hacks */
+    height: 100vh;
+    overflow-y: auto; 
+    background: #eef2f5;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+
+    width: calc(100% - 270px - 25%);
+}
+
+.dashboard-layout::-webkit-scrollbar {
+    display: none; 
+}
+
+.dashboard-main-wrapper {
+    position: relative;
+    padding-top: 24px;  
+    padding-inline: 24px;
+    padding-block-end: 32px;
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+/* HTML Wrapper Container Adaptive Width Track */
+.dashboard-fullwidth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Rigid spacing density for elements */
+    width: 100%;
+    max-width: 100%; /* Spans naturally without squeezing structural columns */
+    flex: 1;
+    box-sizing: border-box;
+}
+
+app-rightsidebar {
+    width: 360px;
+    min-width: 360px;
+    background-color: #ffffff;
+    border-left: 1px solid #e2e8f0;
     height: 100vh;
     overflow-y: auto;
-    background: #f4f7fc;
+    flex-shrink: 0; /* Sidebar drops compression factors completely */
+}
+
+/* ==========================================================================
+    🟥 3. Kotak Premium Red Promos / Alert Banners
+   ========================================================================== */
+.kotak-promo-banner-card,
+.kotak-red-alert-card,
+.kotak-alert-banner {
+    background: linear-gradient(135deg, #ff7676 0%, #ff5252 100%);
+    border-radius: 6px;
+    padding: 16px 20px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 82, 82, 0.2);
+    transition: transform 0.15s ease-in-out;
+}
+
+.kotak-promo-banner-card:hover,
+.kotak-red-alert-card:hover {
+    transform: translateY(-2px);
+}
+
+.banner-content h3,
+.alert-text-wrapper h3,
+.alert-banner-text h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.banner-arrow-circle,
+.alert-arrow-action,
+.alert-banner-arrow {
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+    ⬜ 4. Main Clean Content Cards (Enhanced Typography & Alignment)
+   ========================================================================== */
+.kotak-clean-card {
+    background: #ffffff;
+    border-radius: 15px; 
+    padding: 24px 30px;
+    margin-left: 0; /* Clear horizontal trace push offsets */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+}
+
+.card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Keeps downloads icon and title symmetrically apart */
+    margin-bottom: 24px;
+}
+
+.card-title-row h2 {
+    font-size: 22px; /* Premium banking text scaling configuration */
+    color: #000000;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.download-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+/* Lists Inside Clean Cards */
+.summary-list, .recommendation-list {
     display: flex;
     flex-direction: column;
 }
 
-/* Main Container */
-main {
-    flex: 1;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* Top Branding Row */
-.top {
+.summary-item, .rec-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding-block: 16px;
+    border-bottom: 1px solid #edf2f7;
 }
 
-.top h1 {
-    color: #1e293b;
-    margin: 0;
+.summary-item:last-of-type, .rec-item:last-of-type {
+    border-bottom: none;
 }
 
-/* Grid Summary Cards */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.card h3 {
-    color: #64748b;
-    margin: 0 0 10px 0;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.card h1 {
-    color: #2563eb;
-    margin: 0;
-    font-size: 28px;
-}
-
-.card p {
-    margin: 8px 0;
-    color: #334155;
-}
-
-/* Action Button Grid Layout */
-.action-buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.action-btn {
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
-    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
-}
-
-.action-btn:hover {
-    background: #1d4ed8;
-}
-
-/* Modals Overlay Backdrop */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
+.item-left, .rec-left {
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 9999;
+    gap: 14px;
 }
 
-/* Modal Content Panel */
-.modal {
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    box-sizing: border-box;
+.icon-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
 }
 
-.modal h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #1e293b;
-    font-size: 22px;
-}
+.asset-icon { background: #e0f2fe; color: #0284c7; }
+.liability-icon { background: #fee2e2; color: #ef4444; }
 
-.modal input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-.modal input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.modal button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
+.item-name, .rec-details h3 {
     font-size: 15px;
     font-weight: 600;
-    margin-bottom: 10px;
+    color: #1a202c;
+    margin: 0;
 }
 
-.modal button:hover {
-    background: #1d4ed8;
+.info-bubble {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #cbd5e0;
+    border-radius: 50%;
+    font-size: 9px;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
-.modal .close-btn {
-    background: #e2e8f0;
-    color: #475569;
-    margin-bottom: 0;
+.rec-avatar-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+.green-avatar { background-color: #e6f4ea; }
+.blue-avatar { background-color: #e8f0fe; }
+
+.rec-details p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: #718096;
 }
 
-.modal .close-btn:hover {
-    background: #cbd5e1;
+/* Interactivity Elements */
+.view-balance-btn, .action-link-btn {
+    background: none;
+    border: none;
+    color: #003366; 
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.view-balance-btn:hover { color: #d92229; }
+.action-link-btn:hover { text-decoration: underline; color: #3182ce;}
+
+.eye-svg {
+    width: 18px;  /* Sahi proportions ke liye responsive size */
+    height: 18px;
+    display: block;
 }
 
-/* Charts Elements */
-.chart-container {
+.card-footer-promo {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #edf2f7;
+    font-size: 13px;
+    color: #4a5568;
+}
+.card-footer-promo a { color: #3182ce; text-decoration: none; }
+.card-footer-promo a:hover { text-decoration: underline; }
+
+.see-more-fullwidth-btn {
+    width: 100%;
+    padding: 12px;
     background: white;
-    border-radius: 20px;
+    border: 1px solid #3361cc;
+    color: #3182ce;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.15s ease-in-out;
+}
+.see-more-fullwidth-btn:hover { background: #ebf8ff; }
+
+/* ==========================================================================
+    🏢 5. Kotak Sidebar Panels & Custom Action Rows
+   ========================================================================== */
+.grid-right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
     padding: 20px;
-    height: 350px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-    position: relative;
 }
 
-/* Responsive Viewports */
+.kotak-sidebar-panel {
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.panel-header-row, .sidebar-box-section-header, .sidebar-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.panel-header-row h3, .sidebar-box-section-header h3, .sidebar-section-header h3 {
+    margin: 0;
+    font-size: 12px;
+    color: #4a5568;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.see-all-link, .box-action-link, .sidebar-see-all {
+    font-size: 12px;
+    color: #0066cc;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.see-all-link:hover, .box-action-link:hover, .sidebar-see-all:hover { text-decoration: underline; }
+
+.sidebar-action-list, .box-services-list, .kotak-services-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-action-list li, .box-services-list li, .kotak-services-links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 12px;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.sidebar-action-list li:hover, .box-services-list li:hover, .kotak-services-links li:hover {
+    border-color: #cbd5e0;
+    background: #f8fafc;
+}
+
+.action-item-left, .list-item-core, .service-item-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-icon, .list-icon-bg, .service-icon { font-size: 16px; }
+.action-label, .list-title, .service-text { font-size: 13px; color: #2d3748; font-weight: 500; }
+.sidebar-arrow, .list-chevron, .service-chevron { font-size: 10px; color: #a0aec0; }
+
+/* ==========================================================================
+    🐷 6. What's New Feed Blocks / Cards
+   ========================================================================== */
+.target-whats-new {
+    border-top: 1px dashed #cbd5e0;
+    padding-top: 20px;
+}
+
+.whats-new-item, .box-feed-row, .kotak-feed-card {
+    display: flex;
+    gap: 14px;
+    background: #ffffff;
+    padding: 14px;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.whats-new-thumb, .feed-icon-avatar, .feed-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.speed-meter-bg, .meter-blue, .blue-box { background: #e6f2ff; }
+.piggy-bg, .piggy-pink, .pink-box { background: #ffebeb; }
+
+.whats-new-details h4, .feed-body h4, .feed-content-box h4 {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    color: #2d3748;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.whats-new-details a, .feed-body a, .feed-content-box a {
+    font-size: 12px;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+    💰 7. Loans Grid Layout (Clean Symmetric Multi-Row Grid)
+   ========================================================================== */
+.loans-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Dynamic item container split */
+    gap: 16px;
+    padding: 24px 0;
+}
+
+.loan-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 20px 12px;
+    box-sizing: border-box;
+}
+
+.loan-icon-bg {
+    width: 64px;
+    height: 64px;
+    background-color: #f4f6f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.loan-grid-item h3 {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    margin: 0;
+}
+
+.loan-apply-link {
+    color: #1e70cd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.loan-apply-link:hover { text-decoration: underline; }
+
+/* ==========================================================================
+    📱 8. Adaptive Mobile Fluidic Responsive Systems
+   ========================================================================== */
+/* Tablet & Smaller Desktops */
 @media (max-width: 1024px) {
-    .cards, .action-buttons {
-        grid-template-columns: 1fr;
+    .main-dashboard-wrapper {
+        flex-direction: column !important; /* Row se hatakar content ek ke niche ek kiya */
+        overflow-y: auto;      
+        height: auto;
     }
+
     .dashboard-layout {
-        margin-left: 0;
+        width: 100% !important; /* Desktop ka calc math drop kiya */
+        max-width: 100% !important;
+        margin-left: 0 !important; /* Side margin zero kiya taaki center stretch ho */
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .dashboard-main-wrapper {
+        padding: 16px; 
+        width: 100% !important;
+    }
+
+    /* 🛑 RIGHT SIDEBAR / CART SECTION KO POORI TARAH HIDE KAR DIYA */
+    app-rightsidebar, 
+    .grid-right-sidebar {
+        display: none !important;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    .dashboard-main-wrapper {
+        padding: 12px;
+    }
+
+    .kotak-clean-card {
+        padding: 16px; 
+    }
+
+    .card-title-row h2 {
+        font-size: 18px; 
+    }
+
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important; 
+    }
+    
+    .summary-item, .rec-item {
+        flex-direction: row; 
+    }
+}
+
+/* ==========================================================================
+    💰 7. Loans Grid Layout (Responsive Modern Grid)
+   ========================================================================== */
+.loans-grid-container {
+    display: grid;
+    /* Grid automatically adjusts if space is tight, maintaining symmetry */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px;
+    padding: 24px 0;
+    width: 100%;
+}
+
+.loan-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 20px 12px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loan-grid-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.loan-icon-bg {
+    width: 64px;
+    height: 64px;
+    background-color: #f4f6f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+    flex-shrink: 0; /* Icon micro-screens pe shrink nahi hoga */
+}
+
+.loan-grid-item h3 {
+    font-size: 14px;
+    color: #2d3748;
+    font-weight: 600;
+    margin: 0;
+    word-break: break-word; /* Chhote screens par text block wrap ho jayega */
+}
+
+.loan-apply-link {
+    color: #1e70cd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    display: inline-block;
+}
+.loan-apply-link:hover { 
+    text-decoration: underline; 
+}
+
+/* Footer alignment fixes */
+.loans-footer-text {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #4a5568;
+    text-align: center;
+}
+.loans-footer-text a {
+    color: #3182ce;
+    text-decoration: none;
+    font-weight: 500;
+}
+.loans-footer-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================================================
+    📱 8. Adaptive Mobile Fluidic Responsive Systems
+   ========================================================================== */
+
+/* Medium Screens & Tablets */
+@media (max-width: 1024px) {
+    .main-dashboard-wrapper {
+        flex-direction: column !important;
+        overflow-y: auto;      
+        height: auto;
+    }
+
+    .dashboard-layout {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    /* Loans grid changes to 2 columns on tablets */
+    .loans-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px;
+    }
+
+    app-rightsidebar, 
+    .grid-right-sidebar {
+        display: none !important;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+    .dashboard-main-wrapper {
+        padding: 12px;
+    }
+
+    .kotak-clean-card {
+        padding: 16px; 
+    }
+
+    /* Super fluid single column layout for tiny devices so card doesn't squeeze */
+    .loans-grid-container {
+        grid-template-columns: 1fr !important; 
+        gap: 12px;
+    }
+    
+    .loan-grid-item {
+        flex-direction: row; /* Mobile me icon left aur text right me align ho jayega space ke liye */
+        justify-content: flex-start;
+        padding: 12px 16px;
+        text-align: left;
+        gap: 16px;
+    }
+
+    .loan-icon-bg {
+        margin-bottom: 0; /* Clear bottom spacing for row layout */
+        width: 48px;
+        height: 48px;
+    }
+
+    .loan-grid-item h3 {
+        font-size: 15px;
+        flex-grow: 1;
+    }
+
+    .loan-apply-link {
+        margin-top: 0;
+        background: #ebf8ff;
+        padding: 6px 12px;
+        border-radius: 4px;
     }
 }

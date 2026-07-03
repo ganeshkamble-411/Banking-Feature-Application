@@ -1,107 +1,307 @@
+/* ======================================================== */
+/* 🌐 Global Base Reset, Overrides & Consistent Typography   */
+/* ======================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Pure website par ek jaisa font family aur smooth render maintain karne ke liye */
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
 }
 
+body {
+  background-color: #fafbfc;
+  color: #333333;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Native Form Controls explicit font override */
+input, button, select, textarea {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
+}
+
+/* ======================================================== */
+/* 🏗️ Centered Split Grid Layout & Responsive Wrapper       */
+/* ======================================================== */
 .auth-container {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-
-    background: linear-gradient(135deg, #2563eb, #1e3a8a);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Sahi spacing padding taaki mobile par top/bottom se page na chipke */
+  padding: 90px 20px 80px 20px; 
 }
 
 .auth-card {
-    width: 90%;
-    max-width: 1000px;
-    height: 80vh;
-
-    background: white;
-    border-radius: 20px;
-    display: flex;
-    overflow: hidden;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
 }
 
+/* ======================================================== */
+/* 📢 Left Advertisement Panel (Circular Mockup)             */
+/* ======================================================== */
 .left-panel {
   flex: 1;
-  background: #ea7e25;
-  color: white;
-  padding: 40px;
-  text-align: center;
-
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.left-panel h1 {
-  font-size: 40px;
-  margin-bottom: 20px;
+.circle-frame {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: #e2f0fd; /* Corporate sky tint */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.left-panel p {
-  margin-bottom: 30px;
-  line-height: 1.6;
+.circle-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.left-panel img {
-  width: 220px;
-  margin: 0 auto;
+.safe-banking-title {
+  font-size: 20px;
+  color: #111111;
+  font-weight: 700;
+  margin-top: 24px;
+  text-align: center;
+  letter-spacing: -0.3px;
 }
 
+.safe-banking-desc {
+  font-size: 14px;
+  color: #555555;
+  margin-top: 8px;
+  text-align: center;
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+/* ======================================================== */
+/* 📝 Right Dynamic Registration Form Box                   */
+/* ======================================================== */
 .right-panel {
   flex: 1;
-  padding: 50px;
+  max-width: 430px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 35px 30px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+  /* Mobile responsiveness ke liye flex layout use kiya hai absolute position ki jagah */
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .right-panel h2 {
-  text-align: center;
-  margin-bottom: 30px;
+  font-size: 22px;
+  color: #0b1e33;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 24px;
+}
+
+/* Navigation Auth Links Switching Tab */
+.login-tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  position: relative;
+  letter-spacing: -0.1px;
+}
+
+.tab-btn.active {
+  color: #0066cc;
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #0066cc;
+}
+
+/* Input Fields Frame */
+.input-group {
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .right-panel input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  height: 56px;
+  padding: 14px 16px;
+  border: 1px solid #a3a3a3;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #1f2937;
+  outline: none;
+  background: #ffffff;
+  display: block;
+  transition: border-color 0.2s ease;
 }
 
-.right-panel button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background: #2563eb;
-  color: white;
+.right-panel input:focus {
+  border-color: #0b1e33;
+  border-width: 1.5px;
+}
+
+/* Options Layout Row */
+.options-inline-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 25px;
+  gap: 10px;
+  flex-wrap: wrap; /* Taaki choti screen par wrap ho sake */
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #4b5563;
   cursor: pointer;
-  font-size: 16px;
 }
 
-.right-panel button:hover {
-  background: #1d4ed8;
-}
-
-.bottom-text {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.bottom-text a {
-  color: #2563eb;
+.terms-checkbox a {
+  color: #0066cc;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
+}
+
+.virtual-keypad-link {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.virtual-keypad-link:hover {
+  text-decoration: underline;
+}
+
+/* Error Message Typography styling */
+.error-msg {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+/* ======================================================== */
+/* ⚡ Flex Action Strip Frame (Fully Mobile Responsive)      */
+/* ======================================================== */
+.form-action-footer {
+  width: 100%;
+  padding-top: 15px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.submit-register-btn {
+  width: 120px;
+  height: 44px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0066cc; /* Sahi corporate blue matching login button */
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  letter-spacing: 0.2px;
+}
+
+.submit-register-btn:hover {
+  background-color: #0052a3;
+}
+
+/* ======================================================== */
+/* 📱 Tablet & Mobile Responsive Media Queries              */
+/* ======================================================== */
+
+/* Medium Devices (Tablets like iPad): Dono side elements compact ho jayenge */
+@media (max-width: 992px) {
+  .auth-card {
+    gap: 20px;
+  }
+  .circle-frame {
+    max-width: 280px;
+  }
+  .safe-banking-title {
+    font-size: 18px;
+  }
+}
+
+/* Small Devices (Landscape & Portrait Phones): Left side hide ho jayegi */
+@media (max-width: 768px) {
+  .left-panel {
+    display: none;
+  }
+  .auth-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .right-panel {
+    max-width: 100%;
+    padding: 30px 20px;
+    border: none;
+    box-shadow: none; /* Mobile par cleaner standard material card look */
+    background: transparent;
+  }
+}
+
+@media (max-width: 480px) {
+  .right-panel h2 {
+    font-size: 20px; /* Fluid dynamic size for small phone titles */
+  }
+  .options-inline-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .form-action-footer {
+    justify-content: center; /* Mobile button center execution strategy */
+  }
+  .submit-register-btn {
+    width: 100%; /* Full width execution strip on tiny mobile frames */
+  }
 }

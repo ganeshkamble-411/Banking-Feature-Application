@@ -6,28 +6,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
   private baseUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
 
-  register(data: any): Observable<string> {
-    return this.http.post(
-      `${this.baseUrl}/register`,
-      data,
-      {
-        responseType: 'text'
-      }
-    );
+  register(registerData: any): Observable<string> {
+    return this.http.post(`${this.baseUrl}/register`, registerData, { responseType: 'text' });
   }
 
-  login(data: any): Observable<string> {
-    return this.http.post(
-      `${this.baseUrl}/login`,
-      data,
-      {
-        responseType: 'text'
-      }
-    );
+  login(loginData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, loginData, { responseType: 'text' });
+  }
+
+  logout(): void {
+    localStorage.clear();
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('userEmail');
+  }
+
+  // 🔑 Direct Password Reset Pipeline
+  forgotPasswordReset(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forgot-password-reset`, payload);
   }
 }

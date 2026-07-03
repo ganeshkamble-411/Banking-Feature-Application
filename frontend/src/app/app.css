@@ -1,0 +1,70 @@
+/* --- Existing Dashboard Classes --- */
+.main-portal-layout-wrapper {
+    display: flex;
+    margin-top: 65px; 
+    height: calc(100vh - 65px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.portal-sidebar-navigation {
+    width: 260px;
+    flex-shrink: 0;
+    height: 100%;
+    position: fixed;
+    top: 65px;
+    left: 0;
+    border-right: 1px solid #cbd5e1;
+    background-color: #ffffff;
+}
+
+.page-content-renderer {
+    margin-left: 70px; 
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: #f8fafc;
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   NEW: LOGIN SCREEN CLEAN CANVAS OVERRIDES
+   ========================================================================== */
+.login-layout-wrapper {
+    width: 100vw;
+    height: 100vh;
+    margin-top: 0 !important; /* Header ka 65px gap hatane ke liye */
+    display: block;
+}
+
+.login-content-renderer {
+    width: 100%;
+    height: 100%;
+    margin-left: 0 !important; /* Sidebar ka 260px gap hatane ke liye */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Main router outlet viewing container */
+.page-content-renderer {
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: #f8fafc;
+    
+    /* Content scroll karega, lekin default browser elements hide rahenge */
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+
+    /* Firefox ke liye scrollbar hidden status */
+    scrollbar-width: none;
+    /* IE and old Edge custom integration */
+    -ms-overflow-style: none;
+}
+
+/* Chrome, Safari, aur naye Chromium-based Edge ke liye layout override */
+.page-content-renderer::-webkit-scrollbar {
+    display: none;
+}

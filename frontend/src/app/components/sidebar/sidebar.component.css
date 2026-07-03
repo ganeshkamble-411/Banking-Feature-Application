@@ -1,0 +1,317 @@
+/* ==========================================================================
+    🧱 Global Reset & Core Variables (Kotak Premium Portal Theme)
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sidebar-container, app-sidebar, .kotak-sidebar-container {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+    🔷 1. Sidebar Main Wrapper Structure
+   ========================================================================== */
+.kotak-sidebar-container {
+    width: 260px;
+    height: calc(100vh - 65px); /* Header height clearance */
+    background: #ffffff; 
+    position: fixed;
+    top: 65px; 
+    left: 0;
+    padding: 16px 0px; /* Full-width stretching layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #f1f5f9; /* Soft edge border */
+    z-index: 99; 
+}
+
+/* 🔷 2. Brand / Logo Section Layout (If rendered inside sidebar) */
+.sidebar-logo-section, .brand-logo-wrapper {
+    padding: 12px 24px 20px 24px;
+}
+
+.sidebar-logo-section h1, .brand-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #003366; /* Kotak Premium Dark Blue */
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.brand-subtitle, .logo-subtext {
+    font-size: 11px;
+    font-weight: 500;
+    color: #e31837; /* Kotak Signature Red */
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+    🧭 3. Navigation Links Framework
+   ========================================================================== */
+.sidebar-nav-menu, .sidebar-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* Screenshot matched compact gap */
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+/* Interactive Link Structure */
+.nav-item-link {
+    display: flex;
+    align-items: center;
+    gap: 16px; 
+    text-decoration: none;
+    color: #5c728a; /* Original Premium Steel Blue Typography */
+    padding: 12px 24px;
+    font-size: 15px;    
+    font-weight: 600; 
+    transition: all 0.15s ease;
+    border-left: 4px solid transparent; /* Prevents visual layout shifting */
+    cursor: pointer;
+}
+
+/* Hover State - Delicate Slate Tint */
+.nav-item-link:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+/* FIXED: Premium Active Link State with Left Red Bar Highlight */
+.active-link, .nav-item-link.active-link {
+    background: #fdf2f2 !important; /* Premium light pinkish-red hue */
+    color: #000000 !important; /* Bold explicit black typography */
+    font-weight: 700;
+    border-left: 4px solid #e31837 !important; /* Kotak Red Signature Accent */
+    padding-left: 20px; /* Offset compensation for border width */
+}
+
+/* ==========================================================================
+    🎨 4. Icon Engine & SVGs Control Nodes
+   ========================================================================== */
+.nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.custom-svg-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor; /* Inherits system text colors automatically */
+    transition: fill 0.15s ease;
+}
+
+/* Active State Icon Alignment */
+.active-link .custom-svg-icon {
+    fill: #000000; /* Core black sync */
+}
+
+/* ==========================================================================
+    🚪 5. Sidebar Footer Area & Logout Controls
+   ========================================================================== */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 12px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.logout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px; 
+    padding: 12px 24px; 
+    font-size: 15px;
+    font-weight: 700;
+    color: #e31837; /* Strict Kotak Crimson Red */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    border-left: 4px solid transparent;
+}
+
+.logout-btn:hover {
+    background-color: #fdf2f2; /* Symmetrical active feeling */
+}
+
+/* ==========================================================================
+    👤 6. User Profile Modal Glassmorphic UI Design
+   ========================================================================== */
+.profile-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.4); /* Premium deep slate dim overlay */
+    backdrop-filter: blur(4px); /* Modern blur effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999 !important; /* Always floats above everything */
+    animation: fadeIn 0.2s ease-out;
+}
+
+.profile-modal-card {
+    background: #ffffff;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 24px;
+    position: relative;
+    border: 1px solid #f1f5f9;
+    animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #f1f5f9;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+}
+
+.close-modal-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* Profile Avatar Badging System */
+.profile-avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profile-avatar-circle {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #003366, #0052a3); /* Corporate Royal Blue gradient */
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+}
+
+.profile-modal-card h3 {
+    text-align: center;
+    color: #003366;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.profile-sub-title {
+    text-align: center;
+    font-size: 12px;
+    color: #e31837;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+}
+
+/* Info Row Layout specs */
+.profile-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #f1f5f9;
+}
+
+.info-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.email-value {
+    color: #003366;
+    font-weight: 600;
+}
+
+/* Action Button */
+.profile-done-btn {
+    width: 100%;
+    padding: 12px;
+    background: #003366;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.profile-done-btn:hover {
+    background: #002244;
+}
+
+/* CSS Keyframe Engines for Premium Microinteractions */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(12px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+

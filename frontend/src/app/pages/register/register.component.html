@@ -1,64 +1,71 @@
 <div class="auth-container">
-
   <div class="auth-card">
 
     <div class="left-panel">
-      <h1>Welcome</h1>
-      <p>Create your banking account and manage your finances securely.</p>
-
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-        alt="Register"
-      />
+      <div class="circle-frame">
+        <img src="https://img.freepik.com/free-vector/focused-woman-working-at-desk-with-computer_23-2148281358.jpg" alt="Tax Filing Asset" />
+      </div>
+      <h1 class="safe-banking-title">Tax Filing</h1>
+      <p class="safe-banking-desc">File your taxes stress-free, anytime anywhere</p>
     </div>
 
     <div class="right-panel">
+      <h2>Welcome to Kotak</h2>
 
-      <h2>Create Account</h2>
+      <div class="login-tabs">
+        <button type="button" class="tab-btn" routerLink="/login">Login</button>
+        <button type="button" class="tab-btn active">Register with Kotak</button>
+      </div>
 
-      <form (ngSubmit)="registerUser()">
+      <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          [(ngModel)]="user.name"
-          name="name"
-        />
+        <div class="input-group">
+          <input type="text" placeholder="Full Name" formControlName="name" />
+          <div *ngIf="submitted && f['name'].errors" class="error-msg">
+            <small *ngIf="f['name'].errors['required']">Full name is required!</small>
+          </div>
+        </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          [(ngModel)]="user.email"
-          name="email"
-        />
+        <div class="input-group">
+          <input type="email" placeholder="Email Address" formControlName="email" />
+          <div *ngIf="submitted && f['email'].errors" class="error-msg">
+            <small *ngIf="f['email'].errors['required']">Email address is required!</small>
+            <small *ngIf="f['email'].errors['email']">Please enter a valid email address.</small>
+          </div>
+        </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          [(ngModel)]="user.password"
-          name="password"
-        />
+        <div class="input-group">
+          <input type="password" placeholder="Password" formControlName="password" />
+          <div *ngIf="submitted && f['password'].errors" class="error-msg">
+            <small *ngIf="f['password'].errors['required']">Password is required.</small>
+            <small *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters long.</small>
+          </div>
+        </div>
 
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          [(ngModel)]="confirmPassword"
-          name="confirmPassword"
-        />
+        <div class="input-group">
+          <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" />
+          <div *ngIf="submitted && f['confirmPassword'].errors" class="error-msg">
+            <small *ngIf="f['confirmPassword'].errors['required']">Please confirm your password.</small>
+          </div>
+          <div *ngIf="submitted && registerForm.errors?.['passwordMismatch']" class="error-msg">
+            <small>Both passwords do not match!</small>
+          </div>
+        </div>
 
-        <button type="submit">
-          Register
-        </button>
+        <div class="options-inline-row">
+          <label class="terms-checkbox">
+            <input type="checkbox" />
+            <span>I accept the <a href="javascript:void(0)">Terms & conditions</a></span>
+          </label>
+          <a href="javascript:void(0)" class="virtual-keypad-link">Use virtual keypad</a>
+        </div>
+
+        <div class="form-action-footer">
+          <button type="submit" class="submit-register-btn">Register</button>
+        </div>
 
       </form>
-
-      <p class="bottom-text">
-        Already have an account?
-        <a routerLink="/login">Login</a>
-      </p>
-
     </div>
 
   </div>
-
 </div>

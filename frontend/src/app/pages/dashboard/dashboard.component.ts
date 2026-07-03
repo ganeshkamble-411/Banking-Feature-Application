@@ -1,11 +1,13 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import Chart from 'chart.js/auto';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
-import { NavbarComponent } from '../../components/navbar/navbar';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { HeaderComponent } from '../../components/header/header.component'; 
+import { ProfileWizardComponent } from './profile-wizard/profile-wizard.component'; 
 import { AccountService } from '../../services/account.service';
 import { TransactionService } from '../../services/transaction.service';
+import { HttpClient } from '@angular/common/http'; 
+import { RightSidebarComponent } from '../../components/rightsidebar/rightsidebar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,105 +15,134 @@ import { TransactionService } from '../../services/transaction.service';
   imports: [
     CommonModule,
     SidebarComponent,
-    NavbarComponent,
-    FormsModule
+    HeaderComponent, 
+    ProfileWizardComponent, 
+    FormsModule,
+    RightSidebarComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
 
   totalBalance = 0;
   totalCredit = 0;
   totalDebit = 0;
   
+  // Extra fields dashboard response se summary ke liye
+  accountNumber = '';
+  accountType = '';
+  recentTransactions: any[] = [];
+  
   currentUserId!: number;    
   currentAccountId!: number; 
-  chart: any;
+  userEmail: string | null = null;
 
+  // 👁️ Balance Visibility Toggle Flags (By default true rakh sakte ho agar direct dikhana hai)
+  isAssetVisible = false;
+  isLiabilityVisible = false;
+
+  // Modals Visibility Flags
   showCreateAccountModal = false;
+  showDropupMenu = false;
   showDepositModal = false;
   showWithdrawModal = false;
   showTransferModal = false;
 
-  createAccountRequest = {
-    userId: null as number | null,
-    initialBalance: 0
+  // --- TWO-STEP USER PROFILE WIZARD & DROPDOWN FLAGS ---
+  showProfileWizard = false; 
+  showProfileDropdown = false; 
+
+  // Synchronized Profile Preferences State
+  profileSetupRequest = {
+    name: '',
+    email: '',
+    phoneNumber: '',
+    dailyLimit: 50000,
+    twoFactorAuth: false,
+    alertsEnabled: true
   };
 
-  depositRequest = {
-    accountId: null as number | null,
-    amount: null as number | null
-  };
+  // Transaction API Payloads
+  createAccountRequest = { userId: null as number | null, initialBalance: 0 };
+  depositRequest = { accountId: null as number | null, amount: null as number | null };
+  withdrawRequest = { accountId: null as number | null, amount: null as number | null };
+  transferRequest = { senderAccountId: null as number | null, receiverAccountId: null as number | null, amount: null as number | null };
 
-  withdrawRequest = {
-    accountId: null as number | null,
-    amount: null as number | null
-  };
-
-  transferRequest = {
-    senderAccountId: null as number | null,
-    receiverAccountId: null as number | null,
-    amount: null as number | null
-  };
-
-  account: any;
+  account: any = null;
 
   constructor(
     private accountService: AccountService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private http: HttpClient 
   ) {}
 
   ngOnInit(): void {
-    const sessionUserId = localStorage.getItem('loggedInUserId');
+    // 1. LocalStorage se IDs nikalo
+    const storedUserId = localStorage.getItem('userId');
+    const storedAccountId = localStorage.getItem('accountId');
 
-    if (sessionUserId) {
-      this.currentUserId = Number(sessionUserId);
-      this.createAccountRequest.userId = this.currentUserId; 
-
-      /**
-       * BACKEND FIX STRATEGY:
-       * Since hitting /balance/2 crashes with a 500 error, your backend map requires 
-       * the real Account Primary ID (which is 5 for Virat Kohli).
-       * * Temporary Dynamic Bridge: If your backend lacks an endpoint like 'getAccountByUserId',
-       * we safely handle Virat's account lookup routing right here:
-       */
-      if (this.currentUserId === 2) {
-        this.currentAccountId = 5; // Direct map to Virat's real account row id
-      } else if (this.currentUserId === 1) {
-        this.currentAccountId = 1; // Roman's row id
-      } else {
-        this.currentAccountId = this.currentUserId; // Fallback
-      }
-      
-      this.loadUserAccountDetails();
+    if (storedUserId) {
+      this.currentUserId = parseInt(storedUserId, 10);
+      this.evaluateProfileWizardStatus();
+    }
+    
+    if (storedAccountId) {
+      this.currentAccountId = parseInt(storedAccountId, 10);
+      // ⚡ FIXED: loadUserAccountDetails ki jagah loadDashboardData() call hoga jo real data lata hai
+      this.loadDashboardData();
     } else {
-      console.warn("No logged-in user session found.");
+      console.warn("Account ID nahi mili localStorage me!");
     }
   }
 
-  loadUserAccountDetails(): void {
-    // We pass currentAccountId (5) instead of currentUserId (2) to avoid the 500 backend crash!
-    this.accountService
-      .getBalance(this.currentAccountId) 
-      .subscribe({
-        next: (response: any) => {
-          console.log('API Account Response:', response);
-          
-          if (response && typeof response === 'object') {
-            this.account = response;
-            this.totalBalance = Number(response.balance);
-          } else {
-            this.totalBalance = Number(response);
-          }
+  evaluateProfileWizardStatus(): void {
+    const profileStatus = localStorage.getItem(`profile_completed_user_${this.currentUserId}`);
+    if (profileStatus === 'true') {
+      this.showProfileWizard = false;
+      this.profileSetupRequest.name = localStorage.getItem(`profile_name_user_${this.currentUserId}`) || localStorage.getItem('loggedInUserName') || 'Premium Customer';
+      this.profileSetupRequest.email = localStorage.getItem(`profile_email_user_${this.currentUserId}`) || this.userEmail || 'customer@bank.com';
+      this.profileSetupRequest.phoneNumber = localStorage.getItem(`profile_phone_user_${this.currentUserId}`) || '9999999999';
+      this.profileSetupRequest.dailyLimit = Number(localStorage.getItem(`profile_limit_user_${this.currentUserId}`) || 50000);
+      this.profileSetupRequest.twoFactorAuth = localStorage.getItem(`profile_2fa_user_${this.currentUserId}`) === 'true';
+    } else {
+      this.showProfileWizard = true;
+    }
+  }
 
-          // Sync the input forms automatically
+  // 🔄 New Integrated Dashboard API Call Handler
+  loadDashboardData(): void {
+    if (!this.currentAccountId) return;
+    
+    const dashboardUrl = `http://localhost:8080/api/dashboard/${this.currentAccountId}`;
+    
+    this.http.get<any>(dashboardUrl).subscribe({
+      next: (data) => {
+        console.log('Dashboard Response Payload Loaded:', data);
+        if (data) {
+          // ⚡ FIXED: Dono keys safe map ki hain - chahe backend se 'totalBalance' aaye ya 'balance'
+          this.totalBalance = data.totalBalance ?? data.balance ?? 0;
+          this.totalCredit = data.totalCredit ?? 0;
+          this.totalDebit = data.totalDebit ?? 0;
+          this.accountNumber = data.accountNumber ?? '';
+          this.accountType = data.accountType ?? '';
+          this.recentTransactions = data.recentTransactions ?? [];
+          
+          // Legacy object consistency handle karne ke liye
+          this.account = {
+            id: this.currentAccountId,
+            balance: this.totalBalance,
+            accountNumber: this.accountNumber,
+            accountType: this.accountType
+          };
+          
           this.syncFormFields();
-        },
-        error: (err) => {
-          console.error('Failed to load balance:', err);
         }
-      });
+      },
+      error: (err) => {
+        console.error('Failed to load summary details from dashboard API:', err);
+      }
+    });
   }
 
   syncFormFields(): void {
@@ -120,93 +151,119 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.transferRequest.senderAccountId = this.currentAccountId;
   }
 
-  createAccount(): void {
-    this.accountService
-      .createAccount(this.createAccountRequest)
-      .subscribe({
-        next: (response: any) => {
-          alert('Account Created Successfully');
-          this.account = response;
-          this.currentAccountId = response.id;
-          this.loadUserAccountDetails();
-          this.showCreateAccountModal = false;
-        },
-        error: (err) => console.error(err)
-      });
+  toggleProfileMenu(): void {
+    this.showProfileDropdown = !this.showProfileDropdown;
+  }
+
+  toggleAssetBalance(): void {
+    this.isAssetVisible = !this.isAssetVisible;
+  }
+
+  toggleLiabilityBalance(): void {
+    this.isLiabilityVisible = !this.isLiabilityVisible;
+  }
+
+  onWizardClosed(): void {
+    this.showProfileWizard = false;
+    this.evaluateProfileWizardStatus();
+  }
+
+  openChangePasswordModal(): void {
+    alert('Secure Password Reset Link has been initiated to verification records.');
+    this.showProfileDropdown = false;
+  }
+
+  logout(): void {
+    localStorage.clear(); 
+    alert('You have been securely logged out from Core Processing Engine.');
+    window.location.href = '/login'; 
   }
 
   depositMoney(): void {
-    this.transactionService
-      .deposit(this.depositRequest)
-      .subscribe({
-        next: (response) => {
-          alert(response);
-          if (this.depositRequest.amount) {
-            this.totalCredit += this.depositRequest.amount;
-          }
-          this.showDepositModal = false;
-          this.loadUserAccountDetails();
-          this.depositRequest.amount = null;
-        },
-        error: (err) => console.error(err)
-      });
-  }
+    this.depositRequest.accountId = this.currentAccountId;
 
-  withdrawMoney(): void {
-    this.transactionService
-      .withdraw(this.withdrawRequest)
-      .subscribe({
-        next: (response) => {
-          alert(response);
-          if (this.withdrawRequest.amount) {
-            this.totalDebit += this.withdrawRequest.amount;
-          }
-          this.showWithdrawModal = false;
-          this.loadUserAccountDetails();
-          this.withdrawRequest.amount = null;
-        },
-        error: (err) => console.error(err)
-      });
-  }
+    if (!this.depositRequest.amount || this.depositRequest.amount <= 0) {
+      alert("Please enter a valid deposit amount.");
+      return;
+    }
 
-  transferMoney(): void {
-    this.transactionService
-      .transfer(this.transferRequest)
-      .subscribe({
-        next: (response) => {
-          alert(response);
-          this.showTransferModal = false;
-          this.loadUserAccountDetails();
-          this.transferRequest = {
-            senderAccountId: this.currentAccountId,
-            receiverAccountId: null,
-            amount: null
-          };
-        },
-        error: (err) => console.error(err)
-      });
-  }
-
-  ngAfterViewInit(): void {
-    const ctx = document.getElementById('myChart') as HTMLCanvasElement | null;
-    if (!ctx) return;
-
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-        datasets: [{
-          label: 'Transactions',
-          data: [12000, 19000, 8000, 15000, 22000],
-          borderWidth: 3,
-          tension: 0.4,
-          fill: true
-        }]
+    this.transactionService.deposit(this.depositRequest).subscribe({
+      next: (res: any) => {
+        alert(res.message || 'Money Deposited Successfully!'); 
+        this.showDepositModal = false;
+        this.loadDashboardData(); // UI sync automatic reload
+        this.depositRequest.amount = null;
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
+      error: (err: any) => {
+        alert(err.error?.message || 'Failed to complete deposit.');
       }
     });
   }
+
+  withdrawMoney(): void {
+    this.syncFormFields();
+    
+    if (!this.withdrawRequest.amount || this.withdrawRequest.amount <= 0) {
+      alert("Please enter a valid withdrawal amount.");
+      return;
+    }
+
+    this.transactionService.withdraw(this.withdrawRequest).subscribe({
+      next: (res: any) => {
+        alert(res.message || 'Money Withdrawn Successfully!'); 
+        this.showWithdrawModal = false;
+        this.loadDashboardData(); // UI sync automatic reload
+        this.withdrawRequest.amount = null;
+      },
+      error: (err: any) => {
+        alert(err.error?.message || 'Withdrawal failed.');
+      }
+    });
+  }
+
+  transferMoney(): void {
+    this.syncFormFields();
+    
+    if (!this.transferRequest.receiverAccountId) {
+      alert("Please enter Receiver Account ID.");
+      return;
+    }
+    if (!this.transferRequest.amount || this.transferRequest.amount <= 0) {
+      alert("Please enter a valid transfer amount.");
+      return;
+    }
+
+    this.transactionService.transfer(this.transferRequest).subscribe({
+      next: (res: any) => {
+        alert(res.message || 'Money Transferred Successfully!'); 
+        this.showTransferModal = false;
+        this.loadDashboardData(); // UI sync automatic reload
+        this.transferRequest = {
+          senderAccountId: this.currentAccountId,
+          receiverAccountId: null,
+          amount: null
+        };
+      },
+      error: (err: any) => {
+        alert(err.error?.message || 'Transfer failed. Check balance/Account ID.');
+      }
+    });
+  }
+
+  createAccount(): void {
+    this.accountService.createAccount(this.createAccountRequest).subscribe({
+      next: (response: any) => {
+        alert('Secure Banking Account Created Successfully');
+        this.account = response;
+        this.currentAccountId = response.id;
+        localStorage.setItem('accountId', this.currentAccountId.toString());
+        this.loadDashboardData(); // Naya account aate hi dashboard reload karega
+        this.showCreateAccountModal = false;
+      },
+      error: (err: any) => console.error(err)
+    });
+  }
 }
+
+
+

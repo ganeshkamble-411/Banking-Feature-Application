@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<app-header *ngIf="!isAuthPage()"></app-header>
+
+<div [ngClass]="isAuthPage() ? 'login-layout-wrapper' : 'main-portal-layout-wrapper'">
+  
+  <app-sidebar class="portal-sidebar-navigation" *ngIf="!isAuthPage()"></app-sidebar>
+
+  <main [ngClass]="isAuthPage() ? 'login-content-renderer' : 'page-content-renderer'">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
