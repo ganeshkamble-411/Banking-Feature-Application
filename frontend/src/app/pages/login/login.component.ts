@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
-} from '@angular/forms'; // 👈 FIXED: FormsModule import kiya
+} from '@angular/forms'; 
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, RouterLink, CommonModule], // 👈 FIXED: imports me FormsModule add kiya takki ngModel chal sake
+  imports: [ReactiveFormsModule, FormsModule, RouterLink, CommonModule], 
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
