@@ -104,3 +104,81 @@ button[type="submit"]:active {
     transform: translateY(0);
 }
 
+/* Main application workspace rendering offsets */
+.carbon-main-viewport {
+  margin-top: 75px;         /* Top header se safety spacing */
+  
+  /* 🔷 FIXED: Left side se aage push karne ke liye margin aur padding badhayi */
+  margin-left: 290px;       /* Pehle 256px tha, ab ise 290px ya 300px kar do taaki side-nav se door ho jaye */
+  padding: 3.5rem 3rem;     /* Left-Right side padding ko thoda extra breathing space diya */
+  
+  background-color: #f4f4f4; /* Carbon System Gray 10 background token */
+  min-height: calc(100vh - 75px);
+  font-family: 'IBM Plex Sans', sans-serif;
+  box-sizing: border-box;
+  transition: margin-left 0.2s ease-in-out; /* Smooth rendering shift ke liye */
+}
+
+/* 🏢 Center layout block system rules configuration */
+.centered-form-column {
+  margin: 0 auto;
+  float: none;
+}
+
+/* 💳 Clean Banking Profile Card UI Spec Box */
+.banking-carbon-card {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 8px;       
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  max-width: 560px;
+  margin: 1.5rem auto;      /* Card ko top/bottom se thoda proper aligned rakhne ke liye */
+}
+
+/* Inline Carbon Validation Colors & Layouts */
+.carbon-form-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cds--label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #525252;
+  margin-bottom: 0.5rem;
+}
+
+.cds--text-input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem;
+  background-color: #f4f4f4;
+  border: none;
+  border-bottom: 1px solid #8d8d8d;
+  color: #161616;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.875rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.cds--text-input:focus {
+  outline: 2px solid #0f62fe;
+  outline-offset: -2px;
+}
+
+/* Invalid form controls state styling */
+.cds--text-input--invalid {
+  outline: 2px solid #da1e28 !important;
+  outline-offset: -2px;
+  border-bottom: none;
+}
+
+.carbon-invalid-text {
+  font-size: 0.75rem;
+  color: #da1e28;
+  margin-top: 0.25rem;
+  font-weight: 400;
+}
