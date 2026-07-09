@@ -2,7 +2,18 @@
 
 <div class="table-container">
 
-    <h1>Transaction History</h1>
+    <h1 style="font-family: var(--cds-font-family-sans, 'IBM Plex Sans');">Transaction History</h1>
+
+    <div class="carbon-filter-wrapper" style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 2rem; max-width: 500px;">
+        <div style="flex: 1;">
+            <cds-text-input 
+                label="Search Financial Ledgers" 
+                placeholder="Search by Account ID or CREDIT/DEBIT..."
+                [value]="searchQuery"
+                (input)="onSearchChange($event)">
+            </cds-text-input>
+        </div>
+    </div>
 
     <table>
         <thead>
@@ -16,12 +27,14 @@
         </thead>
 
         <tbody>
-            <tr *ngFor="let tx of transactions">
+            <tr *ngFor="let tx of filteredTransactions">
                 <td>
-                    <span class="tx-badge" 
-                          [ngClass]="(tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT') ? 'badge-credit' : 'badge-debit'">
+                    <cds-tag *ngIf="tx.type === 'CREDIT' || tx.type === 'TRANSFER_CREDIT'" type="green">
                         {{ tx.type }}
-                    </span>
+                    </cds-tag>
+                    <cds-tag *ngIf="tx.type !== 'CREDIT' && tx.type !== 'TRANSFER_CREDIT'" type="red">
+                        {{ tx.type }}
+                    </cds-tag>
                 </td>
 
                 <td>
@@ -44,12 +57,12 @@
                 </td>
             </tr>
 
-            <tr *ngIf="!transactions || transactions.length === 0">
+            <tr *ngIf="!filteredTransactions || filteredTransactions.length === 0">
                 <td colspan="5" style="text-align: center; color: #64748b; font-style: italic; padding: 40px; font-size: 14px;">
-                    ⚠ No secure transactional ledgers registered on this account node.
+                    ⚠ No transaction records match your search criteria.
                 </td>
             </tr>
         </tbody>
     </table>
-
 </div>
+
