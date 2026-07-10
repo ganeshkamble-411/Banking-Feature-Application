@@ -16,7 +16,7 @@
             </p>
           </div>
 
-          <form [formGroup]="transferForm" (ngSubmit)="$event.preventDefault(); onTransferSubmit()">
+          <form [formGroup]="transferForm" (ngSubmit)="onTransferSubmit()">
             <cds-stack gap="6">
               
               <div class="carbon-form-item">
@@ -68,7 +68,8 @@
               <div class="action-submit-zone">
                 <cds-button
                   type="submit"
-                  [disabled]="transferForm.invalid || isSubmitting"
+                  [disabled]="isSubmitting"
+                  (click)="onTransferSubmit()"
                   class="carbon-stretch-btn">
                   {{ isSubmitting ? 'Processing Transaction...' : 'Transfer Money' }}
                 </cds-button>
@@ -81,4 +82,3 @@
     </cds-row>
   </cds-grid>
 </main>
-
