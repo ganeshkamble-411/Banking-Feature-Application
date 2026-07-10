@@ -9,7 +9,7 @@
 }
 
 h1 {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif; 
     color: #003366; /* Kotak Corporate Royal Blue */
     font-size: 26px;
     font-weight: 700;
@@ -17,7 +17,7 @@ h1 {
     letter-spacing: -0.01em;
 }
 
-/* 📊 Premium Financial Data Table Framework */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -86,7 +86,7 @@ tr:last-child td {
 /* 💰 Dynamic Monospace Currency Styling */
 .amount-text {
     font-weight: 700;
-    font-family: 'Segoe UI', system-ui, monospace; /* Ledger format presentation */
+    font-family: 'Roboto', sans-serif; 
     font-size: 16px;
 }
 

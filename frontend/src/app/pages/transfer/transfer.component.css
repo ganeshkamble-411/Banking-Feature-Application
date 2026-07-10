@@ -1,6 +1,5 @@
-/* Main Content Area Wrapper */
 .main-content {
-    margin-left: 260px; /* Synchronized sidebar exact width alignment */
+    margin-left: 260px;
     height: 100vh;
     width: calc(100% - 260px);
     display: flex;
@@ -8,38 +7,35 @@
     align-items: center;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: #f1f5f9; /* Premium institutional backdrop */
+    background-color: #f1f5f9;
 }
 
-/* Kotak Inspired Premium Transfer Container */
 .transfer-box {
     background: #ffffff;
     padding: 40px;
     border-radius: 12px;
     width: 440px;
     max-width: 90%;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08); /* Smooth drop-shadow matrix */
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     box-sizing: border-box;
-    border-top: 4px solid #ee2c24; /* Authentic Kotak Crimson Primary Accent Line */
+    border-top: 4px solid #ee2c24;
 }
 
-/* Typography Headings */
 .transfer-box h2 {
     margin-top: 0;
     margin-bottom: 24px;
-    color: #003366; /* Kotak Corporate Signature Royal Blue */
+    color: #003366;
     text-align: center;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif; 
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -0.01em;
 }
 
-/* Label Elements Styling */
 label {
     display: block;
     font-size: 11px;
-    color: #003366; /* Matching identifiers with corporate blue */
+    color: #003366;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -47,7 +43,6 @@ label {
     margin-top: 14px;
 }
 
-/* Input Fields Styling to match professional banking standards */
 input {
     width: 100%;
     padding: 12px 14px;
@@ -64,11 +59,10 @@ input {
 
 input:focus {
     background-color: #ffffff;
-    border-color: #ee2c24; /* Focus turns into sleek Kotak Ruby Red border */
-    box-shadow: 0 0 0 4px rgba(238, 44, 36, 0.12); /* Subtle protective crimson glow */
+    border-color: #ee2c24;
+    box-shadow: 0 0 0 4px rgba(238, 44, 36, 0.12);
 }
 
-/* Read-only / Disabled input states */
 input[readonly], 
 input:disabled {
     background-color: #f1f5f9 !important;
@@ -78,14 +72,13 @@ input:disabled {
     font-weight: 500;
 }
 
-/* Premium Kotak Call to Action Button */
 button[type="submit"] {
     width: 100%;
     padding: 14px;
     margin-top: 25px;
     border: none;
     border-radius: 6px;
-    background: #ee2c24; /* Core Kotak Red Brand Identifier */
+    background: #ee2c24;
     color: #ffffff;
     font-size: 16px;
     font-weight: 600;
@@ -95,7 +88,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background: #d11a14; /* Deeper executive red state */
+    background: #d11a14;
     box-shadow: 0 6px 16px rgba(238, 44, 36, 0.35);
     transform: translateY(-1px);
 }
@@ -104,28 +97,22 @@ button[type="submit"]:active {
     transform: translateY(0);
 }
 
-/* Main application workspace rendering offsets */
 .carbon-main-viewport {
-  margin-top: 75px;         /* Top header se safety spacing */
-  
-  /* 🔷 FIXED: Left side se aage push karne ke liye margin aur padding badhayi */
-  margin-left: 290px;       /* Pehle 256px tha, ab ise 290px ya 300px kar do taaki side-nav se door ho jaye */
-  padding: 3.5rem 3rem;     /* Left-Right side padding ko thoda extra breathing space diya */
-  
-  background-color: #f4f4f4; /* Carbon System Gray 10 background token */
+  margin-top: 75px;         
+  margin-left: 290px;       
+  padding: 3.5rem 3rem;     
+  background-color: #f4f4f4; 
   min-height: calc(100vh - 75px);
   font-family: 'IBM Plex Sans', sans-serif;
   box-sizing: border-box;
-  transition: margin-left 0.2s ease-in-out; /* Smooth rendering shift ke liye */
+  transition: margin-left 0.2s ease-in-out; 
 }
 
-/* 🏢 Center layout block system rules configuration */
 .centered-form-column {
   margin: 0 auto;
   float: none;
 }
 
-/* 💳 Clean Banking Profile Card UI Spec Box */
 .banking-carbon-card {
   background-color: #ffffff;
   padding: 2.5rem;
@@ -133,10 +120,9 @@ button[type="submit"]:active {
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
   max-width: 560px;
-  margin: 1.5rem auto;      /* Card ko top/bottom se thoda proper aligned rakhne ke liye */
+  margin: 1.5rem auto;      
 }
 
-/* Inline Carbon Validation Colors & Layouts */
 .carbon-form-item {
   display: flex;
   flex-direction: column;
@@ -169,7 +155,6 @@ button[type="submit"]:active {
   outline-offset: -2px;
 }
 
-/* Invalid form controls state styling */
 .cds--text-input--invalid {
   outline: 2px solid #da1e28 !important;
   outline-offset: -2px;
@@ -182,3 +167,4 @@ button[type="submit"]:active {
   margin-top: 0.25rem;
   font-weight: 400;
 }
+
