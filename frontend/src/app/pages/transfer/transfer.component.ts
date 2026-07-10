@@ -15,7 +15,7 @@ import '@carbon/web-components/es/components/grid/index.js';
 @Component({
   selector: 'app-transfer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule], // 🟢 ReactiveForms aur FormsModule dono mapped hain
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA] 
@@ -35,7 +35,7 @@ export class TransferComponent implements OnInit {
   }
 
   onTransferSubmit(): void {
-    console.log('Transfer Click Triggered!'); // 🟢 Debug Line: Console me check karo ye print hota hai ki nahi
+    console.log('Transfer Click Triggered!'); 
     
     if (this.transferForm.invalid) {
       alert("Form inputs are invalid! Please check all mandatory fields.");
@@ -45,7 +45,6 @@ export class TransferComponent implements OnInit {
 
     this.isSubmitting = true; 
 
-    // API Payload Mapping matching backend data nodes
     const transferPayload = {
       senderAccountId: Number(this.transferForm.value.senderAccountId),
       receiverAccountId: Number(this.transferForm.value.recipientAccountId),
