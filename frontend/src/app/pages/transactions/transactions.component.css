@@ -45,7 +45,7 @@ td {
     border-bottom: 1px solid #e2e8f0;
     color: #334155;
     font-size: 15px;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif; 
 }
 
 tr:hover {
