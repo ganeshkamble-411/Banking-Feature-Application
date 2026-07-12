@@ -98,8 +98,8 @@ button[type="submit"]:active {
 }
 
 .carbon-main-viewport {
-  margin-top: 75px;         
-  margin-left: 290px;       
+  margin-top: 25px;         
+  margin-left: 180px;       
   padding: 3.5rem 3rem;     
   background-color: #f4f4f4; 
   min-height: calc(100vh - 75px);
