@@ -1,0 +1,183 @@
+/* Layout Alignment with Fixed Sidebar (Width: 260px, Top Header: 65px) */
+.wallet-page-wrapper {
+    margin-left: 260px; /* Sidebar layout gap */
+    padding: 40px;
+    background: #f8fafc; /* Premium light slate tint matching sidebar hover */
+    min-height: calc(100vh - 65px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif !important;
+}
+
+/* Header Styling using Kotak Corporate Palette */
+.wallet-page-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.wallet-page-header h2 {
+    color: #003366; /* Kotak Premium Dark Blue */
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.wallet-page-header .subtitle {
+    color: #e31837; /* Kotak Signature Red */
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}
+
+/* Centralized Wallet Dashboard Card */
+.wallet-card {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    text-align: center;
+}
+
+/* Balance Display Typography */
+.balance-container .label {
+    font-size: 13px;
+    color: #5c728a; /* Original Premium Steel Blue Typography */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.balance-container .amount {
+    font-size: 38px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 10px 0 32px 0;
+}
+
+/* Flex Grid layout for 2 Action Buttons */
+.buttons-grid {
+    display: flex;
+    gap: 16px;
+}
+
+/* Core Buttons Base Setup */
+.action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #ffffff;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Add Money Theme - Safe Mint Green Accent */
+.add-btn {
+    background: #10b981; 
+}
+
+.add-btn:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.2);
+}
+
+/* Withdraw Money Theme - Kotak Signature Red Accent */
+.withdraw-btn {
+    background: #e31837; /* Strict Kotak Crimson Red */
+}
+
+.withdraw-btn:hover {
+    background: #b9121b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(227, 24, 55, 0.2);
+}
+
+/* Visual Microinteraction Click State */
+.action-btn:active {
+    transform: translateY(0);
+}
+
+/* Icon Control Node */
+.btn-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Responsive Scaling for Tablets/Mobiles */
+@media (max-width: 768px) {
+    .wallet-page-wrapper {
+        margin-left: 0; /* Stack layout on micro screens */
+        padding: 20px;
+    }
+    .buttons-grid {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+}
+
+/* 🟢 New Input Form Section Layout CSS */
+.transaction-form-box {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 16px;
+    background: #fdfdfd;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 12px;
+    color: #475569;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.form-custom-input {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: #1e293b;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.15s ease-in-out;
+}
+
+/* Kotak Focused State Glow effect */
+.form-custom-input:focus {
+    border-color: #003366; /* Kotak Corporate Blue */
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+/* Chrome, Safari, Edge, Opera se number input triggers arrow hatane ke liye */
+.form-custom-input::-webkit-outer-spin-button,
+.form-custom-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

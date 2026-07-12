@@ -1,0 +1,64 @@
+<div class="wallet-page-wrapper">
+  <header class="wallet-page-header">
+    <h2>Premium Digital Wallet</h2>
+    <p class="subtitle">Instant Fund Management Portal</p>
+  </header>
+
+  <div class="wallet-card">
+    <div class="balance-container">
+      <span class="label">Total Balance</span>
+      <h1 class="amount">{{ totalbalance | currency:'INR':'symbol':'1.2-2' }}</h1>
+    </div>
+
+    <div class="transaction-form-box">
+      <div class="input-group">
+        <label for="accId">Target Account ID</label>
+        <input 
+          type="text" 
+          id="accId" 
+          [(ngModel)]="inputAccountId" 
+          placeholder="Enter Account Number (e.g. 123456)"
+          class="form-custom-input"
+          (change)="fetchLiveBalance(inputAccountId)"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="amount">Transaction Amount (₹)</label>
+        <input 
+          type="number" 
+          id="amount" 
+          [(ngModel)]="inputAmount" 
+          placeholder="Enter Amount in ₹"
+          class="form-custom-input"
+          min="1"
+        />
+      </div>
+    </div>
+
+    <div class="buttons-grid">
+      <button class="action-btn add-btn" (click)="addMoney()">
+        <span class="btn-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+          </svg>
+        </span>
+        Add Money
+      </button>
+
+      <button class="action-btn withdraw-btn" (click)="withdrawMoney()">
+        <span class="btn-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-.53 14.03a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06l-1.72 1.72V8.25a.75.75 0 0 0-1.5 0v5.69l-1.72-1.72a.75.75 0 0 0-1.06 1.06l3 3Z" clip-rule="evenodd" />
+          </svg>
+        </span>
+        Withdraw Money
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+

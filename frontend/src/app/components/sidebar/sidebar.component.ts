@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService, UserProfile } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,51 +17,32 @@ import { RouterModule, Router } from '@angular/router';
 export class SidebarComponent implements OnInit {
 
   showProfileModal = false;
-  userEmail: string | null = null;
-  currentAccountId: string | null = null;
+  
+  // 🔷 Local storage variables ko hata kar central reactive stream lagayi
+  currentUser$: Observable<UserProfile | null>;
+  
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    // Header ki tarah stream ko bind kiya
+    this.currentUser$ = this.authService.currentUser$;
+  }
 
   ngOnInit(): void {
-    this.fetchSessionData();
+    // Ab manual localStorage fetches ki zaroorat nahi hai
   }
 
-  // 🔄 Ek reusable helper method data pull karne ke liye
-  private fetchSessionData(): void {
-    this.userEmail = localStorage.getItem('email');
-    
-    // Kuch login templates me key 'accountId' hoti hai aur kuch me 'account_id'
-    // Dono checks rakh lete hain taaki safe rahe
-    this.currentAccountId = localStorage.getItem('accountId') || localStorage.getItem('account_id');
-    
-    console.log("Sidebar dynamic state values retrieved:", {
-      email: this.userEmail,
-      accountId: this.currentAccountId
-    });
-  }
-
-  /**
-   * Open User Profile Modal Popup
-   */
   openProfileModal(): void {
-    // Modal khulne ke fraction second pehle fresh data storage se read hoga
-    this.fetchSessionData();
     this.showProfileModal = true;
   }
 
-  /**
-   * Close User Profile Modal Popup
-   */
   closeProfileModal(): void {
     this.showProfileModal = false;
   }
 
-  /**
-   * Secure Session Logout Handler
-   */
   logout(): void {
-    localStorage.clear();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
+
 }
 

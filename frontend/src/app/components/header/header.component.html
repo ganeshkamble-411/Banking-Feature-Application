@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <div class="header-right-zone">
+  <div class="header-right-zone" *ngIf="currentUser$ | async as user">
     
     <button class="skip-content-btn">
       <span class="skip-arrow">⮔</span> Skip to main content
@@ -44,26 +44,36 @@
       </div>
     </div>
 
-    <div class="avatar-dropdown-trigger" (click)="toggleDropdown($event)" *ngIf="userName">
-      <div class="name-initial-circle">{{ userInitials }}</div>
+    <div class="avatar-dropdown-trigger" (click)="toggleDropdown($event)">
+      <div class="name-initial-circle">{{ getAvatarInitials(user.fullName) }}</div>
       <span class="dropdown-chevron-down">▼</span>
 
-      <div class="profile-dropdown-card" *ngIf="isDropdownOpen">
+      <div class="profile-dropdown-card" *ngIf="isDropdownOpen" (click)="$event.stopPropagation()">
         <div class="dropdown-notch-arrow"></div>
 
         <div class="dropdown-user-identity">
-          <div class="dropdown-avatar-circle">{{ userInitials }}</div>
+          <div class="dropdown-avatar-circle">{{ getAvatarInitials(user.fullName) }}</div>
           <div class="user-meta-specs">
-            <h4 class="user-full-name">{{ userName }}</h4>
-            <span class="user-crn-number">{{ userCrn }}</span>
-            <a href="#" class="profile-action-link">View and edit Profile</a>
+            <h4 class="user-full-name">{{ user.fullName }}</h4>
+            <span class="user-crn-number">CRN {{ user.accountId }}</span>
+            <span class="user-email-display" style="font-size: 11px; color: #64748b; display: block; margin-top: 2px; word-break: break-all;">
+              {{ user.email }}
+            </span>
+            
+            <div style="margin-top: 6px;">
+              <span style="font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px;" 
+                    [style.background-color]="user.status === 'ACTIVE' ? '#e2f5ea' : '#fce8e6'"
+                    [style.color]="user.status === 'ACTIVE' ? '#15803d' : '#b91c1c'">
+                {{ user.status }}
+              </span>
+            </div>
           </div>
         </div>
 
         <hr class="dropdown-divider" />
 
         <div style="padding: 6px 14px; font-size: 13px; color: #64748b; font-weight: 500; line-height: 1.4;">
-          Last failed password attempt on 25 Jun 2026 at 11:47 PM
+          Security Verification Status Account Verified
         </div>
 
         <div class="dropdown-row-action">
@@ -73,14 +83,19 @@
 
         <hr class="dropdown-divider" />
 
-        <div class="dropdown-row-action logout-action-row">
-          <span class="logout-icon-vector" style="color: #e31837;">↪</span>
-          <span class="logout-label-text">Log out</span>
+        <div class="dropdown-row-action logout-action-row" (click)="logout()" style="cursor: pointer;">
+          <span class="logout-icon-vector" style="color: #e31837; font-weight: bold; font-size: 15px;">↪</span>
+          <span class="logout-label-text" style="font-weight: 600; color: #1e293b;">Log out</span>
         </div>
 
       </div>
     </div>
 
   </div>
-</header>
 
+  <div class="header-right-zone" *ngIf="!(currentUser$ | async)">
+    <div style="padding-right: 15px;">
+      <span style="font-size: 13px; font-weight: bold; color: #e31837; cursor: pointer;">Secure Session Locked</span>
+    </div>
+  </div>
+</header>

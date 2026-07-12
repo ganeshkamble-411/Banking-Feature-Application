@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
-} from '@angular/forms'; // 👈 FIXED: FormsModule import kiya
+} from '@angular/forms'; 
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, RouterLink, CommonModule], // 👈 FIXED: imports me FormsModule add kiya takki ngModel chal sake
+  imports: [ReactiveFormsModule, FormsModule, RouterLink, CommonModule], 
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   forgotForm!: FormGroup;
   submitted = false;
 
-  // 🛠️ FIXED: Saare modal variables define kiye jo HTML me missing the
+  // 🛠️ Saare modal variables defined
   showForgotModal = false;
   forgotEmail = '';
   forgotNewPassword = '';
@@ -36,8 +36,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-
-      // FIXED: Validators.pattern() me sahi regex inject kiya hai (Note: pattern me 's' nahi hota, sirf 'pattern' hota hai)
       password: [
         '',
         [
@@ -50,7 +48,6 @@ export class LoginComponent implements OnInit {
 
     this.forgotForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      // FIXED: Aapka wahi regular expression yahan lagaya hai (min 3 numbers, 1 symbol)
       newPassword: [
         '',
         [
@@ -78,32 +75,15 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value.password,
     };
 
+    // 🔷 Subscribing to the new clean JSON-based login stream
     this.authService.login(loginData).subscribe({
       next: (response: any) => {
-        console.log('Server Response Raw:', response);
+        console.log('Processed Server Response:', response);
 
-        let resObj: any = response;
-        if (typeof response === 'string') {
-          try {
-            resObj = JSON.parse(response);
-          } catch (e) {
-            console.error('Parsing error', e);
-          }
-        }
-
-        if (resObj && (resObj.status === 'SUCCESS' || resObj.message?.includes('Successful'))) {
-          console.log('Login Success. Navigating now...');
-
-          localStorage.setItem('authToken', 'dummy-session-token');
-          localStorage.setItem('userEmail', loginData.email);
-
-          if (resObj.userId) {
-            localStorage.setItem('loggedInUserId', resObj.userId.toString());
-          }
-          if (resObj.accountId) {
-            localStorage.setItem('accountId', resObj.accountId.toString());
-          }
-
+        // AuthService ke successful item emission ke baad dashboard par direct traverse karein
+        if (response && response.status === 'SUCCESS') {
+          console.log('Login Success. Navigating to dashboard...');
+          
           this.router.navigate(['/dashboard']).then((navigated) => {
             if (navigated) {
               console.log('Successfully reached Dashboard!');
@@ -112,22 +92,27 @@ export class LoginComponent implements OnInit {
             }
           });
         } else {
-          alert(resObj.message || 'Authentication Failed');
+          alert(response.message || 'Authentication Failed');
         }
       },
       error: (error: any) => {
         console.error('Login error context:', error);
         let serverErrorMessage = 'Login Failed! Server connection refused or credentials mismatch.';
 
+        // Clean object structure parse mapper block for exceptions
         if (error.error) {
-          try {
-            const errObj = typeof error.error === 'string' ? JSON.parse(error.error) : error.error;
-            if (errObj && errObj.message) {
-              serverErrorMessage = errObj.message;
-            }
-          } catch (e) {
-            if (typeof error.error === 'string' && error.error.length < 100) {
-              serverErrorMessage = error.error;
+          if (typeof error.error === 'object' && error.error.message) {
+            serverErrorMessage = error.error.message;
+          } else if (typeof error.error === 'string') {
+            try {
+              const errObj = JSON.parse(error.error);
+              if (errObj && errObj.message) {
+                serverErrorMessage = errObj.message;
+              }
+            } catch (e) {
+              if (error.error.length < 100) {
+                serverErrorMessage = error.error;
+              }
             }
           }
         }
@@ -136,15 +121,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // 🔑 FIXED: Modal ko open karne ka method
+  // 🔑 Modal open karne ka method
   openForgotModal() {
     this.showForgotModal = true;
-    // Agar user ne login field me email pehle se dala hai, toh wahi default modal me set ho jaye
-    this.forgotEmail = this.loginForm.value.email || '';
-    this.forgotNewPassword = '';
+    
+    // Agar user ne login input field me pehle se email dala hai, toh wahi password reset window me auto-populate ho jaye
+    const currentEmail = this.loginForm.value.email || '';
+    this.forgotForm.patchValue({ email: currentEmail });
   }
 
-  // 🔑 FIXED: Modal ko close karne ka method
+  // 🔑 Modal close karne ka method
   closeForgotModal() {
     this.showForgotModal = false;
     this.forgotForm.reset();
@@ -152,7 +138,6 @@ export class LoginComponent implements OnInit {
 
   submitDirectPasswordReset() {
     if (this.forgotForm.valid) {
-      
       const payload = this.forgotForm.value;
       console.log('Reset Password Data:', payload);
 

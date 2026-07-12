@@ -1,40 +1,86 @@
-<app-sidebar></app-sidebar>
+<cds-side-nav aria-label="Side menu panel" expanded>
+  <cds-side-nav-items>
+    <cds-side-nav-link href="/transfers">
+      Money Transfers & Payments
+    </cds-side-nav-link>
+  </cds-side-nav-items>
+</cds-side-nav>
 
-<div class="main-content">
-    <div class="transfer-box">
-        <h2>Instant Fund Transfer</h2>
-        
-        <form (ngSubmit)="transferMoney()">
-            
-            <label>Source Account ID (Your Account)</label>
-            <input
-              type="number"
-              [value]="transferData.senderAccountId"
-              readonly
-              disabled
-              placeholder="Sender Account ID">
+<main class="carbon-main-viewport">
+  <cds-grid condensed>
+    <cds-row>
+      <cds-column sm="4" md="6" lg="8" class="centered-form-column">
+        <div class="banking-carbon-card">
+          <div class="card-title-block">
+            <h2 class="form-main-heading">Fund Transfer Portal</h2>
+            <p class="form-sub-heading">
+              Instantly transfer funds securely across designated internal clearing accounts.
+            </p>
+          </div>
 
-            <label>Recipient Account ID</label>
-            <input
-              type="number"
-              placeholder="Enter Destination Account ID"
-              [(ngModel)]="transferData.receiverAccountId"
-              name="receiverAccountId"
-              required>
+          <form [formGroup]="transferForm" (ngSubmit)="onTransferSubmit()">
+            <cds-stack gap="6">
+              
+              <div class="carbon-form-item">
+                <label class="cds--label" for="senderAccountId">Sender Account ID (CRN)</label>
+                <input
+                  id="senderAccountId"
+                  type="text"
+                  class="cds--text-input"
+                  placeholder="Enter sending account or source CRN"
+                  formControlName="senderAccountId"
+                  [class.cds--text-input--invalid]="transferForm.get('senderAccountId')?.touched && transferForm.get('senderAccountId')?.invalid"
+                />
+                <div class="carbon-invalid-text" *ngIf="transferForm.get('senderAccountId')?.touched && transferForm.get('senderAccountId')?.invalid">
+                  Sender account mapping identity is required.
+                </div>
+              </div>
 
-            <label>Transfer Amount (₹)</label>
-            <input
-              type="number"
-              placeholder="Enter Amount to Authorize"
-              [(ngModel)]="transferData.amount"
-              name="amount"
-              required>
+              <div class="carbon-form-item">
+                <label class="cds--label" for="recipientAccountId">Recipient Account ID (Beneficiary CRN)</label>
+                <input
+                  id="recipientAccountId"
+                  type="text"
+                  class="cds--text-input"
+                  placeholder="Enter destination account number"
+                  formControlName="recipientAccountId"
+                  [class.cds--text-input--invalid]="transferForm.get('recipientAccountId')?.touched && transferForm.get('recipientAccountId')?.invalid"
+                />
+                <div class="carbon-invalid-text" *ngIf="transferForm.get('recipientAccountId')?.touched && transferForm.get('recipientAccountId')?.invalid">
+                  A valid destination recipient account ID is required.
+                </div>
+              </div>
 
-            <button type="submit">
-              Confirm & Pay Securely
-            </button>
-            
-        </form>
-    </div>
-</div>
+              <div class="carbon-form-item">
+                <label class="cds--label" for="transferAmount">Transfer Amount (INR)</label>
+                <input
+                  id="transferAmount"
+                  type="number"
+                  min="1"
+                  class="cds--text-input"
+                  placeholder="Minimum amount ₹1"
+                  formControlName="transferAmount"
+                  [class.cds--text-input--invalid]="transferForm.get('transferAmount')?.touched && transferForm.get('transferAmount')?.invalid"
+                />
+                <div class="carbon-invalid-text" *ngIf="transferForm.get('transferAmount')?.touched && transferForm.get('transferAmount')?.invalid">
+                  Transfer funds value must be greater than zero.
+                </div>
+              </div>
 
+              <div class="action-submit-zone">
+                <cds-button
+                  type="submit"
+                  [disabled]="isSubmitting"
+                  (click)="onTransferSubmit()"
+                  class="carbon-stretch-btn">
+                  {{ isSubmitting ? 'Processing Transaction...' : 'Transfer Money' }}
+                </cds-button>
+              </div>
+
+            </cds-stack>
+          </form>
+        </div>
+      </cds-column>
+    </cds-row>
+  </cds-grid>
+</main>

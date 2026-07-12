@@ -1,82 +1,79 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'; // 🟢 FormsModule add kiya safe backup ke liye
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { TransactionService } from '../../services/transaction.service';
-import { AccountService } from '../../services/account.service';
+
+// Import your Transaction Service
+import { TransactionService } from '../../services/transaction.service'; 
+
+// IBM Carbon Web Components Registry Imports
+import '@carbon/web-components/es/components/ui-shell/index.js';
+import '@carbon/web-components/es/components/button/index.js';
+import '@carbon/web-components/es/components/form/index.js';
+import '@carbon/web-components/es/components/stack/index.js';
+import '@carbon/web-components/es/components/grid/index.js';
 
 @Component({
   selector: 'app-transfer',
   standalone: true,
-  imports: [SidebarComponent, FormsModule, CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './transfer.component.html',
-  styleUrl: './transfer.component.css'
+  styleUrl: './transfer.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class TransferComponent implements OnInit {
+  transferForm!: FormGroup;
+  isSubmitting = false; 
 
-  currentUserId!: number;
-
-  transferData = {
-    senderAccountId: null as number | null,
-    receiverAccountId: null as number | null,
-    amount: null as number | null
-  };
-
-  constructor(
-    private transactionService: TransactionService,
-    private accountService: AccountService 
-  ) {}
+  constructor(private fb: FormBuilder, private transactionService: TransactionService) {}
 
   ngOnInit(): void {
-    const sessionUserId = localStorage.getItem('loggedInUserId');
-
-    if (sessionUserId) {
-      this.currentUserId = Number(sessionUserId);
-
-      // Resolving database account primary identifiers dynamically
-      this.accountService.getAccountByUserId(this.currentUserId).subscribe({
-        next: (account: any) => {
-          if (account && account.id) {
-            this.transferData.senderAccountId = account.id;
-          }
-        },
-        error: (err) => {
-          console.error('Failed to locate transfer execution sender origin context:', err);
-        }
-      });
-    } else {
-      console.warn("No active session user ID found in localStorage.");
-    }
+    this.transferForm = this.fb.group({
+      senderAccountId: ['', [Validators.required]],
+      recipientAccountId: ['', [Validators.required]],
+      transferAmount: ['', [Validators.required, Validators.min(1)]]
+    });
   }
 
-  transferMoney(): void {
-    if (!this.transferData.senderAccountId) {
-      alert("Security Error: Sender identity could not be verified. Please log in again.");
-      return;
-    }
-    if (!this.transferData.receiverAccountId || !this.transferData.amount || this.transferData.amount <= 0) {
-      alert("Invalid Inputs: Please declare a valid recipient identity token and non-zero transactional value.");
-      return;
-    }
-    if (this.transferData.senderAccountId === this.transferData.receiverAccountId) {
-      alert("Validation Error: Destination identifier cannot be identical to the origin root.");
+  onTransferSubmit(): void {
+    console.log('Transfer Click Triggered!'); 
+    
+    if (this.transferForm.invalid) {
+      alert("Form inputs are invalid! Please check all mandatory fields.");
+      this.transferForm.markAllAsTouched();
       return;
     }
 
-    this.transactionService
-      .transfer(this.transferData)
-      .subscribe({
-        next: (response) => {
-          // Response success handle alerts matching premium corporate structures
-          alert("Transaction Successful ✅: " + response);
-          this.transferData.receiverAccountId = null;
-          this.transferData.amount = null;
-        },
-        error: (err) => {
-          console.error('Transfer rejected by backend process API:', err);
-          alert("Transfer Authorization Refused! Kindly check your daily limits or routing accuracy.");
+    this.isSubmitting = true; 
+
+    const transferPayload = {
+      senderAccountId: Number(this.transferForm.value.senderAccountId),
+      receiverAccountId: Number(this.transferForm.value.recipientAccountId),
+      amount: Number(this.transferForm.value.transferAmount)
+    };
+
+    console.log('Sending secure transfer details:', transferPayload);
+
+    this.transactionService.transfer(transferPayload).subscribe({
+      next: (response: any) => {
+        this.isSubmitting = false;
+        const resString = typeof response === 'string' ? response : JSON.stringify(response);
+        
+        if (resString && (resString.includes('SUCCESS') || resString.includes('Successful') || resString.includes('successfully'))) {
+          alert(`Transaction Successful! Amount ₹${transferPayload.amount} securely moved.`);
+          this.transferForm.reset();
+        } else {
+          alert(typeof response === 'string' ? response : 'Transaction processed successfully.');
+          this.transferForm.reset();
         }
-      });
+      },
+      error: (error: any) => {
+        this.isSubmitting = false;
+        console.error('Network or transactional fault:', error);
+        const errorMsg = error.error || error.message || 'Server connection error. Failed to execute transfer.';
+        alert(errorMsg);
+      }
+    });
   }
 }
+
 
