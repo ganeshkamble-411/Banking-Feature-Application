@@ -103,7 +103,7 @@ button[type="submit"]:active {
   padding: 3.5rem 3rem;     
   background-color: #f4f4f4; 
   min-height: calc(100vh - 75px);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   transition: margin-left 0.2s ease-in-out; 
 }
@@ -144,7 +144,7 @@ button[type="submit"]:active {
   border: none;
   border-bottom: 1px solid #8d8d8d;
   color: #161616;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   outline: none;
   box-sizing: border-box;
